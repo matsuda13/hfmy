@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./hfmyApp:/hfmyApp/
+    command: sh -c "cd yui-loop && yarn start"
+    ports:
+      - "3000:3000"
+    stdin_open: true 
