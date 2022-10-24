@@ -38,7 +38,7 @@ hfmy-react-app-1 |
 ```
 と表示されればOK。
 
-ブラウザ上で(https://localhost:3000)[https://localhost:3000]と検索すればプロダクト名が表示されるはず。
+ブラウザ上で[https://localhost:3000](https://localhost:3000)と検索すればプロダクト名が表示されるはず。
 
 
 
