@@ -7,6 +7,7 @@ function App() {
     <div className="App">
       <h1>ひふみよ</h1>
       <p>YUI LooP</p>
+      <button>なんか押せそうなもの</button>
     </div>
   );
 }
