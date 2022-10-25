@@ -1,12 +1,11 @@
-version: '3.9'
-services:
-  react-app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./hfmyApp:/hfmyApp/
-    command: sh -c "cd yui-loop && yarn start"
-    ports:
+version: '3.9'                                  # 1
+services:                                       # 2
+  hfmy-app:                                     # 3
+    container_name: hfmy-app                    # 4
+    image: node:16.18.0-alpine                  # 5
+    volumes:                                    # 6 volumes == working_dir
+      - ./hfmyApp/yui-loop:/root/hfmyApp/yui-loop
+    working_dir: /root/hfmyApp/yui-loop         # 7 pakage.jsonファイルがある位置を指定する。
+    command: sh -c 'npm install && npm start'   # 8
+    ports:                                      # 9
       - "3000:3000"
-    stdin_open: true 
