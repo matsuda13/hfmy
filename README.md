@@ -12,11 +12,10 @@
 
 ## 環境構築
 
-hfmyディレクトリ内で、
-```docker-compose build```
-でイメージを形成。
+```$ git clone https://github.com/matsuda13/hfmy.git```
+```$ cd hfmy```
+```$ docker-compose up```
 
-```docker-compose up```
 でコンテナを起動。
 
 ```
@@ -38,7 +37,7 @@ hfmy-react-app-1 |
 ```
 と表示されればOK。
 
-ブラウザ上で[https://localhost:3000](https://localhost:3000)と検索すればプロダクト名が表示されるはず。
+ブラウザ上で[http://localhost:3000](http://localhost:3000)と検索すればプロダクト名が表示されるはず。
 
 
 
