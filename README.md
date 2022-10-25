@@ -13,7 +13,9 @@
 ## 環境構築
 
 ```$ git clone https://github.com/matsuda13/hfmy.git```
+
 ```$ cd hfmy```
+
 ```$ docker-compose up```
 
 でコンテナを起動。
