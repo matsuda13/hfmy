@@ -1,5 +1,4 @@
-import React from 'react'
-import { WaitingPassengerType } from './types/WaitingPassengerType'
+import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import { FC } from 'react'
 
 interface WaitingPassengerProps {
@@ -8,7 +7,12 @@ interface WaitingPassengerProps {
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
   return (
-    <div>{props.waitingPassenger.message}</div>
+    <>
+      <div>
+        {props.waitingPassenger.message}
+      </div>
+    
+    </>
   )
 }
 
