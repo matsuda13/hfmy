@@ -1,6 +1,6 @@
 import React from 'react'
 import WaitingPassenger from './WaitingPassenger'
-import { WaitingPassengerType } from './types/WaitingPassengerType'
+import { WaitingPassengerType } from '../types/WaitingPassengerType'
 import { FC } from 'react'
 
 interface WaitingPassengerArrayProps {
@@ -8,6 +8,7 @@ interface WaitingPassengerArrayProps {
 }
 
 const WaitingPassengerArray: FC<WaitingPassengerArrayProps> = (props) => {
+  
   return (
     <>
       {props.waitingPassengers.map((waitingPassenger, id) => (
