@@ -1,9 +1,9 @@
 import { WaitingPassengerType } from './types/WaitingPassengerType';
 import { useState } from 'react';
 import './App.css';
-import WaitingPassengerArray from './WaitingPassengerArray';
+import WaitingPassengerArray from './components/WaitingPassengerArray';
 import Modal from 'react-modal';
-import CarpoolModal from './CarpoolModal'
+import CarpoolModal from './components/CarpoolModal'
 
 function App() {
   const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
