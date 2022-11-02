@@ -1,12 +1,23 @@
-import React from 'react'
+import React,{useState} from 'react'
+import { setTokenSourceMapRange } from 'typescript';
+
+interface CarpoolModal {
+  time: string,
+}
 
 const CarpoolModal = () => {
+  const [time,setTime] = useState("");
+
+  const SelectTime = (time:string) => {
+    setTime(time);
+  };
+
   return (
     <div>
         <p>募集条件を選択してください</p>
         <br />
         <p>時間</p>
-        <select name="time">
+        <select name="time" onChange={(e) => SelectTime(e.target.value)}>
           <option value="breakTime1">1限休み(10:00~10:20)</option>
           <option value="breakTime2">2限休み(11:50~12:50)</option>
           <option value="breakTime3">3限休み(14:20~14:40)</option>

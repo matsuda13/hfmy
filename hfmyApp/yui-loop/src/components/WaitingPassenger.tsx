@@ -3,6 +3,7 @@ import { FC } from 'react'
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
+  
 }
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {

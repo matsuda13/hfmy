@@ -4,6 +4,7 @@ import './App.css';
 import WaitingPassengerArray from './components/WaitingPassengerArray';
 import Modal from 'react-modal';
 import CarpoolModal from './components/CarpoolModal'
+import Card from './components/Card'
 
 function App() {
   const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
@@ -36,11 +37,13 @@ function App() {
         <div className='ConfirmButton'>
           <button onClick={() => {
             AddWaitingPassenger();
+            
             CloseModal();
             }}>確定</button>
         </div>
       </Modal>
       <WaitingPassengerArray waitingPassengers={waithingPassengers} />
+      <Card time={1} />
     </div>
   );
 }
