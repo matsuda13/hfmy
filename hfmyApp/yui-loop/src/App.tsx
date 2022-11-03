@@ -1,14 +1,21 @@
 import { WaitingPassengerType } from './types/WaitingPassengerType';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import WaitingPassengerArray from './components/WaitingPassengerArray';
 import Modal from 'react-modal';
-import CarpoolModal from './components/CarpoolModal'
-import Card from './components/Card'
+import Card from "./components/Card"
+import CarpoolModal from './components/CarpoolModal';
+
+export const TimeContext = React.createContext({} as {
+  time: string
+  setTime: React.Dispatch<React.SetStateAction<string>>
+})
 
 function App() {
   const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
   const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
+  const [time, setTime] = useState("");
+  
   
   const AddWaitingPassenger = () => {
     setWaitingPassengers((prevWaitingPassengers) => {
@@ -30,20 +37,22 @@ function App() {
       <h1>ひふみよ</h1>
       <p>YUI LOOP</p>
       <button onClick={OpenModal}>相乗り相手を募集する</button>
-      <Modal isOpen={isCarpoolModalOpen}>
-        <div className='CarpoolModal'>
-          <CarpoolModal />
-        </div>
-        <div className='ConfirmButton'>
-          <button onClick={() => {
-            AddWaitingPassenger();
-            
-            CloseModal();
-            }}>確定</button>
-        </div>
-      </Modal>
-      <WaitingPassengerArray waitingPassengers={waithingPassengers} />
-      <Card time={1} />
+      <TimeContext.Provider value={{time, setTime}}>
+        <Modal isOpen={isCarpoolModalOpen}>
+          <div className='CarpoolModal'>
+            <CarpoolModal/>
+          </div>
+          <div className='ConfirmButton'>
+            <button onClick={() => {
+              AddWaitingPassenger();
+              
+              CloseModal();
+              }}>確定</button>
+          </div>
+        </Modal>
+        <WaitingPassengerArray waitingPassengers={waithingPassengers} />
+        <Card/>
+      </TimeContext.Provider>
     </div>
   );
 }

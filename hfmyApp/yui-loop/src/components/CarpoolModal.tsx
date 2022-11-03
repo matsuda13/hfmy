@@ -1,12 +1,12 @@
-import React,{useState} from 'react'
+import React,{useState, useContext} from 'react'
+import { TimeContext } from '../App';
 import { setTokenSourceMapRange } from 'typescript';
 
-interface CarpoolModal {
-  time: string,
-}
+export const selectedTime = React.createContext("");
 
 const CarpoolModal = () => {
-  const [time,setTime] = useState("");
+  const {time,setTime} = useContext(TimeContext);
+  
 
   const SelectTime = (time:string) => {
     setTime(time);
