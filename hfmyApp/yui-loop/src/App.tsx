@@ -19,14 +19,14 @@ export const TimeContext = React.createContext({} as {
 function App() {
   const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
   const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
-  const [time, setTime] = useState("breakTime1");
-  const [departure, setDeparture] = useState("engineering");
-  const [arrival, setArrival] = useState("engineering");
-  const [capacity, setCapacity] = useState("onePerson");
+  const [time, setTime] = useState("1限休み(10:00~10:10)");
+  const [departure, setDeparture] = useState("工学部駐車場");
+  const [arrival, setArrival] = useState("工学部駐車場");
+  const [capacity, setCapacity] = useState("1");
   
   const AddWaitingPassenger = () => {
     setWaitingPassengers((prevWaitingPassengers) => {
-      return [...prevWaitingPassengers, {message: time+'に出発地'+departure+'から目的地'+arrival+'への相乗り乗客を乗車可能人数'+capacity+'人で募集しています'}]
+      return [...prevWaitingPassengers, {message: time+'に'+departure+'から'+arrival+'への相乗り乗客を乗車可能人数'+capacity+'人で募集しています'}]
     })
   };
 
@@ -39,10 +39,10 @@ function App() {
   }
 
   const InitializeValue = () => {
-    setTime("breakTime1");
-    setDeparture("engineering");
-    setArrival("engineering");
-    setCapacity("onePerson");
+    setTime("1限休み(10:00~10:10)");
+    setDeparture("工学部駐車場");
+    setArrival("工学部駐車場");
+    setCapacity("1");
   }
 
   return (
