@@ -22,8 +22,13 @@ const CarpoolModal = () => {
     setCapacity(capacity);
   }
 
+  const month = (new Date().getMonth()+1).toString()
+
+  const date = new Date().getDate().toLocaleString()
+
   return (
     <div>
+        <p>日付:{month+'/'+date}</p>
         <p>募集条件を選択してください</p>
         <br />
         <p>時間</p>
