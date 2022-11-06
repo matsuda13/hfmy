@@ -38,6 +38,12 @@ function App() {
     return setIsOpenCarpoolModal(false)
   }
 
+  const InitializeValue = () => {
+    setTime("breakTime1");
+    setDeparture("engineering");
+    setArrival("engineering");
+    setCapacity("onePerson");
+  }
 
   return (
     <div className="App">
@@ -52,7 +58,7 @@ function App() {
           <div className='ConfirmButton'>
             <button onClick={() => {
               AddWaitingPassenger();
-              
+              InitializeValue();
               CloseModal();
               }}>確定</button>
           </div>

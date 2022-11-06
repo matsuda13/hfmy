@@ -1,5 +1,6 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
-import { FC } from 'react'
+import React, { FC } from 'react'
+import {TimeContext} from "../App"
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
