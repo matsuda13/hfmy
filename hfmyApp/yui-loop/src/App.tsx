@@ -23,10 +23,13 @@ function App() {
   const [departure, setDeparture] = useState("工学部駐車場");
   const [arrival, setArrival] = useState("工学部駐車場");
   const [capacity, setCapacity] = useState("1");
-  
+
   const AddWaitingPassenger = () => {
+    const month = (new Date().getMonth()+1).toString()
+
+    const date = new Date().getDate().toLocaleString()
     setWaitingPassengers((prevWaitingPassengers) => {
-      return [...prevWaitingPassengers, {message: time+'に'+departure+'から'+arrival+'への相乗り乗客を乗車可能人数'+capacity+'人で募集しています'}]
+      return [...prevWaitingPassengers, {message: month+'/'+date+'の'+time+'に'+departure+'から'+arrival+'への相乗り乗客を乗車可能人数'+capacity+'人で募集しています'}]
     })
   };
 
