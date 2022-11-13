@@ -31,7 +31,7 @@ const CarpoolModal = () => {
         <p>日付:{month+'/'+date}</p>
         <p>募集条件を選択してください</p>
         <br />
-        <p>時間</p>
+        <p>出発時間</p>
         <select name="time" onChange={(e) => SelectTime(e.target.value)}>
           <option value="1限休み(10:00~10:10)">1限休み(10:00~10:10)</option>
           <option value="昼休み前半(11:50~12:00)">昼休み前半(11:50~12:00)</option>
