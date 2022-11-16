@@ -1,17 +1,16 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC } from 'react'
-import {TimeContext} from "../App"
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
-  
 }
 
-const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
+const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
+
   return (
     <>
       <div>
-        {props.waitingPassenger.message}
+        {props.waitingPassenger.start}から{props.waitingPassenger.destination}
       </div>
     
     </>
