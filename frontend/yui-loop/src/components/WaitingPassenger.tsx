@@ -6,11 +6,16 @@ interface WaitingPassengerProps {
 }
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
+  const wp = props.waitingPassenger
 
   return (
     <>
       <div>
-        {props.waitingPassenger.start}から{props.waitingPassenger.destination}
+        <br/>
+        日時：{wp.month}/{wp.date}<br/>
+        出発場所：{wp.start}　→　到着場所：{wp.destination}<br/>
+        出発時間：{wp.time}<br/>
+        定員：{wp.capacity}
       </div>
     
     </>
