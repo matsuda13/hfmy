@@ -1,5 +1,7 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC } from 'react'
+import Item from './Item'
+import { workerData } from 'worker_threads';
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
@@ -10,14 +12,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
 
   return (
     <>
-      <div>
-        <br/>
-        日時：{wp.month}/{wp.date}<br/>
-        出発場所：{wp.start}　→　到着場所：{wp.destination}<br/>
-        出発時間：{wp.time}<br/>
-        定員：{wp.capacity}
-      </div>
-    
+      <Item month={wp.month} date={wp.date} start={wp.start} destination={wp.destination} time={wp.time} capacity={wp.capacity} />
     </>
   )
 }
