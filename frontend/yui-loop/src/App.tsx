@@ -9,11 +9,15 @@ function App() {
       <h1>HFMY</h1>
       <p>YUI LOOP</p>
       <Grid container>
-        <Grid item={true} sm={3}></Grid>
+        <Grid item={true} sm={3}>
+          これは画面左部分
+        </Grid>
         <Grid item={true} sm={6}>
           <BulletinBoardPage/>
         </Grid>
-        <Grid item={true} sm={3}></Grid>
+        <Grid item={true} sm={3}>
+          これは画面右部分
+        </Grid>
       </Grid>
     </div>
   );

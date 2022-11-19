@@ -9,7 +9,6 @@ interface WaitingPassengerProps {
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
   const wp = props.waitingPassenger
-
   return (
     <>
       <Item month={wp.month} date={wp.date} start={wp.start} destination={wp.destination} time={wp.time} capacity={wp.capacity} />

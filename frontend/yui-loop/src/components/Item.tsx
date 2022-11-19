@@ -46,9 +46,10 @@ const Item:FC<TextCardProps> = (props) => {
         <div>
           <Button
             fullWidth
+            variant="outlined"
             onClick={handleExpandClick}
           >
-            {expanded ? "閉じるぞ" : "開くぞ"}
+            {expanded ? "Close" : "Open"}
           </Button>
         </div>
       <Card variant="outlined" className={`classes.card_+${expanded ? 'opened' : 'closed'}`}>
