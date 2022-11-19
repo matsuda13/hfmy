@@ -1,21 +1,19 @@
 import React,{useState, useContext} from 'react'
-import { TimeContext } from '../App';
-import { setTokenSourceMapRange } from 'typescript';
+import { ScheduleContext } from './BulletinBoardPage';
 
 const CarpoolModal = () => {
-  const {time,setTime, departure, setDeparture, arrival, setArrival, capacity, setCapacity} = useContext(TimeContext);
-  
+  const {time,setTime, start, setStart, destination, setDestination, capacity, setCapacity} = useContext(ScheduleContext);
 
   const SelectTime = (time:string) => {
     setTime(time);
   };
 
   const SelectDeparture = (departure: string) => {
-    setDeparture(departure);
+    setStart(departure);
   }
 
   const SelectArrival = (arrival: string) => {
-    setArrival(arrival);
+    setDestination(arrival);
   }
 
   const SelectCapacity = (capacity: string) => {
