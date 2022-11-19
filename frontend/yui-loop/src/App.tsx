@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>ひふみよ</h1>
+      <h1>HFMY</h1>
       <p>YUI LOOP</p>
       <BulletinBoardPage/>
     </div>
