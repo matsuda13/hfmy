@@ -55,6 +55,7 @@ const Item:FC<TextCardProps> = (props) => {
       <Card variant="outlined" className={`classes.card_+${expanded ? 'opened' : 'closed'}`}>
         <CardContent>
           <Collapse in={!expanded} timeout="auto" unmountOnExit/>
+          aaaaaaaa
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <div>
                 <Grid container>
