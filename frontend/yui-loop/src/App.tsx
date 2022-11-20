@@ -1,7 +1,6 @@
-import { WaitingPassengerType } from './types/WaitingPassengerType';
-import React, { useState } from 'react';
 import './App.css';
 import BulletinBoardPage from './components/BulletinBoardPage';
+import {Grid} from '@material-ui/core'
 
 function App() {
 
@@ -9,7 +8,17 @@ function App() {
     <div className="App">
       <h1>HFMY</h1>
       <p>YUI LOOP</p>
-      <BulletinBoardPage/>
+      <Grid container>
+        <Grid item={true} sm={3}>
+          これは画面左部分
+        </Grid>
+        <Grid item={true} sm={6}>
+          <BulletinBoardPage/>
+        </Grid>
+        <Grid item={true} sm={3}>
+          これは画面右部分
+        </Grid>
+      </Grid>
     </div>
   );
 }
