@@ -59,8 +59,7 @@ const BulletinBoardPage:FC = () => {
                             AddWaitingPassenger();
                             InitializeValue();
                             CloseModal();
-                            }}
-                            >確定</button>
+                            }}>確定</button>
                     </div>
                 </Modal>
                 <WaitingPassengerArray waitingPassengers={waithingPassengers} />
