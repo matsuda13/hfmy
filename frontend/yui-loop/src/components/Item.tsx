@@ -49,14 +49,16 @@ const Item:FC<TextCardProps> = (props) => {
             variant="outlined"
             onClick={handleExpandClick}
           >
-            {expanded ? "Close" : "Open"}
+            {expanded ? "Open" : "Close"}
           </Button>
         </div>
       <Card variant="outlined" className={`classes.card_+${expanded ? 'opened' : 'closed'}`}>
         <CardContent>
-          <Collapse in={!expanded} timeout="auto" unmountOnExit/>
-          aaaaaaaa
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Collapse in={expanded} timeout="auto" unmountOnExit/>
+           <div>
+            
+           </div>
+          <Collapse in={!expanded} timeout="auto" unmountOnExit>
             <div>
                 <Grid container>
                     <Grid item={true} sm ={1}/>
