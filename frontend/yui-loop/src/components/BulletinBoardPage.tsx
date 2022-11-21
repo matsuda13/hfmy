@@ -15,6 +15,7 @@ export const ScheduleContext = React.createContext({} as {
     setCapacity: React.Dispatch<React.SetStateAction<string>>
   })
 
+
 const BulletinBoardPage:FC = () => {
     const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
@@ -25,7 +26,6 @@ const BulletinBoardPage:FC = () => {
   
     const AddWaitingPassenger = () => {
       const month = (new Date().getMonth()+1).toString()
-  
       const date = new Date().getDate().toLocaleString()
       setWaitingPassengers((prevWaitingPassengers) => {
         return [...prevWaitingPassengers, { month:month, date:date, time:time, start:start, destination:destination, capacity:capacity}]
