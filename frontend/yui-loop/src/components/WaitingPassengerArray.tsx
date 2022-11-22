@@ -12,8 +12,9 @@ const WaitingPassengerArray: FC<WaitingPassengerArrayProps> = (props) => {
       {props.waitingPassengers.map((waitingPassenger, id) => (
         <WaitingPassenger
                   waitingPassenger={waitingPassenger}
-                  key={id}/>)
-      )}
+                  key={id}
+                  id = {id}/>
+        ))}
     </>
   )
 }

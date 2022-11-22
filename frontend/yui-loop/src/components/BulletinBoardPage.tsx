@@ -1,4 +1,4 @@
-import React, {FC, useState, useContext} from 'react'
+import React, {FC, useState} from 'react'
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
@@ -15,6 +15,11 @@ export const ScheduleContext = React.createContext({} as {
     setCapacity: React.Dispatch<React.SetStateAction<string>>
   })
 
+export const DeleteContext = React.createContext({} as {
+    deleteWaitingPassenger: React.Dispatch<number>
+})
+
+
 const BulletinBoardPage:FC = () => {
     const [waithingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
@@ -25,12 +30,19 @@ const BulletinBoardPage:FC = () => {
   
     const AddWaitingPassenger = () => {
       const month = (new Date().getMonth()+1).toString()
-  
       const date = new Date().getDate().toLocaleString()
       setWaitingPassengers((prevWaitingPassengers) => {
         return [...prevWaitingPassengers, { month:month, date:date, time:time, start:start, destination:destination, capacity:capacity}]
       })
     };
+
+    const deleteWaitingPassenger = (id:number) => {
+        const list = waithingPassengers
+        list.splice(id, 1)
+        setWaitingPassengers((prevWaitingPassengers)=>{
+            return [...prevWaitingPassengers]
+        })
+    }
   
     const OpenModal = () => {
       return setIsOpenCarpoolModal(true)
@@ -62,7 +74,9 @@ const BulletinBoardPage:FC = () => {
                             }}>確定</button>
                     </div>
                 </Modal>
-                <WaitingPassengerArray waitingPassengers={waithingPassengers} />
+                <DeleteContext.Provider value={{deleteWaitingPassenger}}>
+                  <WaitingPassengerArray waitingPassengers={waithingPassengers} />
+                </DeleteContext.Provider>
             </ScheduleContext.Provider>
         </>
     )
