@@ -1,8 +1,9 @@
-import React, {FC, useState} from 'react'
+import React, {FC, useState, useEffect} from 'react'
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import Modal from 'react-modal';
+import {getWaitingList} from "../api"
 
 export const ScheduleContext = React.createContext({} as {
     time: string
@@ -27,10 +28,11 @@ const BulletinBoardPage:FC = () => {
     const [start, setStart] = useState("工学部駐車場");
     const [destination, setDestination] = useState("工学部駐車場");
     const [capacity, setCapacity] = useState("1");
-  
+
     const AddWaitingPassenger = () => {
       const month = (new Date().getMonth()+1).toString()
       const date = new Date().getDate().toLocaleString()
+      getWaitingList();
       setWaitingPassengers((prevWaitingPassengers) => {
         return [...prevWaitingPassengers, { month:month, date:date, time:time, start:start, destination:destination, capacity:capacity}]
       })
@@ -78,6 +80,7 @@ const BulletinBoardPage:FC = () => {
                   <WaitingPassengerArray waitingPassengers={waithingPassengers} />
                 </DeleteContext.Provider>
             </ScheduleContext.Provider>
+            
         </>
     )
 }
