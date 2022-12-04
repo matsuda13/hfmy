@@ -1,4 +1,4 @@
-import React, {FC, useContext} from 'react'
+import React, {FC} from 'react'
 import WaitingPassenger from './WaitingPassenger'
 import { WaitingPassengerType } from '../types/WaitingPassengerType'
 
