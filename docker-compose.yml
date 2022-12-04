@@ -21,15 +21,3 @@ services:
     command: bash -c "npm i && npm start"
     ports:
       - 3000:3000
-  db:
-    image: postgres:14.4
-    container_name: db
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_INITDB_ARGS="--encoding=UTF8"
-    volumes:
-      - "./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql"
-    ports:
-      - 5432:5432
