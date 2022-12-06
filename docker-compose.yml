@@ -21,3 +21,12 @@ services:
     command: bash -c "npm i && npm start"
     ports:
       - 3000:3000
+  backend:
+    image: node:18.9.1
+    container_name: backend
+    volumes:
+      - "./backend:/projects/backend"
+    working_dir: /projects/backend
+    command: bash -c "npm i && npm start"
+    ports:
+      - 5000:5000
