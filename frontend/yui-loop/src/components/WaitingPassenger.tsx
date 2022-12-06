@@ -1,6 +1,6 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC, useContext } from 'react'
-import {DeleteContext} from './BulletinBoardPage'
+import {DeleteContext} from '../contexts/DeleteContext'
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
@@ -9,7 +9,7 @@ interface WaitingPassengerProps {
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
   const wp = props.waitingPassenger
-  const cancel = useContext(DeleteContext)
+  const deleteContext = useContext(DeleteContext)
 
   return (
     <>
@@ -19,7 +19,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         出発場所：{wp.start}　→　到着場所：{wp.destination}<br/>
         出発時間：{wp.time}<br/>
         定員：{wp.capacity}<br/>
-        <button onClick={()=>{cancel.deleteWaitingPassenger(props.id)}}>募集中止</button>
+        <button onClick={()=>{deleteContext.deleteWaitingPassenger(props.id)}}>募集中止</button>
       </div>
     
     </>

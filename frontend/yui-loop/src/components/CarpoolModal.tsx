@@ -1,23 +1,22 @@
-import React,{useState, useContext} from 'react'
-import { ScheduleContext } from './BulletinBoardPage';
+import React,{ useContext } from 'react'
+import { ScheduleContext } from '../contexts/ScheduleContext';
 
 const CarpoolModal = () => {
-  const {time,setTime, start, setStart, destination, setDestination, capacity, setCapacity} = useContext(ScheduleContext);
-
+  const scheduleContext = useContext(ScheduleContext);
   const SelectTime = (time:string) => {
-    setTime(time);
+    scheduleContext.setTime(time);
   };
 
   const SelectDeparture = (departure: string) => {
-    setStart(departure);
+    scheduleContext.setStart(departure);
   }
 
   const SelectArrival = (arrival: string) => {
-    setDestination(arrival);
+    scheduleContext.setDestination(arrival);
   }
 
   const SelectCapacity = (capacity: string) => {
-    setCapacity(capacity);
+    scheduleContext.setCapacity(capacity);
   }
 
   const month = (new Date().getMonth()+1).toString()
