@@ -7,9 +7,7 @@ interface WaitingPassengerArrayProps {
   waitingPassengers: Array<WaitingPassengerType>,
 }
 
-interface ListType {
-  
-}
+
 
 
 

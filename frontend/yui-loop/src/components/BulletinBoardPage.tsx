@@ -3,7 +3,8 @@ import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import Modal from 'react-modal';
-import {getWaitingList} from "../api"
+import {getWaitingList, cards, Rows} from "../api"
+import { createAdd } from 'typescript';
 
 export const ScheduleContext = React.createContext({} as {
     time: string
@@ -28,11 +29,26 @@ const BulletinBoardPage:FC = () => {
     const [start, setStart] = useState("工学部駐車場");
     const [destination, setDestination] = useState("工学部駐車場");
     const [capacity, setCapacity] = useState("1");
+    const [card, setCard] = useState<cards | null>(null);
+
+    useEffect(()=>{
+      getWaitingList().then((data) => {
+        setCard(data);
+      });
+      if (card != null){
+        console.log(card)
+        if (card.rows != null){
+          console.log(card.rows[0].id);
+          console.log(card.rows[0].departurePlace);
+          console.log(card.rows[0].destination);
+        }
+      }
+    }, [])
 
     const AddWaitingPassenger = () => {
+
       const month = (new Date().getMonth()+1).toString()
       const date = new Date().getDate().toLocaleString()
-      getWaitingList();
       setWaitingPassengers((prevWaitingPassengers) => {
         return [...prevWaitingPassengers, { month:month, date:date, time:time, start:start, destination:destination, capacity:capacity}]
       })

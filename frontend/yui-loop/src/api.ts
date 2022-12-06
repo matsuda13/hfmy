@@ -19,16 +19,16 @@ const options = {
 async function request(path:string, options = {}) {
     const url = `${process.env.REACT_APP_API_ORIGIN}${path}`;
     const res: Response = await fetch(url, options);
-    const card = await res.json() as cards;
-    if (card.rows != null){
-      console.log(card.rows[0]);
-      console.log(card.rows[0].id);
-      console.log(card.rows[0].departurePlace);
+    const cards = await res.json() as cards;
+    if (cards.rows != null){
+      //console.log(cards.rows[0]);
     }
-    
+    return cards
 }
   
 export async function getWaitingList(arg = {}) {
     const params = new URLSearchParams(arg);
-    return request(`/drivers/waitingpassengercard?${params.toString()}`);
+    const req = request(`/drivers/waitingpassengercard?${params.toString()}`);
+    console.log(req);
+    return req;
   }
