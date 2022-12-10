@@ -1,0 +1,22 @@
+{
+ "cards": [
+  {
+   "id": 1,
+   "userId": 1,
+   "date": "11/8",
+   "departureTime": "1限休み",
+   "departurePlace": "サークル棟駐車場",
+   "destination": "工学部駐車場",
+   "capacity": "1"
+  },
+  {
+   "id": 1,
+   "userId": 2,
+   "date": "11/8",
+   "departureTime": "昼休み前半",
+   "departurePlace": "農学部駐車場",
+   "destination": "共通教育棟駐車場",
+   "capacity": "3"
+  }
+ ]
+}

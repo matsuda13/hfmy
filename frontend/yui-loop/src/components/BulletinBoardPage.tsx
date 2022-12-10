@@ -2,42 +2,31 @@ import React, {FC, useState, useContext, useEffect} from 'react';
 import CarpoolModal from './CarpoolModal';
 import WaitingPassengerArray from './WaitingPassengerArray';
 import Modal from 'react-modal';
+import WaitingPassengerCard from "./WaitingPassengerCard"
 import { ScheduleContext } from '../contexts/ScheduleContext';
 import { DeleteContext } from '../contexts/DeleteContext';
-import { getWaitingList, cards, Rows } from '../api';
+import { getWaitingList, cards, Rows, postWaitingCard } from '../api';
 
 const BulletinBoardPage:FC = () => {
     const scheduleContext = useContext(ScheduleContext);
     const deleteContext = useContext(DeleteContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
-  
-    useEffect(()=>{
+    const [card, setCard] = useState<cards | null>(null);
+
+    const update = () => {
       getWaitingList().then((data)=>{
         if (data!=null){
           if (data.rows!=null){
-            for (var i:number=0;i<2;i++) {
-              console.log(data.rows[i].id);
-              console.log(data.rows[i].date);
-              console.log(data.rows[i].departurePlace);
-              console.log(data.rows[i].destination);
-              scheduleContext.setTime(data.rows[i].departureTime);
-              scheduleContext.setStart(data.rows[i].departurePlace);
-              scheduleContext.setDestination(data.rows[i].destination);
-              scheduleContext.setCapacity(data.rows[i].capacity);
-            }
-          }
-        }
-        else{
-          console.log("null?")
-        }
-      })
+            setCard(data);
+          }}
+        })
+    }
+  
+    useEffect(()=>{
+      update();
     }, []);
 
-    useEffect(()=>{
-      AddWaitingPassenger()
-    },[scheduleContext.capacity])
-
-    const AddWaitingPassenger = () => {
+    const AddWaitingPassenger = (time:string,start:string, destination:string, capacity:string) => {
       const month = (new Date().getMonth()+1).toString()
       const date = new Date().getDate().toLocaleString()
       deleteContext.setWaitingPassengers(
@@ -46,10 +35,10 @@ const BulletinBoardPage:FC = () => {
           {
             month:month,
             date:date,
-            time:scheduleContext.time,
-            start:scheduleContext.start,
-            destination:scheduleContext.destination,
-            capacity:scheduleContext.capacity
+            time:time,
+            start:start,
+            destination:destination,
+            capacity:capacity
           }
         ]
       )
@@ -78,12 +67,41 @@ const BulletinBoardPage:FC = () => {
                     </div>
                     <div className='ConfirmButton'>
                         <button onClick={() => {
-                            AddWaitingPassenger();
+                            const Addcard: Rows = {
+                              id:0,
+                              userId: 0,
+                              date: "",
+                              departureTime: scheduleContext.time,
+                              departurePlace: scheduleContext.start,
+                              destination: scheduleContext.destination,
+                              capacity: scheduleContext.capacity,
+                            };
+                            postWaitingCard(Addcard).then((res)=>{
+                              console.log(res);
+                            });
+                            AddWaitingPassenger(scheduleContext.time,
+                                                scheduleContext.start,
+                                                scheduleContext.destination,
+                                                scheduleContext.capacity);
                             InitializeValue();
+                            update();
                             CloseModal();
                             }}>確定</button>
                     </div>
                 </Modal>
+                <div className="cardblock">
+                  {card == null ? (<></>) : (
+                    card.rows == null ? (<></>) : (
+                      card.rows.map((c, id)=>{
+                        return (
+                        <WaitingPassengerCard key={id} id={c.id} userId={c.userId} date={c.date}
+                                              departureTime={c.departureTime} departurePlace={c.departurePlace}
+                                              destination={c.destination} capacity={c.capacity}/>
+                        )
+                      })
+                    )
+                  )}
+                </div>
                   <WaitingPassengerArray waitingPassengers={deleteContext.waitingPassengers} />
         </>
     )
