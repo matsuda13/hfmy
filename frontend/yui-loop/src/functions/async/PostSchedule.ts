@@ -1,7 +1,9 @@
-import { ScheduleState } from "../../contexts/ScheduleContext";
+// import { ScheduleState } from "../../contexts/ScheduleContext";
+import { AppState } from "../../contexts/AppContext";
 
 export default async function postSchedule(
-    scheduleContext: ScheduleState,
+    // scheduleContext: ScheduleState,
+    appContext: AppState,
     month: string,
     date: string,
     time: string,

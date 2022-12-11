@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { ScheduleContextProvider } from './contexts/ScheduleContext';
-import { DeleteContextProvider } from './contexts/DeleteContext';
+import { AppContextProvider } from './contexts/AppContext';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -11,11 +10,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ScheduleContextProvider>
-      <DeleteContextProvider>
-        <App />
-      </DeleteContextProvider>
-    </ScheduleContextProvider>
+    <AppContextProvider>
+      <App />
+    </AppContextProvider>
   </React.StrictMode>
 );
 
