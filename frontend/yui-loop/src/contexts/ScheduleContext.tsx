@@ -4,7 +4,7 @@ interface Props {
     children: ReactNode;
 }
 
-export const ScheduleContext = React.createContext({} as {
+export interface ScheduleState {
     time: string
     setTime: React.Dispatch<React.SetStateAction<string>>
     start: string
@@ -12,8 +12,10 @@ export const ScheduleContext = React.createContext({} as {
     destination: string
     setDestination: React.Dispatch<React.SetStateAction<string>>
     capacity: string
-    setCapacity: React.Dispatch<React.SetStateAction<string>>
-});
+    setCapacity: React.Dispatch<React.SetStateAction<string>>    
+}
+
+export const ScheduleContext = React.createContext({} as ScheduleState);
 
 export const ScheduleContextProvider: FC<Props> = ({ children }) => {
     const [time, setTime] = useState("1限休み(10:00~10:10)");

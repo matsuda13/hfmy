@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3.3"
 
 services:
   web:
@@ -21,3 +21,29 @@ services:
     command: bash -c "npm i && npm start"
     ports:
       - 3000:3000
+  backend:
+    image: golang:1.19.1
+    container_name: backend
+    working_dir: /app
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - "./backend:/app"
+    ports:
+      - 8080:8080
+    tty: true
+  db:
+    image: postgres:14.4
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_INITDB_ARGS="--encoding=UTF8"
+    volumes: 
+      - "./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql"
+    ports:
+      - 5432:5432
+    tty: true

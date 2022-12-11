@@ -1,0 +1,107 @@
+package api
+
+import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"strings"
+	_ "github.com/lib/pq"
+)
+
+type Server struct {
+	Db *sql.DB
+}
+
+type schedulePostRequest struct {
+	Time string `json:"time"`
+	Start string `json:"start"`
+	Destination string `json:"destination"`
+	Capacity string `json:"capacity"`	
+}
+
+type schedulePostResponse struct {
+	Time string `json:"time"`
+	Start string `json:"start"`
+	Destination string `json:"destination"`
+	Capacity string `json:"capacity"`
+}
+
+type Schedule struct {
+	Time string `json:"time"`
+	Start string `json:"start"`
+	Destination string `json:"destination"`
+	Capacity string `json:"capacity"`	
+}
+
+type ScheduleGetResponse struct {
+	Schedules []Schedule `json:"schedules"`
+}
+
+func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
+	if r.Method!= http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var schedulePostRequest schedulePostRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&schedulePostRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (time, start, destination, capacity) VALUES ('%s', '%s', '%s', '%s')", schedulePostRequest.Time, schedulePostRequest.Start, schedulePostRequest.Destination, schedulePostRequest.Capacity)
+	_, queryError := s.Db.Exec(queryToRegisterSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToFetchSchedules := fmt.Sprintf("SELECT time, start, destination, capacity FROM schedules")
+	rows, queryError := s.Db.Query(queryToFetchSchedules)
+	if queryError != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var schedules []Schedule
+	for rows.Next() {
+		var scheduleTemp Schedule
+		if err := rows.Scan(
+				&scheduleTemp.Time,
+				&scheduleTemp.Start,
+				&scheduleTemp.Destination,
+				&scheduleTemp.Capacity,
+			); err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		scheduleTemp.Time = strings.TrimRight(scheduleTemp.Time, " ")
+		scheduleTemp.Start = strings.TrimRight(scheduleTemp.Start, " ")
+		scheduleTemp.Destination = strings.TrimRight(scheduleTemp.Destination, " ")
+		scheduleTemp.Capacity = strings.TrimRight(scheduleTemp.Capacity, " ")
+		schedules = append(schedules, scheduleTemp)
+	}
+	if err := rows.Err(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	response := ScheduleGetResponse{
+		Schedules: schedules,
+	}
+	responseJson, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(responseJson)
+}
