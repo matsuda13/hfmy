@@ -60,7 +60,7 @@ const CarpoolModal = () => {
           <option value="理学部駐車場">理学部駐車場</option>
         </select>
         <p>乗車可能人数</p>
-        <select name="passengers" onChange={selectCapacity}>
+        <select name="capacity" onChange={selectCapacity}>
           <option value="1">1人</option>
           <option value="2">2人</option>
           <option value="3">3人</option>

@@ -24,7 +24,7 @@ const BulletinBoardPage:FC = () => {
             month,
             date,
             time,
-            start: departurePlace,
+            departurePlace,
             destination,
             capacity
           }

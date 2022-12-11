@@ -1,13 +1,11 @@
-// import { ScheduleState } from "../../contexts/ScheduleContext";
 import { AppState } from "../../contexts/AppContext";
 
 export default async function postSchedule(
-    // scheduleContext: ScheduleState,
     appContext: AppState,
     month: string,
     date: string,
     time: string,
-    start: string,
+    departurePlace: string,
     destination: string,
     capacity: string,
 ) {
@@ -18,7 +16,7 @@ export default async function postSchedule(
             month,
             date,
             time,
-            start,
+            departurePlace,
             destination,
             capacity,
         })
