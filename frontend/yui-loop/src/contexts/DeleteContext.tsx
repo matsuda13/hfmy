@@ -5,11 +5,13 @@ interface Props {
     children: ReactNode;
 }
 
-export const DeleteContext = React.createContext({} as {
-    waitingPassengers: Array<WaitingPassengerType>,
-    setWaitingPassengers: React.Dispatch<Array<WaitingPassengerType>>,
-    deleteWaitingPassenger: Function,
-});
+export interface DeleteState { 
+    waitingPassengers:  Array<WaitingPassengerType>
+    setWaitingPassengers: React.Dispatch<React.SetStateAction<Array<WaitingPassengerType>>>
+    deleteWaitingPassenger: Function
+}
+
+export const DeleteContext = React.createContext({} as DeleteState);
 
 export const DeleteContextProvider: FC<Props> = ({ children }) => {      
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);

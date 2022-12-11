@@ -15,20 +15,17 @@ type Server struct {
 }
 
 type schedulePostRequest struct {
+	Month string `json:"month"`
+	Date string `json:"date"`
 	Time string `json:"time"`
 	Start string `json:"start"`
 	Destination string `json:"destination"`
 	Capacity string `json:"capacity"`	
 }
 
-type schedulePostResponse struct {
-	Time string `json:"time"`
-	Start string `json:"start"`
-	Destination string `json:"destination"`
-	Capacity string `json:"capacity"`
-}
-
 type Schedule struct {
+	Month string `json:"month"`
+	Date string `json:"date"`
 	Time string `json:"time"`
 	Start string `json:"start"`
 	Destination string `json:"destination"`
@@ -40,6 +37,8 @@ type ScheduleGetResponse struct {
 }
 
 func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method!= http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -52,7 +51,7 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (time, start, destination, capacity) VALUES ('%s', '%s', '%s', '%s')", schedulePostRequest.Time, schedulePostRequest.Start, schedulePostRequest.Destination, schedulePostRequest.Capacity)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (month, date, time, start, destination, capacity) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Month, schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.Start, schedulePostRequest.Destination, schedulePostRequest.Capacity)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -62,11 +61,13 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT time, start, destination, capacity FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT month, date, time, start, destination, capacity FROM schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -76,6 +77,8 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var scheduleTemp Schedule
 		if err := rows.Scan(
+				&scheduleTemp.Month,
+				&scheduleTemp.Date,
 				&scheduleTemp.Time,
 				&scheduleTemp.Start,
 				&scheduleTemp.Destination,
@@ -84,6 +87,8 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+		scheduleTemp.Month = strings.TrimRight(scheduleTemp.Month, " ")
+		scheduleTemp.Date = strings.TrimRight(scheduleTemp.Date, " ")
 		scheduleTemp.Time = strings.TrimRight(scheduleTemp.Time, " ")
 		scheduleTemp.Start = strings.TrimRight(scheduleTemp.Start, " ")
 		scheduleTemp.Destination = strings.TrimRight(scheduleTemp.Destination, " ")

@@ -1,21 +1,11 @@
-import { ScheduleState } from "../../contexts/ScheduleContext";
+import { DeleteState } from "../../contexts/DeleteContext";
 
 export default async function fetchSchedule(
-    scheduleContext: ScheduleState,
-    time: string,
-    start: string,
-    destination: string,
-    capacity: string,
+    deleteContext: DeleteState,
 ) {
-    const fetchScheduleURL = 'http://localhost/api/get-schedule';
+    const fetchScheduleURL = 'http://localhost:8080/get-schedule';
     await fetch(fetchScheduleURL, {
         method: 'GET',
-        body: JSON.stringify({
-            time,
-            start,
-            destination,
-            capacity,
-        })
     })
         .then((response) => {
             if (response.statusText === 'OK') {
@@ -24,10 +14,7 @@ export default async function fetchSchedule(
             return Promise.reject();
         })
         .then((json) => {
-            scheduleContext!.setTime(json!.time);
-            scheduleContext!.setStart(json!.start);
-            scheduleContext!.setDestination(json!.destination);
-            scheduleContext!.setCapacity(json!.capacity);
+            deleteContext.setWaitingPassengers(json!.schedules);
             return Promise.resolve();
         });
 }

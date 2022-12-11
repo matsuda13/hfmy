@@ -4,25 +4,31 @@ import WaitingPassengerArray from './WaitingPassengerArray'
 import Modal from 'react-modal';
 import { ScheduleContext } from '../contexts/ScheduleContext';
 import { DeleteContext } from '../contexts/DeleteContext';
+import postSchedule from '../functions/async/PostSchedule'; 
+import fetchSchedule from '../functions/async/FetchSchedule';
 
 const BulletinBoardPage:FC = () => {
     const scheduleContext = useContext(ScheduleContext);
     const deleteContext = useContext(DeleteContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
-  
+    const month = (new Date().getMonth()+1).toString();
+    const date = new Date().getDate().toLocaleString();
+    const time = scheduleContext.time;
+    const start = scheduleContext.start;
+    const destination = scheduleContext.destination;
+    const capacity = scheduleContext.capacity;
+
     const AddWaitingPassenger = () => {
-      const month = (new Date().getMonth()+1).toString()
-      const date = new Date().getDate().toLocaleString()
       deleteContext.setWaitingPassengers(
         [
           ...deleteContext.waitingPassengers,
           {
-            month:month,
-            date:date,
-            time:scheduleContext.time,
-            start:scheduleContext.start,
-            destination:scheduleContext.destination,
-            capacity:scheduleContext.capacity
+            month,
+            date,
+            time,
+            start,
+            destination,
+            capacity
           }
         ]
       )
@@ -42,6 +48,14 @@ const BulletinBoardPage:FC = () => {
       scheduleContext.setDestination("工学部駐車場");
       scheduleContext.setCapacity("1");
     }
+
+    const handlePostSchedule = () => {
+      postSchedule(scheduleContext, month, date, time, start, destination, capacity)
+    }
+
+    const handleFetchSchedule = () => {
+      fetchSchedule(deleteContext)
+    }
     return (
         <>
             <button onClick={OpenModal}>相乗り相手を募集する</button>
@@ -52,11 +66,13 @@ const BulletinBoardPage:FC = () => {
                     <div className='ConfirmButton'>
                         <button onClick={() => {
                             AddWaitingPassenger();
+                            handlePostSchedule();
                             InitializeValue();
                             CloseModal();
                             }}>確定</button>
                     </div>
                 </Modal>
+                <button onClick={handleFetchSchedule}>募集状況確認</button>
                   <WaitingPassengerArray waitingPassengers={deleteContext.waitingPassengers} />
         </>
     )
