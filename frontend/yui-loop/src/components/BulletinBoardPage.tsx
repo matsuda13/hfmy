@@ -1,15 +1,15 @@
 import React, {FC, useState, useContext, useEffect} from 'react';
 import CarpoolModal from './CarpoolModal';
-import WaitingPassengerArray from './WaitingPassengerArray';
+// import WaitingPassengerArray from './WaitingPassengerArray';
 import Modal from 'react-modal';
 import WaitingPassengerCard from "./WaitingPassengerCard"
 import { ScheduleContext } from '../contexts/ScheduleContext';
-import { DeleteContext } from '../contexts/DeleteContext';
+// import { DeleteContext } from '../contexts/DeleteContext';
 import { getWaitingList, cards, Rows, postWaitingCard } from '../api';
 
 const BulletinBoardPage:FC = () => {
     const scheduleContext = useContext(ScheduleContext);
-    const deleteContext = useContext(DeleteContext);
+    // const deleteContext = useContext(DeleteContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
     const [card, setCard] = useState<cards | null>(null);
 
@@ -26,23 +26,23 @@ const BulletinBoardPage:FC = () => {
       update();
     }, []);
 
-    const AddWaitingPassenger = (time:string,start:string, destination:string, capacity:string) => {
-      const month = (new Date().getMonth()+1).toString()
-      const date = new Date().getDate().toLocaleString()
-      deleteContext.setWaitingPassengers(
-        [
-          ...deleteContext.waitingPassengers,
-          {
-            month:month,
-            date:date,
-            time:time,
-            start:start,
-            destination:destination,
-            capacity:capacity
-          }
-        ]
-      )
-    };
+    // const AddWaitingPassenger = (time:string,start:string, destination:string, capacity:string) => {
+    //   const month = (new Date().getMonth()+1).toString()
+    //   const date = new Date().getDate().toLocaleString()
+    //   deleteContext.setWaitingPassengers(
+    //     [
+    //       ...deleteContext.waitingPassengers,
+    //       {
+    //         month:month,
+    //         date:date,
+    //         time:time,
+    //         start:start,
+    //         destination:destination,
+    //         capacity:capacity
+    //       }
+    //     ]
+    //   )
+    // };
   
     const OpenModal = () => {
       return setIsOpenCarpoolModal(true)
@@ -52,12 +52,12 @@ const BulletinBoardPage:FC = () => {
       return setIsOpenCarpoolModal(false)
     }
   
-    const InitializeValue = () => {
-      scheduleContext.setTime("1限休み(10:00~10:10)");
-      scheduleContext.setStart("工学部駐車場");
-      scheduleContext.setDestination("工学部駐車場");
-      scheduleContext.setCapacity("1");
-    }
+    // const InitializeValue = () => {
+    //   scheduleContext.setTime("1限休み(10:00~10:10)");
+    //   scheduleContext.setStart("工学部駐車場");
+    //   scheduleContext.setDestination("工学部駐車場");
+    //   scheduleContext.setCapacity("1");
+    // }
     return (
         <>
             <button onClick={OpenModal}>相乗り相手を募集する</button>
@@ -79,12 +79,13 @@ const BulletinBoardPage:FC = () => {
                             postWaitingCard(Addcard).then((res)=>{
                               console.log(res);
                             });
-                            AddWaitingPassenger(scheduleContext.time,
-                                                scheduleContext.start,
-                                                scheduleContext.destination,
-                                                scheduleContext.capacity);
-                            InitializeValue();
+                            // AddWaitingPassenger(scheduleContext.time,
+                            //                     scheduleContext.start,
+                            //                     scheduleContext.destination,
+                            //                     scheduleContext.capacity);
+                            // InitializeValue();
                             update();
+                            setCard(card);
                             CloseModal();
                             }}>確定</button>
                     </div>
@@ -102,7 +103,7 @@ const BulletinBoardPage:FC = () => {
                     )
                   )}
                 </div>
-                  <WaitingPassengerArray waitingPassengers={deleteContext.waitingPassengers} />
+                  {/* <WaitingPassengerArray waitingPassengers={deleteContext.waitingPassengers} /> */}
         </>
     )
 }
