@@ -2,27 +2,31 @@ import React, {FC, useState, useContext} from 'react'
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
 import Modal from 'react-modal';
-import { ScheduleContext } from '../contexts/ScheduleContext';
-import { DeleteContext } from '../contexts/DeleteContext';
+import { AppContext } from '../contexts/AppContext';
+import postSchedule from '../functions/async/PostSchedule'; 
+import fetchSchedule from '../functions/async/FetchSchedule';
 
 const BulletinBoardPage:FC = () => {
-    const scheduleContext = useContext(ScheduleContext);
-    const deleteContext = useContext(DeleteContext);
+    const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
-  
+    const month = (new Date().getMonth()+1).toString();
+    const date = new Date().getDate().toLocaleString();
+
     const AddWaitingPassenger = () => {
-      const month = (new Date().getMonth()+1).toString()
-      const date = new Date().getDate().toLocaleString()
-      deleteContext.setWaitingPassengers(
+      const time = appContext.timeToAdd;
+      const departurePlace = appContext.departurePlaceToAdd;
+      const destination = appContext.destinationToAdd;
+      const capacity = appContext.capacityToAdd;
+      appContext.setWaitingPassengers(
         [
-          ...deleteContext.waitingPassengers,
+          ...appContext.waitingPassengers,
           {
-            month:month,
-            date:date,
-            time:scheduleContext.time,
-            start:scheduleContext.start,
-            destination:scheduleContext.destination,
-            capacity:scheduleContext.capacity
+            month,
+            date,
+            time,
+            departurePlace,
+            destination,
+            capacity
           }
         ]
       )
@@ -35,12 +39,13 @@ const BulletinBoardPage:FC = () => {
     const CloseModal = () => {
       return setIsOpenCarpoolModal(false)
     }
-  
-    const InitializeValue = () => {
-      scheduleContext.setTime("1限休み(10:00~10:10)");
-      scheduleContext.setStart("工学部駐車場");
-      scheduleContext.setDestination("工学部駐車場");
-      scheduleContext.setCapacity("1");
+
+    const handlePostSchedule = () => {
+      postSchedule(appContext, month, date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd)
+    }
+
+    const handleFetchSchedule = () => {
+      fetchSchedule(appContext)
     }
     return (
         <>
@@ -52,12 +57,13 @@ const BulletinBoardPage:FC = () => {
                     <div className='ConfirmButton'>
                         <button onClick={() => {
                             AddWaitingPassenger();
-                            InitializeValue();
+                            handlePostSchedule();
                             CloseModal();
                             }}>確定</button>
                     </div>
                 </Modal>
-                  <WaitingPassengerArray waitingPassengers={deleteContext.waitingPassengers} />
+                <button onClick={handleFetchSchedule}>募集状況確認</button>
+                  <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
         </>
     )
 }
