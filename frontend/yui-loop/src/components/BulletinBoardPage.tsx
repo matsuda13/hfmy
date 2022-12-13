@@ -1,4 +1,4 @@
-import React, {FC, useState, useContext} from 'react'
+import React, {FC, useState, useContext, useEffect} from 'react'
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
 import Modal from 'react-modal';
@@ -11,6 +11,7 @@ const BulletinBoardPage:FC = () => {
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
     const month = (new Date().getMonth()+1).toString();
     const date = new Date().getDate().toLocaleString();
+    useEffect(() => {handleFetchSchedule()}, );
 
     const AddWaitingPassenger = () => {
       const time = appContext.timeToAdd;
@@ -62,8 +63,7 @@ const BulletinBoardPage:FC = () => {
                             }}>確定</button>
                     </div>
                 </Modal>
-                <button onClick={handleFetchSchedule}>募集状況確認</button>
-                  <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
+                <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
         </>
     )
 }
