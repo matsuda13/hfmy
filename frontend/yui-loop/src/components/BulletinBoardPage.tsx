@@ -11,7 +11,7 @@ const BulletinBoardPage:FC = () => {
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
     const month = (new Date().getMonth()+1).toString();
     const date = new Date().getDate().toLocaleString();
-    useEffect(() => {handleFetchSchedule()}, );
+    useEffect(() => {handleFetchSchedule()}, [isCarpoolModalOpen]);
 
     const AddWaitingPassenger = () => {
       const time = appContext.timeToAdd;
@@ -61,6 +61,9 @@ const BulletinBoardPage:FC = () => {
                             handlePostSchedule();
                             CloseModal();
                             }}>確定</button>
+                        <button onClick={()=>{
+                          CloseModal();
+                        }}>中止</button>
                     </div>
                 </Modal>
                 <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
