@@ -8,6 +8,7 @@ export default async function postSchedule(
     departurePlace: string,
     destination: string,
     capacity: string,
+    memo: string,
 ) {
     const postScheduleURL = 'http://localhost:8080/post-schedule';
     await fetch(postScheduleURL, {
@@ -19,6 +20,7 @@ export default async function postSchedule(
             departurePlace,
             destination,
             capacity,
+            memo,
         })
     })
         .then((response) => {

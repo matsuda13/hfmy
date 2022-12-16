@@ -17,6 +17,8 @@ export interface AppState {
     waitingPassengers:  Array<WaitingPassengerType>
     setWaitingPassengers: React.Dispatch<React.SetStateAction<Array<WaitingPassengerType>>>
     deleteWaitingPassenger: Function
+    memo: string
+    setMemo: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const AppContext = React.createContext({} as AppState);
@@ -27,6 +29,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     const [destinationToAdd, setDestinationToAdd] = useState("工学部駐車場");
     const [capacityToAdd, setCapacityToAdd] = useState("1");
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
+    const [memo, setMemo] = useState<string>("");
     const deleteWaitingPassenger = (id:number) => {
         const tempList = [...waitingPassengers];
         // id番目の要素を削除する
@@ -46,6 +49,8 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             waitingPassengers,
             setWaitingPassengers,
             deleteWaitingPassenger,
+            memo,
+            setMemo,
         }}>
             { children }
         </AppContext.Provider>

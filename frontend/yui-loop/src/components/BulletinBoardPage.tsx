@@ -11,26 +11,46 @@ const BulletinBoardPage:FC = () => {
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
     const month = (new Date().getMonth()+1).toString();
     const date = new Date().getDate().toLocaleString();
-    useEffect(() => {handleFetchSchedule()}, [isCarpoolModalOpen]);
+    useEffect(() => {
+      handleFetchSchedule();
+    }, [isCarpoolModalOpen]);
 
     const AddWaitingPassenger = () => {
       const time = appContext.timeToAdd;
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
       const capacity = appContext.capacityToAdd;
-      appContext.setWaitingPassengers(
-        [
-          ...appContext.waitingPassengers,
-          {
-            month,
-            date,
-            time,
-            departurePlace,
-            destination,
-            capacity
-          }
+      const memo = appContext.memo
+      if (appContext.waitingPassengers != null){
+        appContext.setWaitingPassengers(
+          [
+            ...appContext.waitingPassengers,
+            {
+             month,
+             date,
+             time,
+             departurePlace,
+             destination,
+             capacity,
+             memo,
+            }
         ]
-      )
+      )}
+      else{
+        appContext.setWaitingPassengers(
+          [
+            {
+             month,
+             date,
+             time,
+             departurePlace,
+             destination,
+             capacity,
+             memo,
+            }
+        ]
+        )
+      }
     };
   
     const OpenModal = () => {
@@ -42,7 +62,7 @@ const BulletinBoardPage:FC = () => {
     }
 
     const handlePostSchedule = () => {
-      postSchedule(appContext, month, date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd)
+      postSchedule(appContext, month, date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo)
     }
 
     const handleFetchSchedule = () => {
@@ -59,6 +79,7 @@ const BulletinBoardPage:FC = () => {
                         <button onClick={() => {
                             AddWaitingPassenger();
                             handlePostSchedule();
+                            console.log(appContext.memo);
                             CloseModal();
                             }}>確定</button>
                         <button onClick={()=>{

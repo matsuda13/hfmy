@@ -5,4 +5,5 @@ export interface WaitingPassengerType {
     departurePlace: string
     destination: string
     capacity: string
+    memo: string
 }
