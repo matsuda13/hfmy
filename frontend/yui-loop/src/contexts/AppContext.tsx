@@ -6,6 +6,7 @@ interface Props {
 }
 
 export interface AppState {
+    id: string
     timeToAdd: string
     setTimeToAdd: React.Dispatch<React.SetStateAction<string>>
     departurePlaceToAdd: string
@@ -17,16 +18,20 @@ export interface AppState {
     waitingPassengers:  Array<WaitingPassengerType>
     setWaitingPassengers: React.Dispatch<React.SetStateAction<Array<WaitingPassengerType>>>
     deleteWaitingPassenger: Function
+    memo: string
+    setMemo: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const AppContext = React.createContext({} as AppState);
 
 export const AppContextProvider: FC<Props> = ({ children }) => { 
+    const [id, setId] = useState("");
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
     const [departurePlaceToAdd, setDeparturePlaceToAdd] = useState("工学部駐車場");
     const [destinationToAdd, setDestinationToAdd] = useState("工学部駐車場");
     const [capacityToAdd, setCapacityToAdd] = useState("1");
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
+    const [memo, setMemo] = useState<string>("");
     const deleteWaitingPassenger = (id:number) => {
         const tempList = [...waitingPassengers];
         // id番目の要素を削除する
@@ -35,6 +40,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     }
     return (
         <AppContext.Provider value={{
+            id,
             timeToAdd,
             setTimeToAdd,
             departurePlaceToAdd,
@@ -46,6 +52,8 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             waitingPassengers,
             setWaitingPassengers,
             deleteWaitingPassenger,
+            memo,
+            setMemo,
         }}>
             { children }
         </AppContext.Provider>

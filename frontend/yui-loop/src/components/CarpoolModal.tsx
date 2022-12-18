@@ -1,4 +1,4 @@
-import React,{ ChangeEvent, useContext } from 'react'
+import React,{ ChangeEvent, useState, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
 const CarpoolModal = () => {
@@ -17,6 +17,10 @@ const CarpoolModal = () => {
 
   const selectCapacity = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setCapacityToAdd(event.target.value);
+  }
+
+  const onInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    appContext.setMemo(event.target.value);
   }
 
   const month = (new Date().getMonth()+1).toString()
@@ -66,6 +70,8 @@ const CarpoolModal = () => {
           <option value="3">3人</option>
           <option value="4">4人</option>
         </select>
+        <p>備考欄</p>
+          <textarea id="memo" onChange={onInput}></textarea>
     </div>
   )
 }

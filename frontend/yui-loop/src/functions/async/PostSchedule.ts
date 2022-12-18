@@ -8,8 +8,18 @@ export default async function postSchedule(
     departurePlace: string,
     destination: string,
     capacity: string,
+    memo: string,
 ) {
     const postScheduleURL = 'http://localhost:8080/post-schedule';
+    console.log(JSON.stringify({
+        month,
+        date,
+        time,
+        departurePlace,
+        destination,
+        capacity,
+        memo,
+    }))
     await fetch(postScheduleURL, {
         method: 'POST',
         body: JSON.stringify({
@@ -19,6 +29,7 @@ export default async function postSchedule(
             departurePlace,
             destination,
             capacity,
+            memo,
         })
     })
         .then((response) => {

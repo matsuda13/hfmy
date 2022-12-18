@@ -26,5 +26,6 @@ func main() {
 	server := api.Server{Db: db}
 	http.HandleFunc("/get-schedule", server.GetSchedule)
 	http.HandleFunc("/post-schedule", server.PostSchedule)
+	http.HandleFunc("/delete-schedule", server.DeleteSchedule)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
