@@ -1,6 +1,7 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC, useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
+import deleteSchedule from "../functions/async/DeleteSchedule"
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
@@ -11,6 +12,10 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
   const wp = props.waitingPassenger
   const appContext = useContext(AppContext)
 
+  const handleDeleteSchedule = (id: string) => {
+    deleteSchedule(id);
+  }
+
   return (
     <>
       <div>
@@ -19,7 +24,10 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>
         定員：{wp.capacity}<br/>
         備考：{wp.memo}<br/>
-        <button onClick={()=>{appContext.deleteWaitingPassenger(props.id)}}>募集中止</button>
+        <button onClick={()=>{
+          appContext.deleteWaitingPassenger(props.id)
+          handleDeleteSchedule(wp.id);
+          }}>募集中止</button>
       </div>
     </>
   )

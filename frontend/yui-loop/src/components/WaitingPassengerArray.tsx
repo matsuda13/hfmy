@@ -9,7 +9,7 @@ interface WaitingPassengerArrayProps {
 const WaitingPassengerArray: FC<WaitingPassengerArrayProps> = (props) => {
   return (
     <>
-      {props.waitingPassengers == null ? (<>no data</>):(
+      {props.waitingPassengers == null ? (<><br/>募集はありません</>):(
         props.waitingPassengers.map((waitingPassenger, id) => (
         <WaitingPassenger
                   waitingPassenger={waitingPassenger}

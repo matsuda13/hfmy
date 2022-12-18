@@ -16,6 +16,7 @@ const BulletinBoardPage:FC = () => {
     }, [isCarpoolModalOpen]);
 
     const AddWaitingPassenger = () => {
+      const id = appContext.id;
       const time = appContext.timeToAdd;
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
@@ -26,6 +27,7 @@ const BulletinBoardPage:FC = () => {
           [
             ...appContext.waitingPassengers,
             {
+             id,
              month,
              date,
              time,
@@ -40,6 +42,7 @@ const BulletinBoardPage:FC = () => {
         appContext.setWaitingPassengers(
           [
             {
+             id,
              month,
              date,
              time,

@@ -6,6 +6,7 @@ interface Props {
 }
 
 export interface AppState {
+    id: string
     timeToAdd: string
     setTimeToAdd: React.Dispatch<React.SetStateAction<string>>
     departurePlaceToAdd: string
@@ -24,6 +25,7 @@ export interface AppState {
 export const AppContext = React.createContext({} as AppState);
 
 export const AppContextProvider: FC<Props> = ({ children }) => { 
+    const [id, setId] = useState("");
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
     const [departurePlaceToAdd, setDeparturePlaceToAdd] = useState("工学部駐車場");
     const [destinationToAdd, setDestinationToAdd] = useState("工学部駐車場");
@@ -38,6 +40,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     }
     return (
         <AppContext.Provider value={{
+            id,
             timeToAdd,
             setTimeToAdd,
             departurePlaceToAdd,

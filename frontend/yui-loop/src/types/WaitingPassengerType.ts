@@ -1,4 +1,5 @@
 export interface WaitingPassengerType {
+    id: string
     month: string
     date: string
     time: string
