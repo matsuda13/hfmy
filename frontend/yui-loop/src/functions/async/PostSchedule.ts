@@ -11,15 +11,6 @@ export default async function postSchedule(
     memo: string,
 ) {
     const postScheduleURL = 'http://localhost:8080/post-schedule';
-    console.log(JSON.stringify({
-        month,
-        date,
-        time,
-        departurePlace,
-        destination,
-        capacity,
-        memo,
-    }))
     await fetch(postScheduleURL, {
         method: 'POST',
         body: JSON.stringify({
