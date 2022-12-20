@@ -18,7 +18,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
 
   return (
     <>
-      <div>
+      <div className="card">
         <br/>
         出発時間：{wp.month}/{wp.date}　{wp.time}<br/>
         出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>

@@ -82,7 +82,6 @@ const BulletinBoardPage:FC = () => {
                         <button onClick={() => {
                             AddWaitingPassenger();
                             handlePostSchedule();
-                            console.log(appContext.memo);
                             CloseModal();
                             }}>確定</button>
                         <button onClick={()=>{
