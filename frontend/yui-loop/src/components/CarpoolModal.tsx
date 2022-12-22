@@ -1,3 +1,4 @@
+import DatePicker from 'react-datepicker'
 import React,{ ChangeEvent, useState, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
@@ -23,13 +24,16 @@ const CarpoolModal = () => {
     appContext.setMemo(event.target.value);
   }
 
-  const month = (new Date().getMonth()+1).toString()
-
-  const date = new Date().getDate().toLocaleString()
 
   return (
     <div>
-        <p>日付:{month+'/'+date}</p>
+        <p>日付:
+        <DatePicker selected={appContext.date} 
+        onChange={(date) => {
+                      date && 
+                      appContext.setDate(date)}
+          } />
+        </p>
         <p>募集条件を選択してください</p>
         <br />
         <p>出発時間</p>

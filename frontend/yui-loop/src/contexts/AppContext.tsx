@@ -20,6 +20,8 @@ export interface AppState {
     deleteWaitingPassenger: Function
     memo: string
     setMemo: React.Dispatch<React.SetStateAction<string>>
+    date: Date
+    setDate: React.Dispatch<React.SetStateAction<Date>>
 }
 
 export const AppContext = React.createContext({} as AppState);
@@ -32,6 +34,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     const [capacityToAdd, setCapacityToAdd] = useState("1");
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
     const [memo, setMemo] = useState<string>("");
+    const [date, setDate] = useState(new Date());
     const deleteWaitingPassenger = (id:number) => {
         const tempList = [...waitingPassengers];
         // id番目の要素を削除する
@@ -54,6 +57,8 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             deleteWaitingPassenger,
             memo,
             setMemo,
+            date,
+            setDate
         }}>
             { children }
         </AppContext.Provider>
