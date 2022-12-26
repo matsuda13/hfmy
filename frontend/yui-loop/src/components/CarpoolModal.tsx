@@ -1,4 +1,5 @@
 import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
 import React,{ ChangeEvent, useState, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
@@ -28,10 +29,12 @@ const CarpoolModal = () => {
   return (
     <div>
         <p>日付:
-        <DatePicker selected={appContext.date} 
+        <DatePicker dateFormat="yyyy/MM/dd" value={appContext.date}
+        minDate={new Date()}
         onChange={(date) => {
-                      date && 
-                      appContext.setDate(date)}
+                      date &&
+                      appContext.setDate(date.toLocaleDateString())
+                    }
           } />
         </p>
         <p>募集条件を選択してください</p>
