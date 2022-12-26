@@ -41,7 +41,9 @@
     ]
   },
   "devDependencies": {
+    "@types/react-datepicker": "^4.8.0",
     "@types/react-modal": "^3.13.1",
+    "react-datepicker": "^4.8.0",
     "react-modal": "^3.16.1"
   }
 }

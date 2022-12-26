@@ -2,7 +2,6 @@ import { AppState } from "../../contexts/AppContext";
 
 export default async function postSchedule(
     appContext: AppState,
-    month: string,
     date: string,
     time: string,
     departurePlace: string,
@@ -14,7 +13,6 @@ export default async function postSchedule(
     await fetch(postScheduleURL, {
         method: 'POST',
         body: JSON.stringify({
-            month,
             date,
             time,
             departurePlace,

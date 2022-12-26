@@ -9,8 +9,6 @@ import fetchSchedule from '../functions/async/FetchSchedule';
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
-    const month = (new Date().getMonth()+1).toString();
-    const date = new Date().getDate().toLocaleString();
     useEffect(() => {
       handleFetchSchedule();
     }, [isCarpoolModalOpen]);
@@ -21,14 +19,14 @@ const BulletinBoardPage:FC = () => {
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
       const capacity = appContext.capacityToAdd;
-      const memo = appContext.memo
+      const memo = appContext.memo;
+      const date = appContext.date
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
             ...appContext.waitingPassengers,
             {
              id,
-             month,
              date,
              time,
              departurePlace,
@@ -43,7 +41,6 @@ const BulletinBoardPage:FC = () => {
           [
             {
              id,
-             month,
              date,
              time,
              departurePlace,
@@ -57,7 +54,10 @@ const BulletinBoardPage:FC = () => {
     };
   
     const OpenModal = () => {
-      return setIsOpenCarpoolModal(true)
+      return (setIsOpenCarpoolModal(true),
+      appContext.setDate(new Date().toLocaleDateString()),
+      appContext.setMemo("")
+      )
     }
   
     const CloseModal = () => {
@@ -65,7 +65,7 @@ const BulletinBoardPage:FC = () => {
     }
 
     const handlePostSchedule = () => {
-      postSchedule(appContext, month, date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo)
+      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo)
     }
 
     const handleFetchSchedule = () => {
