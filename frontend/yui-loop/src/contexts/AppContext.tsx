@@ -22,12 +22,16 @@ export interface AppState {
     setMemo: React.Dispatch<React.SetStateAction<string>>
     date: string
     setDate: React.Dispatch<React.SetStateAction<string>>
+    isErrorState:boolean
+    setIsErrorState:React.Dispatch<React.SetStateAction<boolean>>
+    notMoveErrorMessage:string
+    setNotMoveErrorMessage:React.Dispatch<React.SetStateAction<string>>
 }
 
 export const AppContext = React.createContext({} as AppState);
 
 export const AppContextProvider: FC<Props> = ({ children }) => { 
-    const [id, setId] = useState("");
+    const [id, _] = useState("");
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
     const [departurePlaceToAdd, setDeparturePlaceToAdd] = useState("工学部駐車場");
     const [destinationToAdd, setDestinationToAdd] = useState("工学部駐車場");
@@ -35,6 +39,8 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
     const [memo, setMemo] = useState<string>("");
     const [date, setDate] = useState<string>(new Date().toLocaleDateString());
+    const [isErrorState, setIsErrorState] = useState<boolean>(false)
+    const [notMoveErrorMessage, setNotMoveErrorMessage] = useState<string>("")
     const deleteWaitingPassenger = (id:number) => {
         const tempList = [...waitingPassengers];
         // id番目の要素を削除する
@@ -58,7 +64,11 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             memo,
             setMemo,
             date,
-            setDate
+            setDate,
+            isErrorState,
+            setIsErrorState,
+            notMoveErrorMessage,
+            setNotMoveErrorMessage
         }}>
             { children }
         </AppContext.Provider>

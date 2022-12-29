@@ -5,6 +5,7 @@ import { AppContext } from '../contexts/AppContext';
 
 const CarpoolModal = () => {
   const appContext = useContext(AppContext);
+
   const selectTime = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setTimeToAdd(event.target.value);
   };
@@ -79,6 +80,7 @@ const CarpoolModal = () => {
         </select>
         <p>備考欄</p>
           <textarea id="memo" onChange={onInput}></textarea>
+        <p>{appContext.isErrorState ? (<>{appContext.notMoveErrorMessage}</>):(<></>)}</p>
     </div>
   )
 }
