@@ -9,9 +9,14 @@ import fetchSchedule from '../functions/async/FetchSchedule';
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
+
     useEffect(() => {
       handleFetchSchedule();
     }, [isCarpoolModalOpen]);
+
+    const Reload = () => {
+      handleFetchSchedule()
+    }
 
     const AddWaitingPassenger = () => {
       const id = appContext.id;
@@ -83,6 +88,7 @@ const BulletinBoardPage:FC = () => {
     return (
         <>
             <button onClick={OpenModal}>相乗り相手を募集する</button>
+            <button onClick={Reload}>更新</button>
                 <Modal isOpen={isCarpoolModalOpen}>
                     <div className='CarpoolModal'>
                         <CarpoolModal/>
