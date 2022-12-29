@@ -52,11 +52,20 @@ const BulletinBoardPage:FC = () => {
         )
       }
     };
+
+    const InitializeModal = () => {
+      appContext.setDate(new Date().toLocaleDateString())
+      appContext.setMemo("")
+      appContext.setTimeToAdd("1限休み(10:00~10:10)")
+      appContext.setDeparturePlaceToAdd("工学部駐車場")
+      appContext.setDestinationToAdd("工学部駐車場")
+      appContext.setCapacityToAdd("1")
+    }
   
     const OpenModal = () => {
-      return (setIsOpenCarpoolModal(true),
-      appContext.setDate(new Date().toLocaleDateString()),
-      appContext.setMemo("")
+      return (
+        setIsOpenCarpoolModal(true),
+        InitializeModal()
       )
     }
   
@@ -80,12 +89,23 @@ const BulletinBoardPage:FC = () => {
                     </div>
                     <div className='ConfirmButton'>
                         <button onClick={() => {
+                          if(appContext.departurePlaceToAdd != appContext.destinationToAdd){
                             AddWaitingPassenger();
                             handlePostSchedule();
                             CloseModal();
+                            appContext.setIsErrorState(false)
+                            appContext.setNotMoveErrorMessage("")
+                          }else{
+                            appContext.setIsErrorState(true)
+                            appContext.setNotMoveErrorMessage("出発地と目的地を異なる場所に変更してください。")
+                          }
                             }}>確定</button>
                         <button onClick={()=>{
                           CloseModal();
+                          appContext.setIsErrorState(false)
+                          appContext.setNotMoveErrorMessage("")
+                          console.log(appContext.isErrorState)
+                          console.log(appContext.notMoveErrorMessage)
                         }}>中止</button>
                     </div>
                 </Modal>
