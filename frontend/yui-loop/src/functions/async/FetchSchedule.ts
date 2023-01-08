@@ -3,7 +3,7 @@ import { AppState } from "../../contexts/AppContext";
 export default async function fetchSchedule(
     appContext: AppState,
 ) {
-    const fetchScheduleURL = 'http://localhost:8080/get-schedule';
+    const fetchScheduleURL = process.env.REACT_APP_API_URL + '/get-schedule';
     await fetch(fetchScheduleURL, {
         method: 'GET',
     })

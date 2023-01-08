@@ -1,7 +1,7 @@
 import { AppState } from "../../contexts/AppContext";
 
 export default async function deleteSchedule(id:string) {
-    const deleteScheduleURL = 'http://localhost:8080/delete-schedule';
+    const deleteScheduleURL = process.env.REACT_APP_API_URL + '/delete-schedule';
     await fetch(deleteScheduleURL, {
         method: 'POST',
         body: JSON.stringify({"id":id})

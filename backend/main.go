@@ -24,6 +24,9 @@ func main() {
 	}
 	defer db.Close()
 	server := api.Server{Db: db}
+	http.HandleFunc("/sign-up", server.SignUp)
+	http.HandleFunc("/sign-in", server.SignIn)
+	http.HandleFunc("/sign-in-with-jwt", server.SignInWithJwt)
 	http.HandleFunc("/get-schedule", server.GetSchedule)
 	http.HandleFunc("/post-schedule", server.PostSchedule)
 	http.HandleFunc("/delete-schedule", server.DeleteSchedule)
