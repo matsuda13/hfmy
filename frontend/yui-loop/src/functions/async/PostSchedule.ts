@@ -9,7 +9,7 @@ export default async function postSchedule(
     capacity: string,
     memo: string,
 ) {
-    const postScheduleURL = 'http://localhost:8080/post-schedule';
+    const postScheduleURL = process.env.REACT_APP_API_URL + '/post-schedule';
     await fetch(postScheduleURL, {
         method: 'POST',
         body: JSON.stringify({

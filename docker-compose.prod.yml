@@ -16,7 +16,7 @@ services:
     image: node:18.9.1
     container_name: frontend
     environment:
-     - REACT_APP_API_URL=http://localhost/api
+     - REACT_APP_API_URL=http://yui-loop.st.ie.u-ryukyu.ac.jp/api
     volumes:
       - "./frontend/yui-loop:/projects/frontend/yui-loop"
     working_dir: /projects/frontend/yui-loop
@@ -36,6 +36,7 @@ services:
     ports:
       - 8080:8080
     tty: true
+    command: go run .
   db:
     image: postgres:14.4
     container_name: db

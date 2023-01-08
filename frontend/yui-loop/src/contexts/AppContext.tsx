@@ -1,4 +1,4 @@
-import React, { useState, FC, ReactNode } from 'react';
+import React, { useState, FC, ReactNode, Dispatch, SetStateAction } from 'react';
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 
 interface Props {
@@ -6,6 +6,10 @@ interface Props {
 }
 
 export interface AppState {
+    isSignedIn: boolean,
+    setIsSignedIn: Dispatch<SetStateAction<boolean>>,
+    userName: string,
+    setUserName: Dispatch<SetStateAction<string>>,
     id: string
     timeToAdd: string
     setTimeToAdd: React.Dispatch<React.SetStateAction<string>>
@@ -30,7 +34,9 @@ export interface AppState {
 
 export const AppContext = React.createContext({} as AppState);
 
-export const AppContextProvider: FC<Props> = ({ children }) => { 
+export const AppContextProvider: FC<Props> = ({ children }) => {
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [userName, setUserName] = useState('');
     const [id, _] = useState("");
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
     const [departurePlaceToAdd, setDeparturePlaceToAdd] = useState("工学部駐車場");
@@ -49,6 +55,10 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     }
     return (
         <AppContext.Provider value={{
+            isSignedIn,
+            setIsSignedIn,
+            userName,
+            setUserName,
             id,
             timeToAdd,
             setTimeToAdd,
