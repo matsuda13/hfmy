@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 import postSchedule from '../functions/async/PostSchedule'; 
 import fetchSchedule from '../functions/async/FetchSchedule';
+import LoginPage from './LoginPage'
 
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
