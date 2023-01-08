@@ -1,8 +1,8 @@
 import { AppState } from "../../contexts/AppContext";
 
-export default async function signUp(appContext: AppState | null) {
-    const signUpWithJwtUrl = process.env.REACT_APP_API_URL + '/sign-in-with-jwt';
-    fetch(signUpWithJwtUrl, {
+export default async function signInWithJwt(appContext: AppState | null) {
+    const signInWithJwtUrl = process.env.REACT_APP_API_URL + '/sign-in-with-jwt';
+    fetch(signInWithJwtUrl, {
         method: 'GET',
     })
         .then((response) => {
