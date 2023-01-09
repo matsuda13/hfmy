@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 import postSchedule from '../functions/async/PostSchedule'; 
 import fetchSchedule from '../functions/async/FetchSchedule';
-import LoginPage from './LoginPage'
+import SignInPage from './SignInPage'
 
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
@@ -111,8 +111,6 @@ const BulletinBoardPage:FC = () => {
                           CloseModal();
                           appContext.setIsErrorState(false)
                           appContext.setNotMoveErrorMessage("")
-                          console.log(appContext.isErrorState)
-                          console.log(appContext.notMoveErrorMessage)
                         }}>中止</button>
                     </div>
                 </Modal>
