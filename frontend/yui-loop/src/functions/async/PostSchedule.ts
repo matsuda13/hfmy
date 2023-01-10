@@ -8,6 +8,7 @@ export default async function postSchedule(
     destination: string,
     capacity: string,
     memo: string,
+    userName: string,
 ) {
     const postScheduleURL = process.env.REACT_APP_API_URL + '/post-schedule';
     await fetch(postScheduleURL, {
@@ -19,6 +20,7 @@ export default async function postSchedule(
             destination,
             capacity,
             memo,
+            userName,
         })
     })
         .then((response) => {

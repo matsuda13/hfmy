@@ -5,13 +5,14 @@ import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 import postSchedule from '../functions/async/PostSchedule'; 
 import fetchSchedule from '../functions/async/FetchSchedule';
+import { useNavigate } from "react-router-dom";
 
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
     const openCarpoolModal = () => { setIsOpenCarpoolModal(true); InitializeCarpoolModal(); };
     const closeCarpoolModal = () => { setIsOpenCarpoolModal(false); appContext.setIsErrorState(false); appContext.setNotMoveErrorMessage("");};
-
+    const navigate = useNavigate();
     useEffect(() => {
       handleFetchSchedule();
     }, [isCarpoolModalOpen]);
@@ -24,6 +25,7 @@ const BulletinBoardPage:FC = () => {
       const capacity = appContext.capacityToAdd;
       const memo = appContext.memo;
       const date = appContext.date;
+      const userName = appContext.userName;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
@@ -36,6 +38,7 @@ const BulletinBoardPage:FC = () => {
               destination,
               capacity,
               memo,
+              userName,
             }
           ]
         )} else {
@@ -49,6 +52,7 @@ const BulletinBoardPage:FC = () => {
                 destination,
                 capacity,
                 memo,
+                userName,
               }
             ]
           )
@@ -63,14 +67,19 @@ const BulletinBoardPage:FC = () => {
       appContext.setCapacityToAdd("1");
     };
     const handlePostSchedule = () => {
-      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo);
+      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo, appContext.userName);
     };
     const handleFetchSchedule = () => {
       fetchSchedule(appContext);
     };
     return (
         <>
-            <button onClick={openCarpoolModal}>相乗り相手を募集する</button>
+            <button onClick={()=> {
+              if(appContext.userName!=""){
+                openCarpoolModal()
+              }else{
+                navigate('/');
+                }}}>相乗り相手を募集する</button>
             <button onClick={handleFetchSchedule}>更新</button>
                 <Modal
                   isOpen={isCarpoolModalOpen}
