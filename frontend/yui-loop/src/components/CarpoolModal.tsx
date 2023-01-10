@@ -1,6 +1,6 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import React,{ ChangeEvent, useState, useContext } from 'react'
+import React,{ ChangeEvent, useContext } from 'react'
 import { AppContext } from '../contexts/AppContext';
 
 const CarpoolModal = () => {
@@ -9,24 +9,18 @@ const CarpoolModal = () => {
   const selectTime = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setTimeToAdd(event.target.value);
   };
-
   const selectDeparturePlace = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setDeparturePlaceToAdd(event.target.value);
-  }
-
+  };
   const selectDestination = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setDestinationToAdd(event.target.value);
-  }
-
+  };
   const selectCapacity = (event: ChangeEvent<HTMLSelectElement>) => {
     appContext.setCapacityToAdd(event.target.value);
-  }
-
+  };
   const onInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
     appContext.setMemo(event.target.value);
-  }
-
-
+  };
   return (
     <div>
         <p>日付:
@@ -35,8 +29,7 @@ const CarpoolModal = () => {
         onChange={(date) => {
                       date &&
                       appContext.setDate(date.toLocaleDateString())
-                    }
-          } />
+                }}/>
         </p>
         <p>募集条件を選択してください</p>
         <br />
@@ -84,5 +77,4 @@ const CarpoolModal = () => {
     </div>
   )
 }
-
-export default CarpoolModal
+export default CarpoolModal;

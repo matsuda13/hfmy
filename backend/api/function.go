@@ -38,7 +38,8 @@ type schedulePostRequest struct {
 	DeparturePlace string `json:"departurePlace"`
 	Destination string `json:"destination"`
 	Capacity string `json:"capacity"`
-	Memo string `json:"memo"`	
+	Memo string `json:"memo"`
+	UserName string `json:"userName"`	
 }
 
 type scheduleDeleteRequest struct {
@@ -54,6 +55,7 @@ type Schedule struct {
 	Destination string `json:"destination"`
 	Capacity string `json:"capacity"`	
 	Memo string `json:"memo"`
+	UserName string `json:"userName"`
 }
 
 type SignUpResponse struct {
@@ -284,7 +286,7 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (month, date, time, departure_place, destination, capacity, memo) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Month, schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (month, date, time, departure_place, destination, capacity, memo, userName) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Month, schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -300,7 +302,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT id, month, date, time, departure_place, destination, capacity, memo FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, month, date, time, departure_place, destination, capacity, memo, userName FROM schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -318,6 +320,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 				&scheduleTemp.Destination,
 				&scheduleTemp.Capacity,
 				&scheduleTemp.Memo,
+				&scheduleTemp.UserName,
 			); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -330,6 +333,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		scheduleTemp.Destination = strings.TrimRight(scheduleTemp.Destination, " ")
 		scheduleTemp.Capacity = strings.TrimRight(scheduleTemp.Capacity, " ")
 		scheduleTemp.Memo = strings.TrimRight(scheduleTemp.Memo, " ")
+		scheduleTemp.UserName = strings.TrimRight(scheduleTemp.UserName, " ")
 		schedules = append(schedules, scheduleTemp)
 	}
 	if err := rows.Err(); err != nil {

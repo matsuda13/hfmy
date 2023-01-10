@@ -12,13 +12,12 @@ const WaitingPassengerArray: FC<WaitingPassengerArrayProps> = (props) => {
       {props.waitingPassengers == null ? (<><br/>募集はありません</>):(
         props.waitingPassengers.map((waitingPassenger, id) => (
         <WaitingPassenger
-                  waitingPassenger={waitingPassenger}
-                  key={id}
+                  waitingPassenger = {waitingPassenger}
+                  key = {id}
                   id = {id}/>
         )))}
       {}
     </>
   )
 }
-
-export default WaitingPassengerArray
+export default WaitingPassengerArray;

@@ -1,22 +1,26 @@
-import { WaitingPassengerType } from './types/WaitingPassengerType';
-import {Route, Router, Routes} from 'react-router-dom'
-import React, { useState } from 'react';
-import './App.css';
+import React, { useContext, useEffect } from 'react';
+import {Route, Router, Routes} from 'react-router-dom';
+import { AppContext } from './contexts/AppContext';
+import SignInPage from './components/SignInPage';
+import signInWithJwt from './functions/async/SignInWithJwt';
 import BulletinBoardPage from './components/BulletinBoardPage';
-import LoginPage from './components/LoginPage';
+import './App.css';
 
 function App() {
-
+  const appContext = useContext(AppContext);
+  useEffect(() => {
+    signInWithJwt(appContext);
+  }, []);
   return (
     <div className="App">
       <h1>HFMY</h1>
       <p>YUI LOOP</p>
+      <p>{appContext.isSignedIn ? (<p>こんにちは {appContext.userName} さん</p>):(<p>ログインしてください</p>)}</p>
       <Routes>
         <Route path="/board" element={<BulletinBoardPage/>}></Route>
-        <Route path="/" element={<LoginPage/>}></Route>
+        <Route path="/" element={<SignInPage/>}></Route>
       </Routes>
     </div>
   );
 }
-
 export default App;

@@ -12,5 +12,6 @@ CREATE TABLE schedules (
     departure_place CHARACTER(255) NOT NULL,
     destination CHARACTER(255) NOT NULL,
     capacity CHARACTER(255) NOT NULL,
-    memo CHARACTER(255) NOT NULL
+    memo CHARACTER(255) NOT NULL,
+    userName CHARACTER(255) NOT NULL
 );
