@@ -1,12 +1,16 @@
-import { WaitingPassengerType } from './types/WaitingPassengerType';
-import {Route, Router, Routes} from 'react-router-dom'
-import React, { useState } from 'react';
-import './App.css';
-import BulletinBoardPage from './components/BulletinBoardPage';
+import React, { useContext, useEffect } from 'react';
+import {Route, Router, Routes} from 'react-router-dom';
+import { AppContext } from './contexts/AppContext';
 import SignInPage from './components/SignInPage';
+import signInWithJwt from './functions/async/SignInWithJwt';
+import BulletinBoardPage from './components/BulletinBoardPage';
+import './App.css';
 
 function App() {
-
+  const appContext = useContext(AppContext);
+  useEffect(() => {
+    signInWithJwt(appContext);
+  }, []);
   return (
     <div className="App">
       <h1>HFMY</h1>
@@ -18,5 +22,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

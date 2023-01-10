@@ -9,13 +9,12 @@ interface WaitingPassengerProps {
 }
 
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
-  const wp = props.waitingPassenger
-  const appContext = useContext(AppContext)
+  const wp = props.waitingPassenger;
+  const appContext = useContext(AppContext);
 
   const handleDeleteSchedule = (id: string) => {
     deleteSchedule(id);
-  }
-
+  };
   return (
     <>
       <div className="card">
@@ -25,12 +24,11 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         定員：{wp.capacity}<br/>
         備考：{wp.memo}<br/>
         <button onClick={()=>{
-          appContext.deleteWaitingPassenger(props.id)
+          appContext.deleteWaitingPassenger(props.id);
           handleDeleteSchedule(wp.id);
           }}>募集中止</button>
       </div>
     </>
   )
 }
-
-export default WaitingPassenger
+export default WaitingPassenger;
