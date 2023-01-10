@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <h1>HFMY</h1>
       <p>YUI LOOP</p>
-      <p>{appContext.isSignedIn ? (<p>こんにちは {appContext.userName} さん</p>):(<></>)}</p>
+      <p>{appContext.isSignedIn ? (<p>こんにちは {appContext.userName} さん</p>):(<p>ログインしてください</p>)}</p>
       <Routes>
         <Route path="/board" element={<BulletinBoardPage/>}></Route>
         <Route path="/" element={<SignInPage/>}></Route>
