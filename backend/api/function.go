@@ -32,7 +32,6 @@ type SignInRequest struct {
 }
 
 type schedulePostRequest struct {
-	Month string `json:"month"`
 	Date string `json:"date"`
 	Time string `json:"time"`
 	DeparturePlace string `json:"departurePlace"`
@@ -48,7 +47,6 @@ type scheduleDeleteRequest struct {
 
 type Schedule struct {
 	Id string `json:"id"`
-	Month string `json:"month"`
 	Date string `json:"date"`
 	Time string `json:"time"`
 	DeparturePlace string `json:"departurePlace"`
@@ -286,7 +284,7 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (month, date, time, departure_place, destination, capacity, memo, userName) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Month, schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (date, time, departure_place, destination, capacity, memo, userName) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -302,7 +300,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT id, month, date, time, departure_place, destination, capacity, memo, userName FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName FROM schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -313,7 +311,6 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		var scheduleTemp Schedule
 		if err := rows.Scan(
 				&scheduleTemp.Id,
-				&scheduleTemp.Month,
 				&scheduleTemp.Date,
 				&scheduleTemp.Time,
 				&scheduleTemp.DeparturePlace,
@@ -326,7 +323,6 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		scheduleTemp.Id = strings.TrimRight(scheduleTemp.Id, " ")
-		scheduleTemp.Month = strings.TrimRight(scheduleTemp.Month, " ")
 		scheduleTemp.Date = strings.TrimRight(scheduleTemp.Date, " ")
 		scheduleTemp.Time = strings.TrimRight(scheduleTemp.Time, " ")
 		scheduleTemp.DeparturePlace = strings.TrimRight(scheduleTemp.DeparturePlace, " ")

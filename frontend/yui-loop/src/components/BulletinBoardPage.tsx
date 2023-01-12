@@ -19,12 +19,12 @@ const BulletinBoardPage:FC = () => {
 
     const AddWaitingPassenger = () => {
       const id = appContext.id;
+      const date = appContext.date;
       const time = appContext.timeToAdd;
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
       const capacity = appContext.capacityToAdd;
       const memo = appContext.memo;
-      const date = appContext.date;
       const userName = appContext.userName;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
