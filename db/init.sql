@@ -6,7 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE schedules (
     id SERIAL NOT NULL PRIMARY KEY,
-    date DATE NOT NULL,
+    date CHARACTER(255) NOT NULL,
     time CHARACTER(255) NOT NULL,
     departure_place CHARACTER(255) NOT NULL,
     destination CHARACTER(255) NOT NULL,

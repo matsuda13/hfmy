@@ -30,5 +30,6 @@ func main() {
 	http.HandleFunc("/get-schedule", server.GetSchedule)
 	http.HandleFunc("/post-schedule", server.PostSchedule)
 	http.HandleFunc("/delete-schedule", server.DeleteSchedule)
+	http.HandleFunc("/delete-expired-schedule", server.DeleteExpiredSchedule)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

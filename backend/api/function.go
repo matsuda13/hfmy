@@ -31,6 +31,10 @@ type SignInRequest struct {
 	Password	string `json:"password"`
 }
 
+type scheduleDeleteRequest struct {
+	Id string `json:"id"`
+}
+
 type schedulePostRequest struct {
 	Date string `json:"date"`
 	Time string `json:"time"`
@@ -39,10 +43,6 @@ type schedulePostRequest struct {
 	Capacity string `json:"capacity"`
 	Memo string `json:"memo"`
 	UserName string `json:"userName"`	
-}
-
-type scheduleDeleteRequest struct {
-	Id string `json:"id"`
 }
 
 type Schedule struct {
@@ -259,9 +259,24 @@ func (s *Server) DeleteSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Println(scheduleDeleteRequest)
-	queryToRegisterSchedule := fmt.Sprintf("DELETE FROM schedules WHERE id=%s",scheduleDeleteRequest.Id)
-	_, queryError := s.Db.Exec(queryToRegisterSchedule)
+	queryToDeleteSchedule := fmt.Sprintf("DELETE FROM schedules WHERE id=%s", scheduleDeleteRequest.Id)
+	_, queryError := s.Db.Exec(queryToDeleteSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) DeleteExpiredSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method!= http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToDeleteExpiredSchedule := fmt.Sprintf("DELETE FROM schedules WHERE cast(date as date) < CURRENT_DATE")
+	_, queryError := s.Db.Exec(queryToDeleteExpiredSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
 		w.WriteHeader(http.StatusBadRequest)
