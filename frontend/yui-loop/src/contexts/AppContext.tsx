@@ -11,6 +11,8 @@ export interface AppState {
     userName: string,
     setUserName: Dispatch<SetStateAction<string>>,
     id: string
+    date: string
+    setDate: React.Dispatch<React.SetStateAction<string>>
     timeToAdd: string
     setTimeToAdd: React.Dispatch<React.SetStateAction<string>>
     departurePlaceToAdd: string
@@ -24,8 +26,6 @@ export interface AppState {
     deleteWaitingPassenger: Function
     memo: string
     setMemo: React.Dispatch<React.SetStateAction<string>>
-    date: string
-    setDate: React.Dispatch<React.SetStateAction<string>>
     isErrorState:boolean
     setIsErrorState:React.Dispatch<React.SetStateAction<boolean>>
     notMoveErrorMessage:string
@@ -38,13 +38,13 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [userName, setUserName] = useState('');
     const [id, _] = useState("");
+    const [date, setDate] = useState<string>(new Date().toLocaleDateString());
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
     const [departurePlaceToAdd, setDeparturePlaceToAdd] = useState("工学部駐車場");
     const [destinationToAdd, setDestinationToAdd] = useState("工学部駐車場");
     const [capacityToAdd, setCapacityToAdd] = useState("1");
     const [waitingPassengers, setWaitingPassengers] = useState<Array<WaitingPassengerType>>([]);
     const [memo, setMemo] = useState<string>("");
-    const [date, setDate] = useState<string>(new Date().toLocaleDateString());
     const [isErrorState, setIsErrorState] = useState<boolean>(false)
     const [notMoveErrorMessage, setNotMoveErrorMessage] = useState<string>("")
     const deleteWaitingPassenger = (id:number) => {
@@ -60,6 +60,8 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             userName,
             setUserName,
             id,
+            date,
+            setDate,
             timeToAdd,
             setTimeToAdd,
             departurePlaceToAdd,
@@ -73,8 +75,6 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             deleteWaitingPassenger,
             memo,
             setMemo,
-            date,
-            setDate,
             isErrorState,
             setIsErrorState,
             notMoveErrorMessage,

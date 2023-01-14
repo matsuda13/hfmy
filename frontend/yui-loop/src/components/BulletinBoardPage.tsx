@@ -1,11 +1,12 @@
 import React, {FC, useState, useContext, useEffect} from 'react'
+import Modal from 'react-modal';
+import { useNavigate } from "react-router-dom";
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
-import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 import postSchedule from '../functions/async/PostSchedule'; 
 import fetchSchedule from '../functions/async/FetchSchedule';
-import { useNavigate } from "react-router-dom";
+import deleteExpiredSchedule from '../functions/async/DeleteExpiredSchedule';
 
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
@@ -14,17 +15,18 @@ const BulletinBoardPage:FC = () => {
     const closeCarpoolModal = () => { setIsOpenCarpoolModal(false); appContext.setIsErrorState(false); appContext.setNotMoveErrorMessage("");};
     const navigate = useNavigate();
     useEffect(() => {
+      handleDeleteExpiredSchedule();
       handleFetchSchedule();
     }, [isCarpoolModalOpen]);
 
     const AddWaitingPassenger = () => {
       const id = appContext.id;
+      const date = appContext.date;
       const time = appContext.timeToAdd;
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
       const capacity = appContext.capacityToAdd;
       const memo = appContext.memo;
-      const date = appContext.date;
       const userName = appContext.userName;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
@@ -72,6 +74,9 @@ const BulletinBoardPage:FC = () => {
     const handleFetchSchedule = () => {
       fetchSchedule(appContext);
     };
+    const handleDeleteExpiredSchedule = () => {
+      deleteExpiredSchedule();
+    };
     return (
         <>
             <button onClick={()=> {
@@ -80,7 +85,9 @@ const BulletinBoardPage:FC = () => {
               }else{
                 navigate('/');
                 }}}>相乗り相手を募集する</button>
-            <button onClick={handleFetchSchedule}>更新</button>
+            <button onClick={()=>{
+              handleDeleteExpiredSchedule();
+              handleFetchSchedule();}}>更新</button>
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}
