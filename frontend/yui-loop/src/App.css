@@ -1,6 +1,33 @@
-.App {
+.wrapper {
   text-align: center;
   color: #7f1184;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(90deg, rgba(103, 126, 250, 1), rgba(142, 84, 219, 1));
+
+}
+
+.new-btn-img {
+  padding-left: 40px;
+  line-height: 30px;
+  background-color: aliceblue;
+  background: url(./images/newButton.png) no-repeat;
+  background-size: 25%;
+}
+
+.temp {
+  border: 1px solid #7f1184;
+  width: 30px;
+  height: 30px;
+  background: url(./images/newButton.png) no-repeat;
+  background-size: 100%;
+  
+}
+
+.add-reload-btns {
+  text-align: center;
 }
 
 .CarpoolModal {
@@ -30,4 +57,8 @@
 .card:hover{
 
   box-shadow: 1px 1px 20px 10px rgba(98, 1, 167, 0.25);
+}
+
+p {
+  white-space: pre-wrap;
 }
