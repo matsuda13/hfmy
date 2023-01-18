@@ -10,6 +10,10 @@ export interface AppState {
     setIsSignedIn: Dispatch<SetStateAction<boolean>>,
     userName: string,
     setUserName: Dispatch<SetStateAction<string>>,
+    gender: string,
+    setGender: React.Dispatch<React.SetStateAction<string>>,
+    grade: string,
+    setGrade: React.Dispatch<React.SetStateAction<string>>,
     id: string
     date: string
     setDate: React.Dispatch<React.SetStateAction<string>>
@@ -36,7 +40,9 @@ export const AppContext = React.createContext({} as AppState);
 
 export const AppContextProvider: FC<Props> = ({ children }) => {
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState("");
+    const [gender, setGender] = useState("");
+    const [grade, setGrade] = useState("");
     const [id, _] = useState("");
     const [date, setDate] = useState<string>(new Date().toLocaleDateString());
     const [timeToAdd, setTimeToAdd] = useState("1限休み(10:00~10:10)");
@@ -59,6 +65,10 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
             setIsSignedIn,
             userName,
             setUserName,
+            gender,
+            setGender,
+            grade,
+            setGrade,
             id,
             date,
             setDate,

@@ -1,6 +1,8 @@
 CREATE TABLE users (
     id SERIAL NOT NULL PRIMARY KEY,
     name CHARACTER(255) NOT NULL UNIQUE,
+    gender CHARACTER(255) NOT NULL,
+    grade CHARACTER(255) NOT NULL,
     password_hash CHARACTER(255) NOT NULL
 );
 
@@ -12,5 +14,7 @@ CREATE TABLE schedules (
     destination CHARACTER(255) NOT NULL,
     capacity CHARACTER(255) NOT NULL,
     memo CHARACTER(255) NOT NULL,
-    userName CHARACTER(255) NOT NULL
+    userName CHARACTER(255) NOT NULL,
+    gender CHARACTER(255) NOT NULL,
+    grade CHARACTER(255) NOT NULL
 );
