@@ -1,7 +1,8 @@
 import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC, useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
-import deleteSchedule from "../functions/async/DeleteSchedule"
+import deleteSchedule from "../functions/async/DeleteSchedule";
+import sendCarpoolRequest from '../functions/async/SendCarpoolRequest';
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
@@ -15,6 +16,10 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
   const handleDeleteSchedule = (id: string) => {
     deleteSchedule(id);
   };
+
+  const handleCarpoolRequestButtonClick = () => {
+    
+  }
   return (
     <>
       <div className="card">
@@ -29,7 +34,10 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
           appContext.deleteWaitingPassenger(props.id);
           handleDeleteSchedule(wp.id);
           }}>募集中止</button>
-        ):(<></>)}
+        ):(<button onClick={()=>{
+          handleCarpoolRequestButtonClick();
+        }}>相乗りリクエストを送信</button>
+        )}
       </div>
     </>
   )
