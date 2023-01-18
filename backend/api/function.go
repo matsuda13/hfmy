@@ -22,6 +22,8 @@ type Server struct {
 
 type SignUpRequest struct {
 	Name					string `json:"name"`
+	Gender					string `json:"gender"`
+	Grade					string `json:"grade"`
 	Password				string `json:"password"`
 	PasswordConfirmination	string `json:"passwordConfirmination"`
 }
@@ -36,28 +38,34 @@ type scheduleDeleteRequest struct {
 }
 
 type schedulePostRequest struct {
-	Date string `json:"date"`
-	Time string `json:"time"`
-	DeparturePlace string `json:"departurePlace"`
-	Destination string `json:"destination"`
-	Capacity string `json:"capacity"`
-	Memo string `json:"memo"`
-	UserName string `json:"userName"`	
+	Date			string `json:"date"`
+	Time			string `json:"time"`
+	DeparturePlace	string `json:"departurePlace"`
+	Destination		string `json:"destination"`
+	Capacity		string `json:"capacity"`
+	Memo			string `json:"memo"`
+	UserName		string `json:"userName"`
+	Gender			string `json:"gender"`
+	Grade			string `json:"grade"` 
 }
 
 type Schedule struct {
-	Id string `json:"id"`
-	Date string `json:"date"`
-	Time string `json:"time"`
-	DeparturePlace string `json:"departurePlace"`
-	Destination string `json:"destination"`
-	Capacity string `json:"capacity"`	
-	Memo string `json:"memo"`
-	UserName string `json:"userName"`
+	Id				string `json:"id"`
+	Date			string `json:"date"`
+	Time			string `json:"time"`
+	DeparturePlace	string `json:"departurePlace"`
+	Destination		string `json:"destination"`
+	Capacity		string `json:"capacity"`	
+	Memo			string `json:"memo"`
+	UserName		string `json:"userName"`
+	Gender			string `json:"gender"`
+	Grade			string `json:"grade"`
 }
 
 type SignUpResponse struct {
-	Name string `json:"name"`
+	Name	string `json:"name"`
+	Gender	string `json:"gender"`
+	Grade	string `json:"grade"`
 }
 
 type SignInResponse struct {
@@ -167,7 +175,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	passwordHash32Byte := sha256.Sum256([]byte(signUpRequest.Password))
 	passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-	queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s')", signUpRequest.Name, passwordHashURLSafe)
+	queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, gender, grade, password_hash) VALUES ('%s', '%s', '%s', '%s')", signUpRequest.Name, signUpRequest.Gender, signUpRequest.Grade, passwordHashURLSafe)
 	_, queryError := s.Db.Exec(queryToReGisterUser)
 	if queryError != nil {
 		log.Println("[ERROR]", queryToReGisterUser)
@@ -178,6 +186,8 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	response := SignUpResponse {
 		Name: signUpRequest.Name,
+		Gender: signUpRequest.Gender,
+		Grade: signUpRequest.Grade,
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
@@ -299,7 +309,7 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (date, time, departure_place, destination, capacity, memo, userName) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (date, time, departure_place, destination, capacity, memo, userName, gender, grade) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName, schedulePostRequest.Gender, schedulePostRequest.Grade)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -315,7 +325,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName, gender, grade FROM schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -333,6 +343,8 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 				&scheduleTemp.Capacity,
 				&scheduleTemp.Memo,
 				&scheduleTemp.UserName,
+				&scheduleTemp.Gender,
+				&scheduleTemp.Grade,
 			); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -345,6 +357,8 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		scheduleTemp.Capacity = strings.TrimRight(scheduleTemp.Capacity, " ")
 		scheduleTemp.Memo = strings.TrimRight(scheduleTemp.Memo, " ")
 		scheduleTemp.UserName = strings.TrimRight(scheduleTemp.UserName, " ")
+		scheduleTemp.Gender = strings.TrimRight(scheduleTemp.Gender, " ")
+		scheduleTemp.Grade = strings.TrimRight(scheduleTemp.Grade, " ")
 		schedules = append(schedules, scheduleTemp)
 	}
 	if err := rows.Err(); err != nil {

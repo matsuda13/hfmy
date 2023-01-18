@@ -28,6 +28,8 @@ const BulletinBoardPage:FC = () => {
       const capacity = appContext.capacityToAdd;
       const memo = appContext.memo;
       const userName = appContext.userName;
+      const gender = appContext.gender;
+      const grade = appContext.grade;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
@@ -41,6 +43,8 @@ const BulletinBoardPage:FC = () => {
               capacity,
               memo,
               userName,
+              gender,
+              grade,
             }
           ]
         )} else {
@@ -55,6 +59,8 @@ const BulletinBoardPage:FC = () => {
                 capacity,
                 memo,
                 userName,
+                gender,
+                grade,
               }
             ]
           )
@@ -62,14 +68,14 @@ const BulletinBoardPage:FC = () => {
     };
     const InitializeCarpoolModal = () => {
       appContext.setDate(new Date().toLocaleDateString());
-      appContext.setMemo("");
       appContext.setTimeToAdd("1限休み(10:00~10:10)");
       appContext.setDeparturePlaceToAdd("工学部駐車場");
       appContext.setDestinationToAdd("工学部駐車場");
       appContext.setCapacityToAdd("1");
+      appContext.setMemo("");
     };
     const handlePostSchedule = () => {
-      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo, appContext.userName);
+      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo, appContext.userName, appContext.gender, appContext.grade);
     };
     const handleFetchSchedule = () => {
       fetchSchedule(appContext);

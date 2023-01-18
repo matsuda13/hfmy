@@ -3,6 +3,10 @@
   color: #7f1184;
 }
 
+.gender {
+  display: flex;
+}
+
 .CarpoolModal {
   display: flex;
   justify-content: center;

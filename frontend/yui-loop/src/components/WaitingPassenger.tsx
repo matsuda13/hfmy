@@ -19,7 +19,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
     <>
       <div className="card">
         <br/>
-        募集者：{wp.userName}<br/>
+        募集者：{wp.userName}　性別：{wp.gender}　学年：{wp.grade}<br/>
         出発時間：{wp.date}　{wp.time}<br/>
         出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>
         定員：{wp.capacity}<br/>
