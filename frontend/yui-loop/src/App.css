@@ -1,30 +1,64 @@
+html,body{
+  overflow: hidden;
+}
+
 .wrapper {
-  text-align: center;
   color: #7f1184;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(90deg, rgba(103, 126, 250, 1), rgba(142, 84, 219, 1));
+  background-image: linear-gradient(90deg, rgba(103, 126, 250, 0.5), rgba(142, 84, 219, 0.5));
 
 }
 
-.new-btn-img {
-  padding-left: 40px;
-  line-height: 30px;
-  background-color: aliceblue;
-  background: url(./images/newButton.png) no-repeat;
-  background-size: 25%;
+.login-container {
+  width: 100%;
+  height: 70%;
+  text-align: center;
 }
 
-.temp {
-  border: 1px solid #7f1184;
-  width: 30px;
-  height: 30px;
-  background: url(./images/newButton.png) no-repeat;
+.menue-icon {
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 120px;
+  display: block;
+  background-image: url(./images/YUI-LOOP.png);
+  background-repeat: no-repeat;
   background-size: 100%;
-  
 }
+
+.no-login-into {
+  padding: 1% 1%;
+  width: 80%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(230,249,252, 0.7);
+  box-shadow: 4px 4px 13px 5px rgba(98, 1, 167, 0.25);
+  color: black;
+}
+
+.into-text {
+  text-align: left;
+}
+
+.orange-line {
+  background-color: #FCD07E;
+}
+
+.green-line {
+  background-color: #c7dba7;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
 
 .add-reload-btns {
   text-align: center;
