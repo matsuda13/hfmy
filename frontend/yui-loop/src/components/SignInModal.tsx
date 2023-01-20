@@ -37,12 +37,12 @@ function SignInModal() {
     };
     return (
         <div>
-            <button type="button" onClick={openModal}>サインイン</button>
+            <button className="menue-btn" type="button" onClick={openModal}><span>サインイン</span></button>
             <Modal
                 isOpen={isModalOpen}
                 ariaHideApp={false}
             >
-                <button onClick={() => handleCancel()}>キャンセル</button>
+                <button className="menue-btn" onClick={() => handleCancel()}><span>キャンセル</span></button>
                 <div className='user-name'>
                     <label>ユーザー名</label>
                     <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
@@ -52,7 +52,7 @@ function SignInModal() {
                     <input type="password" value={password} onChange={handlePasswordChange}placeholder='パスワード'></input>
                 </div>
                 <p>{errorMessage}</p>
-                <button onClick={() => handleSignIn()}>送信</button>
+                <button className="menue-btn" onClick={() => handleSignIn()}><span>送信</span></button>
             </Modal>
         </div>
     );

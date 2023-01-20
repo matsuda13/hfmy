@@ -1,26 +1,44 @@
 import React, { useContext, useEffect } from 'react';
+import { useState } from 'react';
+import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 
 const SignInIntroduction = () => {
     const appContext = useContext(AppContext);
-    return (
-            <p>{appContext.isSignedIn ? (
-                <div>
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleModal = () => { setIsModalOpen(prevState => !prevState); };
 
+    return (
+        <>  
+            <button className='menue-btn' type='button' onClick={handleModal}><span>YUI LOOPの説明</span></button>
+            <Modal
+                isOpen={isModalOpen}
+                ariaHideApp={false}
+                className="into-modal"
+                overlayClassName="overlay"
+                onRequestClose={handleModal}
+            >
+                            <p>{appContext.isSignedIn ? (
+                <div>
                 </div>
                 ):(
                     <>
-                        <div className='no-login-into'>
+                        <div className='example-text'>
                             <p>YUI LOOPとは。</p>
                             <p className='text-bold'>移動に<span className='orange-line'>困っている</span>学生<br/>×<br/>移動を<span className='green-line'>助けたい</span>学生</p>
                             <p>
-                            　運転してくれる学生ドライバーと<br/>乗せてもらいたい学生をつなぐ<br/>マッチングアプリです。  
+                            運転してくれる学生と<br/>乗せてもらいたい学生をつなぐ<br/>マッチングアプリです。  
                             </p>
+                            <button type='button' onClick={handleModal}>閉じる</button>
                         </div>
+
                     </>
 
                 )}
             </p>
+            </Modal>
+
+        </>
     );
 };
 
