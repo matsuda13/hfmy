@@ -5,14 +5,24 @@ CREATE TABLE users (
     grade CHARACTER(255) NOT NULL,
     password_hash CHARACTER(255) NOT NULL
 );
-
-CREATE TABLE schedules (
+CREATE TABLE driver_schedules (
     id SERIAL NOT NULL PRIMARY KEY,
     date CHARACTER(255) NOT NULL,
     time CHARACTER(255) NOT NULL,
     departure_place CHARACTER(255) NOT NULL,
     destination CHARACTER(255) NOT NULL,
     capacity CHARACTER(255) NOT NULL,
+    memo CHARACTER(255) NOT NULL,
+    userName CHARACTER(255) NOT NULL,
+    gender CHARACTER(255) NOT NULL,
+    grade CHARACTER(255) NOT NULL
+);
+CREATE TABLE passenger_schedules (
+    id SERIAL NOT NULL PRIMARY KEY,
+    date CHARACTER(255) NOT NULL,
+    time CHARACTER(255) NOT NULL,
+    departure_place CHARACTER(255) NOT NULL,
+    destination CHARACTER(255) NOT NULL,
     memo CHARACTER(255) NOT NULL,
     userName CHARACTER(255) NOT NULL,
     gender CHARACTER(255) NOT NULL,

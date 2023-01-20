@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import {Route, Router, Routes} from 'react-router-dom';
 import { AppContext } from './contexts/AppContext';
-import SignInPage from './components/SignInPage';
 import signInWithJwt from './functions/async/SignInWithJwt';
-import BulletinBoardPage from './components/BulletinBoardPage';
+import SignInPage from './components/pages/SignInPage';
+import PassengerWantedPage from './components/pages/PassengerWantedPage';
+import DriverWantedPage from './components/pages/DriverWantedPage';
 import './App.css';
 
 function App() {
@@ -17,8 +18,9 @@ function App() {
       <p>YUI LOOP</p>
       <p>{appContext.isSignedIn ? (<p>こんにちは {appContext.userName} さん</p>):(<p>ログインしてください</p>)}</p>
       <Routes>
-        <Route path="/board" element={<BulletinBoardPage/>}></Route>
         <Route path="/" element={<SignInPage/>}></Route>
+        <Route path="/passenger-wanted-page" element={<PassengerWantedPage/>}></Route>
+        <Route path="/driver-wanted-page" element={<DriverWantedPage/>}></Route>
       </Routes>
     </div>
   );

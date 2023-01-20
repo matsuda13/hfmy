@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState, useContext } from 'react';
 import Modal from 'react-modal';
-import { AppContext } from '../contexts/AppContext';
-import signIn from '../functions/async/SignIn';
+import { AppContext } from '../../contexts/AppContext';
+import signIn from '../../functions/async/SignIn';
 
 function SignInModal() {
     const appContext = useContext(AppContext);

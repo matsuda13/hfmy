@@ -33,11 +33,7 @@ type SignInRequest struct {
 	Password	string `json:"password"`
 }
 
-type scheduleDeleteRequest struct {
-	Id string `json:"id"`
-}
-
-type schedulePostRequest struct {
+type DriverSchedulePostRequest struct {
 	Date			string `json:"date"`
 	Time			string `json:"time"`
 	DeparturePlace	string `json:"departurePlace"`
@@ -49,7 +45,7 @@ type schedulePostRequest struct {
 	Grade			string `json:"grade"` 
 }
 
-type Schedule struct {
+type DriverSchedule struct {
 	Id				string `json:"id"`
 	Date			string `json:"date"`
 	Time			string `json:"time"`
@@ -60,6 +56,45 @@ type Schedule struct {
 	UserName		string `json:"userName"`
 	Gender			string `json:"gender"`
 	Grade			string `json:"grade"`
+}
+
+type DriverScheduleGetResponse struct {
+	DriverSchedules []DriverSchedule `json:"driverSchedules"`
+}
+
+type DriverScheduleDeleteRequest struct {
+	Id string `json:"id"`
+}
+
+type PassengerSchedulePostRequest struct {
+	Date			string `json:"date"`
+	Time			string `json:"time"`
+	DeparturePlace	string `json:"departurePlace"`
+	Destination		string `json:"destination"`
+	Memo			string `json:"memo"`
+	UserName		string `json:"userName"`
+	Gender			string `json:"gender"`
+	Grade			string `json:"grade"` 
+}
+
+type PassengerSchedule struct {
+	Id				string `json:"id"`
+	Date			string `json:"date"`
+	Time			string `json:"time"`
+	DeparturePlace	string `json:"departurePlace"`
+	Destination		string `json:"destination"`	
+	Memo			string `json:"memo"`
+	UserName		string `json:"userName"`
+	Gender			string `json:"gender"`
+	Grade			string `json:"grade"`
+}
+
+type PassengerScheduleGetResponse struct {
+	PassengerSchedules []PassengerSchedule `json:"passengerSchedules"`
+}
+
+type PassengerScheduleDeleteRequest struct {
+	Id string `json:"id"`
 }
 
 type SignUpResponse struct {
@@ -75,10 +110,6 @@ type SignInResponse struct {
 type Claims struct {
 	Name string
 	jwt.StandardClaims
-}
-
-type ScheduleGetResponse struct {
-	Schedules []Schedule `json:"schedules"`
 }
 
 var charset62 = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -254,30 +285,6 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
     w.Write(jsonResponse)
 }
 
-func (s *Server) DeleteSchedule(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Headers", "*")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	if r.Method!= http.MethodPost {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	var scheduleDeleteRequest scheduleDeleteRequest
-	decoder := json.NewDecoder(r.Body)
-	decodeError := decoder.Decode(&scheduleDeleteRequest)
-	if decodeError != nil {
-		log.Println("[ERROR]", decodeError)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	queryToDeleteSchedule := fmt.Sprintf("DELETE FROM schedules WHERE id=%s", scheduleDeleteRequest.Id)
-	_, queryError := s.Db.Exec(queryToDeleteSchedule)
-	if queryError != nil {
-		log.Println("[ERROR]", queryError)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-}
-
 func (s *Server) DeleteExpiredSchedule(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -285,7 +292,7 @@ func (s *Server) DeleteExpiredSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToDeleteExpiredSchedule := fmt.Sprintf("DELETE FROM schedules WHERE cast(date as date) < CURRENT_DATE")
+	queryToDeleteExpiredSchedule := fmt.Sprintf("DELETE FROM driver_schedules WHERE cast(date as date) < CURRENT_DATE")
 	_, queryError := s.Db.Exec(queryToDeleteExpiredSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -294,22 +301,22 @@ func (s *Server) DeleteExpiredSchedule(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
+func (s *Server) PostDriverSchedule(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method!= http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var schedulePostRequest schedulePostRequest
+	var DriverSchedulePostRequest DriverSchedulePostRequest
 	decoder := json.NewDecoder(r.Body)
-	decodeError := decoder.Decode(&schedulePostRequest)
+	decodeError := decoder.Decode(&DriverSchedulePostRequest)
 	if decodeError != nil {
 		log.Println("[ERROR]", decodeError)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (date, time, departure_place, destination, capacity, memo, userName, gender, grade) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName, schedulePostRequest.Gender, schedulePostRequest.Grade)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO driver_schedules (date, time, departure_place, destination, capacity, memo, userName, gender, grade) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", DriverSchedulePostRequest.Date, DriverSchedulePostRequest.Time, DriverSchedulePostRequest.DeparturePlace, DriverSchedulePostRequest.Destination, DriverSchedulePostRequest.Capacity, DriverSchedulePostRequest.Memo, DriverSchedulePostRequest.UserName, DriverSchedulePostRequest.Gender, DriverSchedulePostRequest.Grade)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -318,55 +325,55 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
+func (s *Server) GetDriverSchedule(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if r.Method != http.MethodGet {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName, gender, grade FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName, gender, grade FROM driver_schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	var schedules []Schedule
+	var driverSchedules []DriverSchedule
 	for rows.Next() {
-		var scheduleTemp Schedule
+		var driverScheduleTemp DriverSchedule
 		if err := rows.Scan(
-				&scheduleTemp.Id,
-				&scheduleTemp.Date,
-				&scheduleTemp.Time,
-				&scheduleTemp.DeparturePlace,
-				&scheduleTemp.Destination,
-				&scheduleTemp.Capacity,
-				&scheduleTemp.Memo,
-				&scheduleTemp.UserName,
-				&scheduleTemp.Gender,
-				&scheduleTemp.Grade,
+				&driverScheduleTemp.Id,
+				&driverScheduleTemp.Date,
+				&driverScheduleTemp.Time,
+				&driverScheduleTemp.DeparturePlace,
+				&driverScheduleTemp.Destination,
+				&driverScheduleTemp.Capacity,
+				&driverScheduleTemp.Memo,
+				&driverScheduleTemp.UserName,
+				&driverScheduleTemp.Gender,
+				&driverScheduleTemp.Grade,
 			); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		scheduleTemp.Id = strings.TrimRight(scheduleTemp.Id, " ")
-		scheduleTemp.Date = strings.TrimRight(scheduleTemp.Date, " ")
-		scheduleTemp.Time = strings.TrimRight(scheduleTemp.Time, " ")
-		scheduleTemp.DeparturePlace = strings.TrimRight(scheduleTemp.DeparturePlace, " ")
-		scheduleTemp.Destination = strings.TrimRight(scheduleTemp.Destination, " ")
-		scheduleTemp.Capacity = strings.TrimRight(scheduleTemp.Capacity, " ")
-		scheduleTemp.Memo = strings.TrimRight(scheduleTemp.Memo, " ")
-		scheduleTemp.UserName = strings.TrimRight(scheduleTemp.UserName, " ")
-		scheduleTemp.Gender = strings.TrimRight(scheduleTemp.Gender, " ")
-		scheduleTemp.Grade = strings.TrimRight(scheduleTemp.Grade, " ")
-		schedules = append(schedules, scheduleTemp)
+		driverScheduleTemp.Id = strings.TrimRight(driverScheduleTemp.Id, " ")
+		driverScheduleTemp.Date = strings.TrimRight(driverScheduleTemp.Date, " ")
+		driverScheduleTemp.Time = strings.TrimRight(driverScheduleTemp.Time, " ")
+		driverScheduleTemp.DeparturePlace = strings.TrimRight(driverScheduleTemp.DeparturePlace, " ")
+		driverScheduleTemp.Destination = strings.TrimRight(driverScheduleTemp.Destination, " ")
+		driverScheduleTemp.Capacity = strings.TrimRight(driverScheduleTemp.Capacity, " ")
+		driverScheduleTemp.Memo = strings.TrimRight(driverScheduleTemp.Memo, " ")
+		driverScheduleTemp.UserName = strings.TrimRight(driverScheduleTemp.UserName, " ")
+		driverScheduleTemp.Gender = strings.TrimRight(driverScheduleTemp.Gender, " ")
+		driverScheduleTemp.Grade = strings.TrimRight(driverScheduleTemp.Grade, " ")
+		driverSchedules = append(driverSchedules, driverScheduleTemp)
 	}
 	if err := rows.Err(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	response := ScheduleGetResponse{
-		Schedules: schedules,
+	response := DriverScheduleGetResponse{
+		DriverSchedules: driverSchedules,
 	}
 	responseJson, err := json.Marshal(response)
 	if err != nil {
@@ -375,4 +382,133 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(responseJson)
+}
+
+func (s *Server) DeleteDriverSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method!= http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var DriverScheduleDeleteRequest DriverScheduleDeleteRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&DriverScheduleDeleteRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToDeleteDriverSchedule := fmt.Sprintf("DELETE FROM driver_schedules WHERE id=%s", DriverScheduleDeleteRequest.Id)
+	_, queryError := s.Db.Exec(queryToDeleteDriverSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) PostPassengerSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method!= http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var PassengerSchedulePostRequest PassengerSchedulePostRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&PassengerSchedulePostRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO passenger_schedules (date, time, departure_place, destination, memo, userName, gender, grade) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", PassengerSchedulePostRequest.Date, PassengerSchedulePostRequest.Time, PassengerSchedulePostRequest.DeparturePlace, PassengerSchedulePostRequest.Destination, PassengerSchedulePostRequest.Memo, PassengerSchedulePostRequest.UserName, PassengerSchedulePostRequest.Gender, PassengerSchedulePostRequest.Grade)
+	_, queryError := s.Db.Exec(queryToRegisterSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) GetPassengerSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, memo, userName, gender, grade FROM passenger_schedules")
+	rows, queryError := s.Db.Query(queryToFetchSchedules)
+	if queryError != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var passengerSchedules []PassengerSchedule
+	for rows.Next() {
+		var passengerScheduleTemp PassengerSchedule
+		if err := rows.Scan(
+				&passengerScheduleTemp.Id,
+				&passengerScheduleTemp.Date,
+				&passengerScheduleTemp.Time,
+				&passengerScheduleTemp.DeparturePlace,
+				&passengerScheduleTemp.Destination,
+				&passengerScheduleTemp.Memo,
+				&passengerScheduleTemp.UserName,
+				&passengerScheduleTemp.Gender,
+				&passengerScheduleTemp.Grade,
+			); err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		passengerScheduleTemp.Id = strings.TrimRight(passengerScheduleTemp.Id, " ")
+		passengerScheduleTemp.Date = strings.TrimRight(passengerScheduleTemp.Date, " ")
+		passengerScheduleTemp.Time = strings.TrimRight(passengerScheduleTemp.Time, " ")
+		passengerScheduleTemp.DeparturePlace = strings.TrimRight(passengerScheduleTemp.DeparturePlace, " ")
+		passengerScheduleTemp.Destination = strings.TrimRight(passengerScheduleTemp.Destination, " ")
+		passengerScheduleTemp.Memo = strings.TrimRight(passengerScheduleTemp.Memo, " ")
+		passengerScheduleTemp.UserName = strings.TrimRight(passengerScheduleTemp.UserName, " ")
+		passengerScheduleTemp.Gender = strings.TrimRight(passengerScheduleTemp.Gender, " ")
+		passengerScheduleTemp.Grade = strings.TrimRight(passengerScheduleTemp.Grade, " ")
+		passengerSchedules = append(passengerSchedules, passengerScheduleTemp)
+	}
+	if err := rows.Err(); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	response := PassengerScheduleGetResponse{
+		PassengerSchedules: passengerSchedules,
+	}
+	responseJson, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(responseJson)
+}
+
+func (s *Server) DeletePassengerSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method!= http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var PassengerScheduleDeleteRequest PassengerScheduleDeleteRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&PassengerScheduleDeleteRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToDeletePassengerSchedule := fmt.Sprintf("DELETE FROM passenger_schedules WHERE id=%s", PassengerScheduleDeleteRequest.Id)
+	_, queryError := s.Db.Exec(queryToDeletePassengerSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 }

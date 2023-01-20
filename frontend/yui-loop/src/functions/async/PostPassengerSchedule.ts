@@ -1,26 +1,24 @@
 import { AppState } from "../../contexts/AppContext";
 
-export default async function postSchedule(
+export default async function postPassengerSchedule(
     appContext: AppState,
     date: string,
     time: string,
     departurePlace: string,
     destination: string,
-    capacity: string,
     memo: string,
     userName: string,
     gender: string,
     grade: string,
 ) {
-    const postScheduleURL = process.env.REACT_APP_API_URL + '/post-schedule';
-    await fetch(postScheduleURL, {
+    const postPassengerScheduleURL = process.env.REACT_APP_API_URL + '/post-passenger-schedule';
+    await fetch(postPassengerScheduleURL, {
         method: 'POST',
         body: JSON.stringify({
             date,
             time,
             departurePlace,
             destination,
-            capacity,
             memo,
             userName,
             gender,

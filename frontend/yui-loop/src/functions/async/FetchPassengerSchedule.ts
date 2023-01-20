@@ -1,10 +1,10 @@
 import { AppState } from "../../contexts/AppContext";
 
-export default async function fetchSchedule(
+export default async function fetchPassengerSchedule(
     appContext: AppState,
 ) {
-    const fetchScheduleURL = process.env.REACT_APP_API_URL + '/get-schedule';
-    await fetch(fetchScheduleURL, {
+    const fetchPassengerScheduleURL = process.env.REACT_APP_API_URL + '/get-passenger-schedule';
+    await fetch(fetchPassengerScheduleURL, {
         method: 'GET',
     })
         .then((response) => {
@@ -14,7 +14,7 @@ export default async function fetchSchedule(
             return Promise.reject();
         })
         .then((json) => {
-            appContext.setWaitingPassengers(json!.schedules);
+            appContext.setWaitingPassengers(json!.passengerSchedules);
             return Promise.resolve();
         });
 }

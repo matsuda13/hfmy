@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AppContext } from '../contexts/AppContext';
-import SignUpModal from "./SignUpModal";
-import SignInModal from "./SignInModal";
+import { AppContext } from '../../contexts/AppContext';
+import SignUpModal from '../modals/SignUpModal';
+import SignInModal from '../modals/SignInModal';
 
 const SignInPage = () => {
     const navigate = useNavigate();
     const appContext = useContext(AppContext);
 
-    const navigateToBulletinBoardPage = () => {
-        navigate('/board');
+    const navigateToPassengerWantedPage = () => {
+        navigate('/passenger-wanted-page');
     };
     const ComponentsToRenderIfNotSignedIn = () => {
         if (!appContext?.isSignedIn) {
@@ -21,7 +21,7 @@ const SignInPage = () => {
             );
         }
         return (
-            <button onClick={navigateToBulletinBoardPage}>YUI LOOPを利用する</button>
+            <button onClick={navigateToPassengerWantedPage}>YUI LOOPを利用する</button>
         );
     };
     return (

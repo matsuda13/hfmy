@@ -1,34 +1,34 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import React,{ ChangeEvent, useContext } from 'react'
-import { AppContext } from '../contexts/AppContext';
+import { AppContext } from '../../contexts/AppContext'
 
-const CarpoolModal = () => {
+const PassengerWantedModal = () => {
   const appContext = useContext(AppContext);
 
   const selectTime = (event: ChangeEvent<HTMLSelectElement>) => {
-    appContext.setTimeToAdd(event.target.value);
+    appContext.setDsTimeToAdd(event.target.value);
   };
   const selectDeparturePlace = (event: ChangeEvent<HTMLSelectElement>) => {
-    appContext.setDeparturePlaceToAdd(event.target.value);
+    appContext.setDsDeparturePlaceToAdd(event.target.value);
   };
   const selectDestination = (event: ChangeEvent<HTMLSelectElement>) => {
-    appContext.setDestinationToAdd(event.target.value);
+    appContext.setDsDestinationToAdd(event.target.value);
   };
   const selectCapacity = (event: ChangeEvent<HTMLSelectElement>) => {
-    appContext.setCapacityToAdd(event.target.value);
+    appContext.setDsCapacityToAdd(event.target.value);
   };
   const onInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    appContext.setMemo(event.target.value);
+    appContext.setDsMemo(event.target.value);
   };
   return (
     <div>
         <p>日付:
-        <DatePicker dateFormat="yyyy/MM/dd" value={appContext.date}
+        <DatePicker dateFormat="yyyy/MM/dd" value={appContext.dsDate}
         minDate={new Date()}
         onChange={(date) => {
                       date &&
-                      appContext.setDate(date.toLocaleDateString())
+                      appContext.setDsDate(date.toLocaleDateString())
                 }}/>
         </p>
         <p>募集条件を選択してください</p>
@@ -79,4 +79,4 @@ const CarpoolModal = () => {
     </div>
   )
 }
-export default CarpoolModal;
+export default PassengerWantedModal;
