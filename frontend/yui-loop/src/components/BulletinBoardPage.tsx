@@ -30,6 +30,7 @@ const BulletinBoardPage:FC = () => {
       const userName = appContext.userName;
       const gender = appContext.gender;
       const grade = appContext.grade;
+      const candidates = appContext.candidates;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
@@ -45,6 +46,7 @@ const BulletinBoardPage:FC = () => {
               userName,
               gender,
               grade,
+              candidates
             }
           ]
         )} else {
@@ -61,6 +63,7 @@ const BulletinBoardPage:FC = () => {
                 userName,
                 gender,
                 grade,
+                candidates
               }
             ]
           )
@@ -93,7 +96,8 @@ const BulletinBoardPage:FC = () => {
                 }}}>相乗り相手を募集する</button>
             <button onClick={()=>{
               handleDeleteExpiredSchedule();
-              handleFetchSchedule();}}>更新</button>
+              handleFetchSchedule();
+              }}>更新</button>
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}

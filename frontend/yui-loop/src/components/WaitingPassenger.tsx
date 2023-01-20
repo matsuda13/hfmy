@@ -3,6 +3,7 @@ import React, { FC, useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 import deleteSchedule from "../functions/async/DeleteSchedule";
 import sendCarpoolRequest from '../functions/async/SendCarpoolRequest';
+import { useNavigate } from 'react-router-dom';
 
 interface WaitingPassengerProps {
   waitingPassenger: WaitingPassengerType,
@@ -12,13 +13,22 @@ interface WaitingPassengerProps {
 const WaitingPassenger: FC<WaitingPassengerProps> = (props) => { 
   const wp = props.waitingPassenger;
   const appContext = useContext(AppContext);
+  const navigate = useNavigate();
 
   const handleDeleteSchedule = (id: string) => {
     deleteSchedule(id);
   };
 
-  const handleCarpoolRequestButtonClick = () => {
-    
+  const handleCarpoolRequestButtonClick = (id: string, userName:string) => {
+    console.log("現在の希望者：",wp.candidates)
+    const n_req = wp.candidates.split(",").length
+    const n_cap = Number(wp.capacity)
+    console.log(n_cap, "vs" ,n_req-1)
+    if (n_cap > n_req-1) {
+      sendCarpoolRequest(id, userName);
+    } else {
+      console.log("定員を超えていますよ")
+    }
   }
   return (
     <>
@@ -28,6 +38,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         出発時間：{wp.date}　{wp.time}<br/>
         出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>
         定員：{wp.capacity}<br/>
+        乗りたい人：{wp.candidates}<br/>
         備考：{wp.memo}<br/>
         {appContext.userName==wp.userName ? (
           <button onClick={()=>{
@@ -35,7 +46,11 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
           handleDeleteSchedule(wp.id);
           }}>募集中止</button>
         ):(<button onClick={()=>{
-          handleCarpoolRequestButtonClick();
+          if(appContext.userName!=""){
+            handleCarpoolRequestButtonClick(wp.id, appContext.userName);
+          }else{
+            navigate('/');
+          }
         }}>相乗りリクエストを送信</button>
         )}
       </div>

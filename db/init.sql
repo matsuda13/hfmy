@@ -17,5 +17,5 @@ CREATE TABLE schedules (
     userName CHARACTER(255) NOT NULL,
     gender CHARACTER(255) NOT NULL,
     grade CHARACTER(255) NOT NULL,
-    candidates CHARACTER(255)
+    candidates CHARACTER(255) NOT NULL
 );

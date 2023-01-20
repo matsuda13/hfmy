@@ -1,14 +1,11 @@
-import { json } from "stream/consumers";
-import { AppState } from "../../contexts/AppContext";
-
-export default async function SendCarpoolRequest(
-    userName: string,
-    
-) {
-    const sendRequestURL = process.env.REACT_APP_API_URL + '/sendRequest';
-    await fetch(sendRequestURL, {
+export default async function SendCarpoolRequest(id:string, userName:string) {
+    const deleteScheduleURL = process.env.REACT_APP_API_URL + '/send-carpool-request';
+    await fetch(deleteScheduleURL, {
         method: 'POST',
-        body: JSON.stringify({"userName":userName})
+        body: JSON.stringify({
+            "id":id,
+            "userName":userName
+        })
     })
         .then((response) => {
             if (response.statusText === 'OK') {

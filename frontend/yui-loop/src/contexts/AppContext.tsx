@@ -6,6 +6,7 @@ interface Props {
 }
 
 export interface AppState {
+    candidates: string,
     isSignedIn: boolean,
     setIsSignedIn: Dispatch<SetStateAction<boolean>>,
     userName: string,
@@ -39,6 +40,7 @@ export interface AppState {
 export const AppContext = React.createContext({} as AppState);
 
 export const AppContextProvider: FC<Props> = ({ children }) => {
+    const [candidates, __] = useState<string>("")
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [userName, setUserName] = useState("");
     const [gender, setGender] = useState("");
@@ -61,6 +63,7 @@ export const AppContextProvider: FC<Props> = ({ children }) => {
     }
     return (
         <AppContext.Provider value={{
+            candidates,
             isSignedIn,
             setIsSignedIn,
             userName,
