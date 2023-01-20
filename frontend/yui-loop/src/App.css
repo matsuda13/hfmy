@@ -3,13 +3,11 @@ html,body{
 }
 
 .wrapper {
-  color: #7f1184;
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(90deg, rgba(103, 126, 250, 0.5), rgba(142, 84, 219, 0.5));
-
+  background-image: linear-gradient(0deg, rgba(252, 154, 216, 0.3) 12%, rgba(144, 73, 250, 0.4) 57%, rgba(72, 75, 254, 0.5) 93%);
 }
 
 .login-container {
@@ -28,6 +26,24 @@ html,body{
   background-image: url(./images/YUI-LOOP.png);
   background-repeat: no-repeat;
   background-size: 100%;
+}
+
+.board-icon {
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1px;
+  display: block;
+  background-image: url(./images/YUI-LOOP.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.menue-text {
+  font-family: Courier;
+  color: black;
+  font-size: 13px;
 }
 
 .no-login-into {
@@ -62,6 +78,8 @@ html,body{
 
 .add-reload-btns {
   text-align: center;
+  position: sticky;
+  top: 0;
 }
 
 .CarpoolModal {

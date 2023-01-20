@@ -4,8 +4,9 @@ import { AppContext } from './contexts/AppContext';
 import SignInPage from './components/SignInPage';
 import signInWithJwt from './functions/async/SignInWithJwt';
 import BulletinBoardPage from './components/BulletinBoardPage';
-import SignInTitle from './components/SignInTitle'
-import SignInIntroduction from './components/SignInIntroduction'
+import SignInTitle from './components/SignInTitle';
+import SignInIntroduction from './components/SignInIntroduction';
+import BoardTitle from './components/BoardTitle';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
     <div className="wrapper">
       <div className="login-container"> 
         <Routes>
+          <Route path="/board" element={<BoardTitle/>}></Route>
           <Route path="/" element={<SignInTitle/>}></Route>
         </Routes>
         <Routes>
