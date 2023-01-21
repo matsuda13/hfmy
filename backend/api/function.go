@@ -10,6 +10,7 @@ import (
 	"log"
 	"math/big"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -260,6 +261,50 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonResponse)
 }
 
+func (s *Server) CancelCarpoolRequest(w http.ResponseWriter, r *http.Request) {
+	log.Println("cancel func start")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var CarpoolRequest CarpoolRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&CarpoolRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var (
+		candidates *string
+		capacity   *string
+	)
+	queryToFetchCandidates := fmt.Sprintf("SELECT capacity, candidates FROM schedules where id=%s", CarpoolRequest.Id)
+	err := s.Db.QueryRow(queryToFetchCandidates).Scan(&capacity, &candidates)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	candidates_list := strings.Split(*candidates, ",")
+	for index, name := range candidates_list {
+		if name == CarpoolRequest.UserName {
+			candidates_list = append(candidates_list[:index], candidates_list[index+1:]...)
+		}
+	}
+	candidates_updated := strings.Join(candidates_list, ",")
+	log.Println(candidates)
+	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = '%s'  WHERE id=%s", candidates_updated, CarpoolRequest.Id)
+	_, queryError := s.Db.Exec(queryToCarpoolRequest)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
 func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -287,23 +332,24 @@ func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Println("capacity, candidates", *candidates, *capacity)
 	candidates_list := strings.Split(*candidates, ",")
-	log.Println("candidates_list:", candidates_list)
 	n_req := len(candidates_list)
-	log.Println("n_req:", n_req)
 	for _, name := range candidates_list {
 		if name == CarpoolRequest.UserName {
+			log.Println("重複不可：", name, CarpoolRequest.UserName)
 			return
-		} else {
-			log.Println(name, CarpoolRequest.UserName)
 		}
 	}
-	// cap, err := strconv.Atoi(*capacity)
-	// log.Println("cap:", cap)
-	// if cap < n_req {
-	// 	return
-	// }
+	cap, err := strconv.Atoi(*capacity)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if cap < n_req {
+		log.Println("定員オーバー：", cap, n_req)
+		return
+	}
 	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = COALESCE(candidates,'') || '%s%s'  WHERE id=%s", CarpoolRequest.UserName, Separator, CarpoolRequest.Id)
 	_, queryError := s.Db.Exec(queryToCarpoolRequest)
 	if queryError != nil {

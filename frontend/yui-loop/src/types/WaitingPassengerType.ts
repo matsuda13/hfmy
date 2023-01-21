@@ -10,4 +10,5 @@ export interface WaitingPassengerType {
     gender: string
     grade: string
     candidates: string
+    isAlreadyRequested: boolean
 }
