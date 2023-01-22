@@ -7,4 +7,8 @@ export interface WaitingPassengerType {
     capacity: string
     memo: string
     userName: string
+    gender: string
+    grade: string
+    candidates: string
+    isAlreadyRequested: boolean
 }

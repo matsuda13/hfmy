@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from '../contexts/AppContext';
 import SignUpModal from "./SignUpModal";
 import SignInModal from "./SignInModal";
+import fetchSchedule from '../functions/async/FetchSchedule';
 
 const SignInPage = () => {
     const navigate = useNavigate();
@@ -21,7 +22,10 @@ const SignInPage = () => {
             );
         }
         return (
-            <button onClick={navigateToBulletinBoardPage}>YUI LOOPを利用する</button>
+            <button onClick={()=>{
+                fetchSchedule(appContext)
+                navigateToBulletinBoardPage()
+            }}>YUI LOOPを利用する</button>
         );
     };
     return (

@@ -39,6 +39,8 @@ const CarpoolModal = () => {
           <option value="昼休み前半(11:50~12:00)">昼休み前半(11:50~12:00)</option>
           <option value="昼休み後半(12:30~12:40)">昼休み後半(12:30~12:40)</option>
           <option value="3限休み(14:20~14:30)">3限休み(14:20~14:30)</option>
+          <option value="4限休み(16:10~16:20)">4限休み(16:10~16:20)</option>
+          <option value="5限休み(17:50~18:00)">5限休み(17:50~18:00)</option>
         </select>
         <p>出発地</p>
         <select name="departurePlace" onChange={selectDeparturePlace}>

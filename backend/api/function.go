@@ -10,8 +10,10 @@ import (
 	"log"
 	"math/big"
 	"net/http"
-	"time"
+	"strconv"
 	"strings"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	_ "github.com/lib/pq"
 )
@@ -21,45 +23,57 @@ type Server struct {
 }
 
 type SignUpRequest struct {
-	Name					string `json:"name"`
-	Password				string `json:"password"`
-	PasswordConfirmination	string `json:"passwordConfirmination"`
+	Name                   string `json:"name"`
+	Gender                 string `json:"gender"`
+	Grade                  string `json:"grade"`
+	Password               string `json:"password"`
+	PasswordConfirmination string `json:"passwordConfirmination"`
 }
 
 type SignInRequest struct {
-	Name		string `json:"name"`
-	Password	string `json:"password"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
 }
 
-type schedulePostRequest struct {
-	Month string `json:"month"`
-	Date string `json:"date"`
-	Time string `json:"time"`
-	DeparturePlace string `json:"departurePlace"`
-	Destination string `json:"destination"`
-	Capacity string `json:"capacity"`
-	Memo string `json:"memo"`
-	UserName string `json:"userName"`	
+type CarpoolRequest struct {
+	Id       string `json:"id"`
+	UserName string `json:"userName:`
 }
 
 type scheduleDeleteRequest struct {
 	Id string `json:"id"`
 }
 
-type Schedule struct {
-	Id string `json:"id"`
-	Month string `json:"month"`
-	Date string `json:"date"`
-	Time string `json:"time"`
+type schedulePostRequest struct {
+	Date           string `json:"date"`
+	Time           string `json:"time"`
 	DeparturePlace string `json:"departurePlace"`
-	Destination string `json:"destination"`
-	Capacity string `json:"capacity"`	
-	Memo string `json:"memo"`
-	UserName string `json:"userName"`
+	Destination    string `json:"destination"`
+	Capacity       string `json:"capacity"`
+	Memo           string `json:"memo"`
+	UserName       string `json:"userName"`
+	Gender         string `json:"gender"`
+	Grade          string `json:"grade"`
+}
+
+type Schedule struct {
+	Id             string `json:"id"`
+	Date           string `json:"date"`
+	Time           string `json:"time"`
+	DeparturePlace string `json:"departurePlace"`
+	Destination    string `json:"destination"`
+	Capacity       string `json:"capacity"`
+	Memo           string `json:"memo"`
+	UserName       string `json:"userName"`
+	Gender         string `json:"gender"`
+	Grade          string `json:"grade"`
+	Candidates     string `json:"candidates"`
 }
 
 type SignUpResponse struct {
-	Name string `json:"name"`
+	Name   string `json:"name"`
+	Gender string `json:"gender"`
+	Grade  string `json:"grade"`
 }
 
 type SignInResponse struct {
@@ -80,71 +94,70 @@ var charset62 = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123
 var jwtKey = []byte(RandomString(511))
 
 func RandomString(length int) string {
-    randomString := make([]rune, length)
-    for i := range randomString {
-        randomNumber, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset62))))
-        if err != nil {
-            log.Println(err)
-            return ""
-        }
-        randomString[i] = charset62[int(randomNumber.Int64())]
-    }
-    return string(randomString)
+	randomString := make([]rune, length)
+	for i := range randomString {
+		randomNumber, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset62))))
+		if err != nil {
+			log.Println(err)
+			return ""
+		}
+		randomString[i] = charset62[int(randomNumber.Int64())]
+	}
+	return string(randomString)
 }
 
 func SetJwtInCookie(w http.ResponseWriter, userName string) {
-    expirationTime := time.Now().Add(672 * time.Hour)
-    claims := &Claims{
-        Name: userName,
-        StandardClaims: jwt.StandardClaims{
-            ExpiresAt: expirationTime.Unix(),
-        },
-    }
-    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-    tokenString, err := token.SignedString(jwtKey)
-    if err != nil {
-        w.WriteHeader(http.StatusInternalServerError)
-        return
-    }
-    cookie := &http.Cookie{
-        Name:    "token",
-        Value:   tokenString,
-        Expires: expirationTime,
-    }
-    http.SetCookie(w, cookie)
+	expirationTime := time.Now().Add(672 * time.Hour)
+	claims := &Claims{
+		Name: userName,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expirationTime.Unix(),
+		},
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	cookie := &http.Cookie{
+		Name:    "token",
+		Value:   tokenString,
+		Expires: expirationTime,
+	}
+	http.SetCookie(w, cookie)
 }
 
-func LoadClaimsFromJwt (w http.ResponseWriter, r *http.Request) (*Claims) {
-    c, err := r.Cookie("token")
-    if err != nil {
-        if err == http.ErrNoCookie {
-            w.WriteHeader(http.StatusUnauthorized)
-            return &Claims{}
-        }
-        w.WriteHeader(http.StatusBadRequest)
-        return &Claims{}
-    }
+func LoadClaimsFromJwt(w http.ResponseWriter, r *http.Request) *Claims {
+	c, err := r.Cookie("token")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			w.WriteHeader(http.StatusUnauthorized)
+			return &Claims{}
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		return &Claims{}
+	}
 
-    tknStr := c.Value
-    claims := &Claims{}
-    tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
-        return jwtKey, nil
-    })
-    if err != nil {
-        if err == jwt.ErrSignatureInvalid {
-            w.WriteHeader(http.StatusUnauthorized)
-            return &Claims{}
-        }
-        w.WriteHeader(http.StatusBadRequest)
-        return &Claims{}
-    }
-    if !tkn.Valid {
-        w.WriteHeader(http.StatusUnauthorized)
-        return &Claims{}
-    }
-    return claims
+	tknStr := c.Value
+	claims := &Claims{}
+	tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			w.WriteHeader(http.StatusUnauthorized)
+			return &Claims{}
+		}
+		w.WriteHeader(http.StatusBadRequest)
+		return &Claims{}
+	}
+	if !tkn.Valid {
+		w.WriteHeader(http.StatusUnauthorized)
+		return &Claims{}
+	}
+	return claims
 }
-
 
 func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -169,7 +182,7 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	passwordHash32Byte := sha256.Sum256([]byte(signUpRequest.Password))
 	passwordHashURLSafe := base64.URLEncoding.EncodeToString(passwordHash32Byte[:])
-	queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, password_hash) VALUES ('%s', '%s')", signUpRequest.Name, passwordHashURLSafe)
+	queryToReGisterUser := fmt.Sprintf("INSERT INTO users (name, gender, grade, password_hash) VALUES ('%s', '%s', '%s', '%s')", signUpRequest.Name, signUpRequest.Gender, signUpRequest.Grade, passwordHashURLSafe)
 	_, queryError := s.Db.Exec(queryToReGisterUser)
 	if queryError != nil {
 		log.Println("[ERROR]", queryToReGisterUser)
@@ -178,8 +191,10 @@ func (s *Server) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	SetJwtInCookie(w, signUpRequest.Name)
 	w.Header().Set("Content-Type", "application/json")
-	response := SignUpResponse {
-		Name: signUpRequest.Name,
+	response := SignUpResponse{
+		Name:   signUpRequest.Name,
+		Gender: signUpRequest.Gender,
+		Grade:  signUpRequest.Grade,
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
@@ -219,7 +234,7 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 	SetJwtInCookie(w, signInRequest.Name)
 	w.Header().Set("Content-Type", "application/json")
-	response := SignInResponse {
+	response := SignInResponse{
 		Name: signInRequest.Name,
 	}
 	jsonResponse, err := json.Marshal(response)
@@ -230,26 +245,121 @@ func (s *Server) SignIn(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
-    if r.Method != http.MethodGet {
-        w.WriteHeader(http.StatusBadRequest)
-        return
-    }
-    claims := LoadClaimsFromJwt(w, r)
-    w.Header().Set("Content-Type", "application/json")
-    response := SignInResponse{
-        Name: claims.Name,
-    }
-    jsonResponse, err := json.Marshal(response)
-    if err != nil {
-        log.Fatalf("Error happened in JSON marshal. Err: %s", err)
-    }
-    w.Write(jsonResponse)
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	claims := LoadClaimsFromJwt(w, r)
+	w.Header().Set("Content-Type", "application/json")
+	response := SignInResponse{
+		Name: claims.Name,
+	}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+	}
+	w.Write(jsonResponse)
+}
+
+func (s *Server) CancelCarpoolRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	Separator := "さん\n"
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var CarpoolRequest CarpoolRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&CarpoolRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var (
+		candidates *string
+		capacity   *string
+	)
+	queryToFetchCandidates := fmt.Sprintf("SELECT capacity, candidates FROM schedules where id=%s", CarpoolRequest.Id)
+	err := s.Db.QueryRow(queryToFetchCandidates).Scan(&capacity, &candidates)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	candidates_list := strings.Split(*candidates, Separator)
+	for index, name := range candidates_list {
+		if name == CarpoolRequest.UserName {
+			candidates_list = append(candidates_list[:index], candidates_list[index+1:]...)
+		}
+	}
+	candidates_updated := strings.Join(candidates_list, Separator)
+	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = '%s'  WHERE id=%s", candidates_updated, CarpoolRequest.Id)
+	_, queryError := s.Db.Exec(queryToCarpoolRequest)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	var CarpoolRequest CarpoolRequest
+	decoder := json.NewDecoder(r.Body)
+	decodeError := decoder.Decode(&CarpoolRequest)
+	if decodeError != nil {
+		log.Println("[ERROR]", decodeError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	Separator := "さん\n"
+	var (
+		candidates *string
+		capacity   *string
+	)
+	queryToFetchCandidates := fmt.Sprintf("SELECT capacity, candidates FROM schedules where id=%s", CarpoolRequest.Id)
+	err := s.Db.QueryRow(queryToFetchCandidates).Scan(&capacity, &candidates)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	candidates_list := strings.Split(*candidates, Separator)
+	n_req := len(candidates_list)
+	for _, name := range candidates_list {
+		if name == CarpoolRequest.UserName {
+			return
+		}
+	}
+	cap, err := strconv.Atoi(*capacity)
+	if err != nil {
+		log.Println("[ERROR]", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if cap < n_req {
+		return
+	}
+	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = COALESCE(candidates,'') || '%s%s'  WHERE id=%s", CarpoolRequest.UserName, Separator, CarpoolRequest.Id)
+	_, queryError := s.Db.Exec(queryToCarpoolRequest)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 }
 
 func (s *Server) DeleteSchedule(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	if r.Method!= http.MethodPost {
+	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -261,9 +371,24 @@ func (s *Server) DeleteSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Println(scheduleDeleteRequest)
-	queryToRegisterSchedule := fmt.Sprintf("DELETE FROM schedules WHERE id=%s",scheduleDeleteRequest.Id)
-	_, queryError := s.Db.Exec(queryToRegisterSchedule)
+	queryToDeleteSchedule := fmt.Sprintf("DELETE FROM schedules WHERE id=%s", scheduleDeleteRequest.Id)
+	_, queryError := s.Db.Exec(queryToDeleteSchedule)
+	if queryError != nil {
+		log.Println("[ERROR]", queryError)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+}
+
+func (s *Server) DeleteExpiredSchedule(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	queryToDeleteExpiredSchedule := fmt.Sprintf("DELETE FROM schedules WHERE cast(date as date) < CURRENT_DATE")
+	_, queryError := s.Db.Exec(queryToDeleteExpiredSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
 		w.WriteHeader(http.StatusBadRequest)
@@ -274,7 +399,7 @@ func (s *Server) DeleteSchedule(w http.ResponseWriter, r *http.Request) {
 func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	if r.Method!= http.MethodPost {
+	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -286,7 +411,7 @@ func (s *Server) PostSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (month, date, time, departure_place, destination, capacity, memo, userName) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", schedulePostRequest.Month, schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName)
+	queryToRegisterSchedule := fmt.Sprintf("INSERT INTO schedules (date, time, departure_place, destination, capacity, memo, userName, gender, grade, candidates) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '')", schedulePostRequest.Date, schedulePostRequest.Time, schedulePostRequest.DeparturePlace, schedulePostRequest.Destination, schedulePostRequest.Capacity, schedulePostRequest.Memo, schedulePostRequest.UserName, schedulePostRequest.Gender, schedulePostRequest.Grade)
 	_, queryError := s.Db.Exec(queryToRegisterSchedule)
 	if queryError != nil {
 		log.Println("[ERROR]", queryError)
@@ -302,7 +427,7 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	queryToFetchSchedules := fmt.Sprintf("SELECT id, month, date, time, departure_place, destination, capacity, memo, userName FROM schedules")
+	queryToFetchSchedules := fmt.Sprintf("SELECT id, date, time, departure_place, destination, capacity, memo, userName, gender, grade, candidates FROM schedules")
 	rows, queryError := s.Db.Query(queryToFetchSchedules)
 	if queryError != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -312,21 +437,22 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 	for rows.Next() {
 		var scheduleTemp Schedule
 		if err := rows.Scan(
-				&scheduleTemp.Id,
-				&scheduleTemp.Month,
-				&scheduleTemp.Date,
-				&scheduleTemp.Time,
-				&scheduleTemp.DeparturePlace,
-				&scheduleTemp.Destination,
-				&scheduleTemp.Capacity,
-				&scheduleTemp.Memo,
-				&scheduleTemp.UserName,
-			); err != nil {
+			&scheduleTemp.Id,
+			&scheduleTemp.Date,
+			&scheduleTemp.Time,
+			&scheduleTemp.DeparturePlace,
+			&scheduleTemp.Destination,
+			&scheduleTemp.Capacity,
+			&scheduleTemp.Memo,
+			&scheduleTemp.UserName,
+			&scheduleTemp.Gender,
+			&scheduleTemp.Grade,
+			&scheduleTemp.Candidates,
+		); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		scheduleTemp.Id = strings.TrimRight(scheduleTemp.Id, " ")
-		scheduleTemp.Month = strings.TrimRight(scheduleTemp.Month, " ")
 		scheduleTemp.Date = strings.TrimRight(scheduleTemp.Date, " ")
 		scheduleTemp.Time = strings.TrimRight(scheduleTemp.Time, " ")
 		scheduleTemp.DeparturePlace = strings.TrimRight(scheduleTemp.DeparturePlace, " ")
@@ -334,6 +460,9 @@ func (s *Server) GetSchedule(w http.ResponseWriter, r *http.Request) {
 		scheduleTemp.Capacity = strings.TrimRight(scheduleTemp.Capacity, " ")
 		scheduleTemp.Memo = strings.TrimRight(scheduleTemp.Memo, " ")
 		scheduleTemp.UserName = strings.TrimRight(scheduleTemp.UserName, " ")
+		scheduleTemp.Gender = strings.TrimRight(scheduleTemp.Gender, " ")
+		scheduleTemp.Grade = strings.TrimRight(scheduleTemp.Grade, " ")
+		scheduleTemp.Candidates = strings.TrimRight(scheduleTemp.Candidates, " ")
 		schedules = append(schedules, scheduleTemp)
 	}
 	if err := rows.Err(); err != nil {

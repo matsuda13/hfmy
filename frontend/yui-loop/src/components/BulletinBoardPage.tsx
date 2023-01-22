@@ -1,31 +1,38 @@
 import React, {FC, useState, useContext, useEffect} from 'react'
+import Modal from 'react-modal';
+import { useNavigate } from "react-router-dom";
 import CarpoolModal from './CarpoolModal'
 import WaitingPassengerArray from './WaitingPassengerArray'
-import Modal from 'react-modal';
 import { AppContext } from '../contexts/AppContext';
 import postSchedule from '../functions/async/PostSchedule'; 
 import fetchSchedule from '../functions/async/FetchSchedule';
-import { useNavigate } from "react-router-dom";
+import deleteExpiredSchedule from '../functions/async/DeleteExpiredSchedule';
 
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
+    const [sw, setSw] = useState<boolean>(false);
     const openCarpoolModal = () => { setIsOpenCarpoolModal(true); InitializeCarpoolModal(); };
     const closeCarpoolModal = () => { setIsOpenCarpoolModal(false); appContext.setIsErrorState(false); appContext.setNotMoveErrorMessage("");};
     const navigate = useNavigate();
     useEffect(() => {
+      handleDeleteExpiredSchedule();
       handleFetchSchedule();
     }, [isCarpoolModalOpen]);
 
     const AddWaitingPassenger = () => {
       const id = appContext.id;
+      const date = appContext.date;
       const time = appContext.timeToAdd;
       const departurePlace = appContext.departurePlaceToAdd;
       const destination = appContext.destinationToAdd;
       const capacity = appContext.capacityToAdd;
       const memo = appContext.memo;
-      const date = appContext.date;
       const userName = appContext.userName;
+      const gender = appContext.gender;
+      const grade = appContext.grade;
+      const candidates = appContext.candidates;
+      const isAlreadyRequested = false;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
@@ -39,6 +46,10 @@ const BulletinBoardPage:FC = () => {
               capacity,
               memo,
               userName,
+              gender,
+              grade,
+              candidates,
+              isAlreadyRequested
             }
           ]
         )} else {
@@ -53,6 +64,10 @@ const BulletinBoardPage:FC = () => {
                 capacity,
                 memo,
                 userName,
+                gender,
+                grade,
+                candidates,
+                isAlreadyRequested
               }
             ]
           )
@@ -60,17 +75,21 @@ const BulletinBoardPage:FC = () => {
     };
     const InitializeCarpoolModal = () => {
       appContext.setDate(new Date().toLocaleDateString());
-      appContext.setMemo("");
       appContext.setTimeToAdd("1限休み(10:00~10:10)");
       appContext.setDeparturePlaceToAdd("工学部駐車場");
       appContext.setDestinationToAdd("工学部駐車場");
       appContext.setCapacityToAdd("1");
+      appContext.setMemo("");
     };
     const handlePostSchedule = () => {
-      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo, appContext.userName);
+      postSchedule(appContext, appContext.date, appContext.timeToAdd, appContext.departurePlaceToAdd, appContext.destinationToAdd, appContext.capacityToAdd, appContext.memo, appContext.userName, appContext.gender, appContext.grade);
     };
     const handleFetchSchedule = () => {
       fetchSchedule(appContext);
+      
+    };
+    const handleDeleteExpiredSchedule = () => {
+      deleteExpiredSchedule();
     };
     return (
         <>  
@@ -82,7 +101,10 @@ const BulletinBoardPage:FC = () => {
                   navigate('/');
                   }}}>募集してみる</button>
 
-            <button onClick={handleFetchSchedule}>更新</button>
+            <button onClick={()=>{
+            handleFetchSchedule();
+            handleDeleteExpiredSchedule();
+            }}>更新</button>
           </div>
                 <Modal
                   isOpen={isCarpoolModalOpen}
@@ -107,7 +129,9 @@ const BulletinBoardPage:FC = () => {
                     }}>確定</button>
                   </div>
                 </Modal>
-                <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
+                <br/>
+
+                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button onClick={()=>{fetchSchedule(appContext);setSw(true)}}>YUILOOP掲示板を開く</button>)):(<></>)}
         </>
     )
 }

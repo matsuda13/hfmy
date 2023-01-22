@@ -168,6 +168,10 @@ html,body{
   top: 0;
 }
 
+.gender {
+  display: flex;
+}
+
 .CarpoolModal {
   display: flex;
   justify-content: center;

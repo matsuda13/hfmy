@@ -3,6 +3,8 @@ import { AppState } from "../../contexts/AppContext";
 export default async function signUp(
     appContext: AppState | null,
     name: string,
+    gender: string,
+    grade: string,
     password: string,
     passwordConfirmination: string,
 ) {
@@ -11,6 +13,8 @@ export default async function signUp(
         method: 'POST',
         body: JSON.stringify({
             name,
+            gender,
+            grade,
             password,
             passwordConfirmination,
         })
@@ -23,6 +27,8 @@ export default async function signUp(
         })
         .then((json) => {
             appContext?.setUserName(json?.name);
+            appContext?.setGender(json?.gender);
+            appContext?.setGrade(json?.grade);
             appContext?.setIsSignedIn(true);
         })
         .catch(() => {

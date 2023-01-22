@@ -9,12 +9,20 @@ function SignUpModal() {
     const openModal = () => { setIsModalOpen(true); };
     const closeModal = () => { setIsModalOpen(false); };
     const [userName, setUserName] = useState('');
+    const [gender, setGender] = useState('男性');
+    const [grade, setGrade] = useState('学部1年');
     const [password, setPassword] = useState('');
     const [passwordConfirmination, setPasswordConfirmination] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(e.target.value);
+    };
+    const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGender(e.target.value);
+    };
+    const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setGrade(e.target.value);
     };
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
@@ -23,7 +31,7 @@ function SignUpModal() {
         setPasswordConfirmination(e.target.value);
     };
     const handleSignUp = () => {
-        signUp(appContext, userName, password, passwordConfirmination)
+        signUp(appContext, userName, gender, grade, password, passwordConfirmination)
             .then(() => {
                 if (appContext?.isSignedIn) {
                     closeModal();
@@ -35,6 +43,8 @@ function SignUpModal() {
     };
     const handleCancel = () => {
         setUserName('');
+        setGender('男性');
+        setGrade('学部1年');
         setPassword('');
         setPasswordConfirmination('');
         setErrorMessage('');
@@ -51,6 +61,29 @@ function SignUpModal() {
                 <div className='user-name'>
                     <label>ユーザー名</label>
                     <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
+                </div>
+                <div className='gender'>
+                    <div>
+                        <label htmlFor='male'>男性</label>
+                        <input type="radio" id='male' name='gender' value='男性' onChange={handleGenderChange}></input>
+                    </div>
+                    <div>
+                        <label htmlFor='female'>女性</label>
+                        <input type="radio" id='female' name='gender' value='女性' onChange={handleGenderChange}></input>
+                    </div>
+                </div>
+                <div className='grade'>
+                    <label>学年</label>
+                    <select name="grade" onChange={handleGradeChange}>
+                        <option value="学部1年">学部1年</option>
+                        <option value="学部2年">学部2年</option>
+                        <option value="学部3年">学部3年</option>
+                        <option value="学部4年">学部4年</option>
+                        <option value="修士1年">修士1年</option>
+                        <option value="修士2年">修士2年</option>
+                        <option value="博士1年">博士1年</option>
+                        <option value="博士2年">博士2年</option>
+                    </select>
                 </div>
                 <div className='password'>
                     <label>パスワード</label>
