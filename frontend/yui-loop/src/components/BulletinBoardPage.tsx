@@ -11,6 +11,7 @@ import deleteExpiredSchedule from '../functions/async/DeleteExpiredSchedule';
 const BulletinBoardPage:FC = () => {
     const appContext = useContext(AppContext);
     const [isCarpoolModalOpen, setIsOpenCarpoolModal] = useState(false);
+    const [sw, setSw] = useState<boolean>(false);
     const openCarpoolModal = () => { setIsOpenCarpoolModal(true); InitializeCarpoolModal(); };
     const closeCarpoolModal = () => { setIsOpenCarpoolModal(false); appContext.setIsErrorState(false); appContext.setNotMoveErrorMessage("");};
     const navigate = useNavigate();
@@ -30,6 +31,8 @@ const BulletinBoardPage:FC = () => {
       const userName = appContext.userName;
       const gender = appContext.gender;
       const grade = appContext.grade;
+      const candidates = appContext.candidates;
+      const isAlreadyRequested = false;
       if (appContext.waitingPassengers != null){
         appContext.setWaitingPassengers(
           [
@@ -45,6 +48,8 @@ const BulletinBoardPage:FC = () => {
               userName,
               gender,
               grade,
+              candidates,
+              isAlreadyRequested
             }
           ]
         )} else {
@@ -61,6 +66,8 @@ const BulletinBoardPage:FC = () => {
                 userName,
                 gender,
                 grade,
+                candidates,
+                isAlreadyRequested
               }
             ]
           )
@@ -79,6 +86,7 @@ const BulletinBoardPage:FC = () => {
     };
     const handleFetchSchedule = () => {
       fetchSchedule(appContext);
+      
     };
     const handleDeleteExpiredSchedule = () => {
       deleteExpiredSchedule();
@@ -93,7 +101,8 @@ const BulletinBoardPage:FC = () => {
                 }}}>相乗り相手を募集する</button>
             <button onClick={()=>{
               handleDeleteExpiredSchedule();
-              handleFetchSchedule();}}>更新</button>
+              handleFetchSchedule();
+              }}>更新</button>
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}
@@ -117,7 +126,9 @@ const BulletinBoardPage:FC = () => {
                     }}>確定</button>
                   </div>
                 </Modal>
-                <WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />
+                <br/>
+
+                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button onClick={()=>{fetchSchedule(appContext);setSw(true)}}>YUILOOP掲示板を開く</button>)):(<></>)}
         </>
     )
 }

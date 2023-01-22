@@ -1,5 +1,6 @@
 import { AppState } from "../../contexts/AppContext";
 
+
 export default async function fetchSchedule(
     appContext: AppState,
 ) {
@@ -14,7 +15,17 @@ export default async function fetchSchedule(
             return Promise.reject();
         })
         .then((json) => {
-            appContext.setWaitingPassengers(json!.schedules);
+            const schedules = json.schedules
+            for (var i=0;i<schedules.length;i++){
+                schedules[i]["isAlreadyRequested"] = false;
+                var candidates = schedules[i]["candidates"].split('\n')
+                for (var j=0;j<candidates.length;j++) {
+                    if (candidates[j] == appContext.userName){
+                        schedules[i]["isAlreadyRequested"] = true;
+                    }
+                }
+            }
+            appContext.setWaitingPassengers(schedules);
             return Promise.resolve();
         });
 }

@@ -3,17 +3,17 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"hfmy/api"
 	"log"
 	"net/http"
-	"hfmy/api"
 )
 
 const (
-	host	 = "db"
-	port	 = 5432
-	user	 = "postgres"
+	host     = "db"
+	port     = 5432
+	user     = "postgres"
 	password = "postgres"
-	dbname	 = "postgres"
+	dbname   = "postgres"
 )
 
 func main() {
@@ -31,5 +31,7 @@ func main() {
 	http.HandleFunc("/post-schedule", server.PostSchedule)
 	http.HandleFunc("/delete-schedule", server.DeleteSchedule)
 	http.HandleFunc("/delete-expired-schedule", server.DeleteExpiredSchedule)
+	http.HandleFunc("/send-carpool-request", server.SendCarpoolRequest)
+	http.HandleFunc("/cancel-carpool-request", server.CancelCarpoolRequest)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

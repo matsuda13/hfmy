@@ -12,9 +12,10 @@ CREATE TABLE schedules (
     time CHARACTER(255) NOT NULL,
     departure_place CHARACTER(255) NOT NULL,
     destination CHARACTER(255) NOT NULL,
-    capacity CHARACTER(255) NOT NULL,
+    capacity CHARACTER(1) NOT NULL,
     memo CHARACTER(255) NOT NULL,
     userName CHARACTER(255) NOT NULL,
     gender CHARACTER(255) NOT NULL,
-    grade CHARACTER(255) NOT NULL
+    grade CHARACTER(255) NOT NULL,
+    candidates CHARACTER(255) NOT NULL
 );
