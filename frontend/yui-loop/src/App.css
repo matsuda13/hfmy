@@ -30,11 +30,11 @@ html,body{
 }
 
 .board-icon {
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 85px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1px;
+  margin-top: 0px;
   display: block;
   background-image: url(./images/YUI-LOOP.png);
   background-repeat: no-repeat;
@@ -115,8 +115,6 @@ html,body{
   height:300px;
   margin:0 0 1em;
 }
-
-
 
 .cancel-btn {
  text-align: center;
@@ -208,7 +206,12 @@ p {
   margin-left: auto;
   margin-right: auto;
   width: 80%;                /* 横幅を200pxに指定 */
-  height: 95%;               /* 横幅を200pxに指定 */
+  height: 97%;               /* 横幅を200pxに指定 */
   border: 1px solid rgb(0, 0, 0);      /* わかりやすくボーダーを引く */
   overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+}
+
+.sin-up-odal {
+  margin-left: auto;
+  margin-right: auto;
 }

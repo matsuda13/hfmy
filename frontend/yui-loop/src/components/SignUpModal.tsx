@@ -53,7 +53,7 @@ function SignUpModal() {
     return (
         <div>
             <button className="menue-btn" type="button" onClick={openModal}><span>サインアップ</span></button>
-            <Modal
+            <Modal 
                 isOpen={isModalOpen}
                 ariaHideApp={false}
             >

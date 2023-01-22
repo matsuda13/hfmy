@@ -94,17 +94,17 @@ const BulletinBoardPage:FC = () => {
     return (
         <>  
           <div className='add-reload-btns'>
-            <button className='new-btn-img' onClick={()=> {
+            <button className="menue-btn" onClick={()=> {
                 if(appContext.userName!=""){
                   openCarpoolModal()
                 }else{
                   navigate('/');
-                  }}}>募集してみる</button>
+                  }}}><span>募集してみる</span></button>
 
-            <button onClick={()=>{
+            <button className="menue-btn" onClick={()=>{
             handleFetchSchedule();
             handleDeleteExpiredSchedule();
-            }}>更新</button>
+            }}><span>更新</span></button>
           </div>
                 <Modal
                   isOpen={isCarpoolModalOpen}
@@ -131,7 +131,7 @@ const BulletinBoardPage:FC = () => {
                 </Modal>
                 <br/>
 
-                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button onClick={()=>{fetchSchedule(appContext);setSw(true)}}>YUILOOP掲示板を開く</button>)):(<></>)}
+                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button className="menue-btn" onClick={()=>{fetchSchedule(appContext);setSw(true)}}><span>YUILOOP掲示板を開く</span></button>)):(<></>)}
         </>
     )
 }
