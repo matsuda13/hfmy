@@ -65,7 +65,7 @@ function SignUpModal() {
                 <div className='gender'>
                     <div>
                         <label htmlFor='male'>男性</label>
-                        <input type="radio" id='male' name='gender' value='男性' onChange={handleGenderChange} checked></input>
+                        <input type="radio" id='male' name='gender' value='男性' onChange={handleGenderChange}></input>
                     </div>
                     <div>
                         <label htmlFor='female'>女性</label>
