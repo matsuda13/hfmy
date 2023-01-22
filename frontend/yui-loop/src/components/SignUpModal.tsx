@@ -45,9 +45,12 @@ function SignUpModal() {
             <button className="menue-btn" type="button" onClick={openModal}><span>サインアップ</span></button>
             <Modal
                 isOpen={isModalOpen}
-                ariaHideApp={false}
+                ariaHideApp={false}                
+                className="into-modal"
+                overlayClassName="overlay"
             >
-                <button className="menue-btn" onClick={() => handleCancel()}><span>キャンセル</span></button>
+                <div className='example-text'>
+                    <p className='text-bold'>サインアップ</p>
                 <div className='user-name'>
                     <label>ユーザー名</label>
                     <input type="text" value={userName} onChange={handleNameChange} placeholder='ユーザー名'></input>
@@ -56,13 +59,17 @@ function SignUpModal() {
                     <label>パスワード</label>
                     <input type="password" value={password} onChange={handlePasswordChange}placeholder='パスワード'></input>
                 </div>
+
                 <div className='password-confirmination'>
                     <label>パスワード(確認用)</label>
                     <input type="password" value={passwordConfirmination} onChange={handlePasswordConfirminationChange} placeholder='パスワード(確認用)'></input>
                 </div>
                 <p>{errorMessage}</p>
+                <button className="menue-btn" onClick={() => handleCancel()}><span>キャンセル</span></button>
                 <button className="menue-btn" onClick={() => handleSignUp()}><span>送信</span></button>
-            </Modal>
+            
+                </div>
+                </Modal>
         </div>
     );
 }

@@ -74,16 +74,15 @@ const BulletinBoardPage:FC = () => {
     };
     return (
         <>  
-          <div className='add-reload-btns'>
-            <button className='new-btn-img' onClick={()=> {
+
+            <button className='reload-btn' onClick={handleFetchSchedule}>更新</button>
+            <button className='add-btn' onClick={()=> {
                 if(appContext.userName!=""){
                   openCarpoolModal()
                 }else{
                   navigate('/');
-                  }}}>募集してみる</button>
-
-            <button onClick={handleFetchSchedule}>更新</button>
-          </div>
+                  }}}></button>
+          
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}

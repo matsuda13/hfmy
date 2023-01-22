@@ -2,6 +2,8 @@ html,body{
   overflow: hidden;
 }
 
+
+
 .wrapper {
   width: 100vw;
   height: 100vh;
@@ -162,10 +164,32 @@ html,body{
 }
 
 
-.add-reload-btns {
+.add-btn {
+  position: absolute;
+  right: min(25%, 500px);
+  bottom: 10%;
+  display: inline-block;
+  text-decoration: none;
+  width: 60px;
+  height: 60px;
+  line-height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-image: url(./images/add-button.png);
+  background-size: 100%;
+}
+
+.reload-btn {
+  display: inline-block;
+  text-decoration: none;
+  width: 60px;
+  height: 60px;
+  line-height: 120px;
+  border-radius: 50%;
   text-align: center;
-  position: sticky;
-  top: 0;
+  overflow: hidden;
+  background-image: url(./images/reload-button.png);
+  background-size: 100%;
 }
 
 .CarpoolModal {
