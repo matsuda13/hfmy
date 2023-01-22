@@ -262,9 +262,9 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) CancelCarpoolRequest(w http.ResponseWriter, r *http.Request) {
-	log.Println("cancel func start")
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	Separator := "\n"
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -288,14 +288,13 @@ func (s *Server) CancelCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	candidates_list := strings.Split(*candidates, ",")
+	candidates_list := strings.Split(*candidates, Separator)
 	for index, name := range candidates_list {
 		if name == CarpoolRequest.UserName {
 			candidates_list = append(candidates_list[:index], candidates_list[index+1:]...)
 		}
 	}
-	candidates_updated := strings.Join(candidates_list, ",")
-	log.Println(candidates)
+	candidates_updated := strings.Join(candidates_list, Separator)
 	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = '%s'  WHERE id=%s", candidates_updated, CarpoolRequest.Id)
 	_, queryError := s.Db.Exec(queryToCarpoolRequest)
 	if queryError != nil {
@@ -320,7 +319,7 @@ func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	Separator := ","
+	Separator := "\n"
 	var (
 		candidates *string
 		capacity   *string
@@ -332,11 +331,10 @@ func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	candidates_list := strings.Split(*candidates, ",")
+	candidates_list := strings.Split(*candidates, Separator)
 	n_req := len(candidates_list)
 	for _, name := range candidates_list {
 		if name == CarpoolRequest.UserName {
-			log.Println("重複不可：", name, CarpoolRequest.UserName)
 			return
 		}
 	}
@@ -347,7 +345,6 @@ func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if cap < n_req {
-		log.Println("定員オーバー：", cap, n_req)
 		return
 	}
 	queryToCarpoolRequest := fmt.Sprintf("UPDATE schedules SET candidates = COALESCE(candidates,'') || '%s%s'  WHERE id=%s", CarpoolRequest.UserName, Separator, CarpoolRequest.Id)
