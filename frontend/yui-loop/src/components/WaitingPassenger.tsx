@@ -2,6 +2,7 @@ import { WaitingPassengerType } from '../types/WaitingPassengerType';
 import React, { FC, useContext, useState} from 'react';
 import { AppContext } from '../contexts/AppContext';
 import deleteSchedule from "../functions/async/DeleteSchedule";
+import fetchSchedule from '../functions/async/FetchSchedule';
 import sendCarpoolRequest from '../functions/async/SendCarpoolRequest';
 import { useNavigate } from 'react-router-dom';
 import cancelCarpoolRequest from '../functions/async/CancelCarpoolRequest';
@@ -23,17 +24,22 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
 
   const handleCarpoolRequestCancel = (id: string, userName: string) => {
     cancelCarpoolRequest(id, userName);
-  }
+  };
 
   const handleCarpoolRequestButtonClick = (id: string, userName:string) => {
-    const n_req = wp.candidates.split("\n").length
+    const n_req = wp.candidates.split("さん\n").length
     const n_cap = Number(wp.capacity)
     if (n_cap > n_req-1) {
       sendCarpoolRequest(id, userName);
     } else {
       setCapacityOverErrorMessage("定員を超えています")
     }
-  }
+  };
+
+  const handleFetchSchedule = () => {
+    fetchSchedule(appContext);
+  };
+
   return (
     <>
       <div className="card">
@@ -52,6 +58,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         ):(wp.isAlreadyRequested==false ? (<button onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestButtonClick(wp.id, appContext.userName);
+            handleFetchSchedule();
           }else{
             navigate('/');
           }
@@ -59,6 +66,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         ) : (<button onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestCancel(wp.id, appContext.userName);
+            handleFetchSchedule();
           }else{
             navigate('/');
           }

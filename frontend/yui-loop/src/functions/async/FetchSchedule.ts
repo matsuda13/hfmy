@@ -18,7 +18,7 @@ export default async function fetchSchedule(
             const schedules = json.schedules
             for (var i=0;i<schedules.length;i++){
                 schedules[i]["isAlreadyRequested"] = false;
-                var candidates = schedules[i]["candidates"].split('\n')
+                var candidates = schedules[i]["candidates"].split('さん\n')
                 for (var j=0;j<candidates.length;j++) {
                     if (candidates[j] == appContext.userName){
                         schedules[i]["isAlreadyRequested"] = true;

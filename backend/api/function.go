@@ -264,7 +264,7 @@ func (s *Server) SignInWithJwt(w http.ResponseWriter, r *http.Request) {
 func (s *Server) CancelCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	Separator := "\n"
+	Separator := "さん\n"
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -319,7 +319,7 @@ func (s *Server) SendCarpoolRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	Separator := "\n"
+	Separator := "さん\n"
 	var (
 		candidates *string
 		capacity   *string
