@@ -92,17 +92,20 @@ const BulletinBoardPage:FC = () => {
       deleteExpiredSchedule();
     };
     return (
-        <>
-            <button onClick={()=> {
-              if(appContext.userName!=""){
-                openCarpoolModal()
-              }else{
-                navigate('/');
-                }}}>相乗り相手を募集する</button>
+        <>  
+          <div className='add-reload-btns'>
+            <button className='new-btn-img' onClick={()=> {
+                if(appContext.userName!=""){
+                  openCarpoolModal()
+                }else{
+                  navigate('/');
+                  }}}>募集してみる</button>
+
             <button onClick={()=>{
-              handleDeleteExpiredSchedule();
-              handleFetchSchedule();
-              }}>更新</button>
+            handleFetchSchedule();
+            handleDeleteExpiredSchedule();
+            }}>更新</button>
+          </div>
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}

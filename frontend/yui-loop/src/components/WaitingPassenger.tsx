@@ -49,7 +49,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>
         定員：{wp.capacity}<br/>
         {wp.candidates!="" ? (<>乗りたい人：{wp.candidates}</>) : (<>相乗りリクエストなし</>)}<br/>
-        備考：{wp.memo}<br/>
+        <p>備考：{wp.memo}</p><br/>
         {appContext.userName==wp.userName ? (
           <button onClick={()=>{
           appContext.deleteWaitingPassenger(props.id);

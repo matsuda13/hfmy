@@ -1,6 +1,171 @@
-.App {
+html,body{
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(0deg, rgba(252, 154, 216, 0.3) 12%, rgba(144, 73, 250, 0.4) 57%, rgba(72, 75, 254, 0.5) 93%);
+}
+
+.login-container {
+  width: 100%;
+  height: 70%;
   text-align: center;
-  color: #7f1184;
+}
+
+.menue-icon {
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: min(150px, 35%);
+  margin-bottom: auto;
+  display: block;
+  background-image: url(./images/YUI-LOOP.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.board-icon {
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1px;
+  display: block;
+  background-image: url(./images/YUI-LOOP.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.menue-text {
+  font-family: Courier;
+  color: black;
+  font-size: 13px;
+}
+
+.no-login-into {
+  text-align: center;
+  padding: 1% 1%;
+  width: 80%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(230,249,252, 0.7);
+  box-shadow: 4px 4px 13px 5px rgba(98, 1, 167, 0.25);
+  color: black;
+}
+
+.example-btn {
+  width: 120px;
+  padding: 8px 20px;
+  margin-top: 40px;
+}
+
+.example-text {
+  text-align: center;
+  margin: 10% auto 20%;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.into-modal {
+  position: absolute;
+  top: min(20%, 150px);
+  left: min(20%,30em);
+  right: min(20%,30em);
+  bottom: min(20%, 150px);
+  background-color: rgba(245, 223, 250, 0.975);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.orange-line {
+  background-color: #FCD07E;
+}
+
+.green-line {
+  background-color: #c7dba7;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.btn-wrap {
+  display:flex;
+  flex-flow: column;
+  border:2px #ccc solid;
+  height:300px;
+  margin:0 0 1em;
+}
+
+
+
+.cancel-btn {
+ text-align: center;
+}
+
+.menue-btn {
+  position: relative;
+  width: 150px;
+  margin: 5px;
+  overflow: hidden;
+  padding: 8px 12px;
+  color: #fff;
+  border-radius: 0;
+  background: #000;
+}
+
+.menue-btn span {
+  position: relative;
+}
+
+.menue-btn::before{
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: 150%;
+  height: 500%;
+  content: '';
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  background: #f15186;
+}
+
+
+.menue-btn:hover::before {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.menue-btn:hover span{
+  color: #000;
+}
+
+
+.add-reload-btns {
+  text-align: center;
+  position: sticky;
+  top: 0;
 }
 
 .gender {
@@ -32,6 +197,18 @@
 }
 
 .card:hover{
-
   box-shadow: 1px 1px 20px 10px rgba(98, 1, 167, 0.25);
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+.card-list {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;                /* 横幅を200pxに指定 */
+  height: 95%;               /* 横幅を200pxに指定 */
+  border: 1px solid rgb(0, 0, 0);      /* わかりやすくボーダーを引く */
+  overflow-y: scroll;          /* 縦方向にスクロール可能にする */
 }

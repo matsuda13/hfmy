@@ -15,10 +15,10 @@ const SignInPage = () => {
     const ComponentsToRenderIfNotSignedIn = () => {
         if (!appContext?.isSignedIn) {
             return (
-                <>
+                <div className=''>
                     <SignUpModal />
                     <SignInModal />
-                </>
+                </div>
             );
         }
         return (
