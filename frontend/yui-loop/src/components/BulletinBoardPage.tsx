@@ -95,7 +95,7 @@ const BulletinBoardPage:FC = () => {
         <>  
 
 
-            <button className='reload-btn' onClick={handleFetchSchedule}>更新</button>
+            <button className='reload-btn' onClick={handleFetchSchedule}></button>
             <button className='add-btn' onClick={()=> {
 
                 if(appContext.userName!=""){
