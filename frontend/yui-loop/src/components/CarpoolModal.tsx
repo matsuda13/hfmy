@@ -22,7 +22,7 @@ const CarpoolModal = () => {
     appContext.setMemo(event.target.value);
   };
   return (
-    <div>
+    <div className="max-front">
         <p>日付:
         <DatePicker dateFormat="yyyy/MM/dd" value={appContext.date}
         minDate={new Date()}

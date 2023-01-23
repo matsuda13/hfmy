@@ -177,7 +177,7 @@ html,body{
 .add-btn {
   position: absolute;
   z-index: 30;
-  right: min(25%, 500px);
+  left: min(74%,900px);
   bottom: 10%;
   display: inline-block;
   text-decoration: none;
@@ -192,6 +192,7 @@ html,body{
 }
 
 .reload-btn {
+  margin: 5px;
   display: inline-block;
   text-decoration: none;
   width: 40px;
@@ -206,12 +207,17 @@ html,body{
 
 
 .gender {
-  display: flex;
+  display: inline-flex;
 }
 
 .CarpoolModal {
   display: flex;
   justify-content: center;
+  
+}
+
+.max-front {
+  z-index: 35;
 }
 
 .ConfirmButton {
@@ -220,7 +226,8 @@ html,body{
 }
 
 .card {
-  width: 50vw;
+  width: 60vw;
+  max-width: 450px;
   padding: 20px 7px;
   border-radius: 15px;
   backdrop-filter: blur(20px);
@@ -244,10 +251,11 @@ p {
 .card-list {
   margin-left: auto;
   margin-right: auto;
-  width: 80%;                /* 横幅を200pxに指定 */
-  height: 97%;               /* 横幅を200pxに指定 */
-  border: 1px solid rgb(0, 0, 0);      /* わかりやすくボーダーを引く */
-  overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+  width: 70%;
+  max-width: 500px;                
+  height: 110%;              
+  border: 1px solid rgb(0, 0, 0);
+  overflow-y: scroll;
 }
 
 .sin-up-odal {

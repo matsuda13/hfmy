@@ -96,15 +96,15 @@ const BulletinBoardPage:FC = () => {
 
 
             <button className='reload-btn' onClick={handleFetchSchedule}></button>
-            <button className='add-btn' onClick={()=> {
-
-                if(appContext.userName!=""){
-                  openCarpoolModal()
-                }else{
-                  navigate('/');
-
-                  }}}></button>
-          
+            
+              {isCarpoolModalOpen ? <></>:
+              <button className='add-btn' onClick={()=> {
+                  if(appContext.userName!=""){
+                    openCarpoolModal()
+                  }else{
+                    navigate('/');
+                    }}}></button>
+                  }
 
                 <Modal
                   isOpen={isCarpoolModalOpen}
