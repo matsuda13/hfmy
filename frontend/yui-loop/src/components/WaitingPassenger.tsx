@@ -42,19 +42,19 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
 
   return (
     <>
-      <div className="card">
+      <div className={appContext.userName==wp.userName?"my-card":"other-card"}>
         <br/>
-        募集者：{wp.userName}　性別：{wp.gender}　学年：{wp.grade}<br/>
+        ドライバー様：{wp.userName}さん　性別：{wp.gender}　学年：{wp.grade}<br/>
         出発時間：{wp.date}　{wp.time}<br/>
-        出発場所：{wp.departurePlace}　→　到着場所：{wp.destination}<br/>
+        出発：{wp.departurePlace}　→　到着：{wp.destination}<br/>
         定員：{wp.capacity}<br/>
-        {wp.candidates!="" ? (<>乗りたい人：{wp.candidates}</>) : (<>相乗りリクエストなし</>)}<br/>
+        {wp.candidates!="" ? (<>乗りたい人：{wp.candidates}</>) : (<>乗りたい人：いない</>)}<br/>
         <p>備考：{wp.memo}</p><br/>
         {appContext.userName==wp.userName ? (
           <button onClick={()=>{
           appContext.deleteWaitingPassenger(props.id);
           handleDeleteSchedule(wp.id);
-          }}>募集中止</button>
+          }}>やっぱ乗せない</button>
         ):(wp.isAlreadyRequested==false ? (<button onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestButtonClick(wp.id, appContext.userName);
@@ -62,7 +62,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
           }else{
             navigate('/');
           }
-        }}>相乗りリクエストを送信</button>
+        }}>乗せてください!!</button>
         ) : (<button onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestCancel(wp.id, appContext.userName);
@@ -70,7 +70,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
           }else{
             navigate('/');
           }
-        }}>相乗りリクエストを取り消す</button>))}
+        }}>やっぱ乗らない</button>))}
         <div className="CapacityOverErrorMessage">{capacityOverErrorMessage}</div>
       </div>
     </>
