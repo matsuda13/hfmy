@@ -96,8 +96,9 @@ const BulletinBoardPage:FC = () => {
     };
     return (
         <>  
+          <div className='top-btn'>
             <button className='reload-btn' onClick={handleFetchSchedule}></button>
-            <button className='home-btn' onClick={navigateToHomePage}>Home</button>
+            <button className='home-btn' onClick={navigateToHomePage}>Home</button></div>
               {isCarpoolModalOpen ? <></>:
               <button className='add-btn' onClick={()=> {
                   if(appContext.userName!=""){
