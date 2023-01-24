@@ -2,6 +2,8 @@ html,body{
   overflow: hidden;
 }
 
+
+
 .wrapper {
   width: 100vw;
   height: 100vh;
@@ -30,11 +32,23 @@ html,body{
 }
 
 .board-icon {
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 85px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1px;
+  margin-top: 0px;
+  display: block;
+  background-image: url(./images/YUI-LOOP.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.board-mini-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
   display: block;
   background-image: url(./images/YUI-LOOP.png);
   background-repeat: no-repeat;
@@ -116,8 +130,6 @@ html,body{
   margin:0 0 1em;
 }
 
-
-
 .cancel-btn {
  text-align: center;
 }
@@ -162,19 +174,50 @@ html,body{
 }
 
 
-.add-reload-btns {
-  text-align: center;
-  position: sticky;
-  top: 0;
+.add-btn {
+  position: absolute;
+  z-index: 30;
+  left: min(74%,900px);
+  bottom: 10%;
+  display: inline-block;
+  text-decoration: none;
+  width: 60px;
+  height: 60px;
+  line-height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0px 0px 0px 1px #ed87fd;
+  background-image: url(./images/add-button.png);
+  background-size: 100%;
 }
 
+.reload-btn {
+  margin: 5px;
+  display: inline-block;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  line-height: 120px;
+  border-radius: 50%;
+  text-align: center;
+  overflow: hidden;
+  background-image: url(./images/reload-button.png);
+  background-size: 100%;
+}
+
+
 .gender {
-  display: flex;
+  display: inline-flex;
 }
 
 .CarpoolModal {
   display: flex;
   justify-content: center;
+  
+}
+
+.max-front {
+  z-index: 35;
 }
 
 .ConfirmButton {
@@ -183,7 +226,8 @@ html,body{
 }
 
 .card {
-  width: 50vw;
+  width: 60vw;
+  max-width: 450px;
   padding: 20px 7px;
   border-radius: 15px;
   backdrop-filter: blur(20px);
@@ -207,8 +251,14 @@ p {
 .card-list {
   margin-left: auto;
   margin-right: auto;
-  width: 80%;                /* 横幅を200pxに指定 */
-  height: 95%;               /* 横幅を200pxに指定 */
-  border: 1px solid rgb(0, 0, 0);      /* わかりやすくボーダーを引く */
-  overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+  width: 70%;
+  max-width: 500px;                
+  height: 110%;              
+  border: 1px solid rgb(0, 0, 0);
+  overflow-y: scroll;
+}
+
+.sin-up-odal {
+  margin-left: auto;
+  margin-right: auto;
 }

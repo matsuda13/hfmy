@@ -93,19 +93,19 @@ const BulletinBoardPage:FC = () => {
     };
     return (
         <>  
-          <div className='add-reload-btns'>
-            <button className='new-btn-img' onClick={()=> {
-                if(appContext.userName!=""){
-                  openCarpoolModal()
-                }else{
-                  navigate('/');
-                  }}}>募集してみる</button>
 
-            <button onClick={()=>{
-            handleFetchSchedule();
-            handleDeleteExpiredSchedule();
-            }}>更新</button>
-          </div>
+
+            <button className='reload-btn' onClick={handleFetchSchedule}></button>
+            
+              {isCarpoolModalOpen ? <></>:
+              <button className='add-btn' onClick={()=> {
+                  if(appContext.userName!=""){
+                    openCarpoolModal()
+                  }else{
+                    navigate('/');
+                    }}}></button>
+                  }
+
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}
@@ -131,7 +131,7 @@ const BulletinBoardPage:FC = () => {
                 </Modal>
                 <br/>
 
-                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button onClick={()=>{fetchSchedule(appContext);setSw(true)}}>YUILOOP掲示板を開く</button>)):(<></>)}
+                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button className="menue-btn" onClick={()=>{fetchSchedule(appContext);setSw(true)}}><span>YUILOOP掲示板を開く</span></button>)):(<></>)}
         </>
     )
 }

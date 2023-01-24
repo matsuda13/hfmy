@@ -22,10 +22,10 @@ const SignInPage = () => {
             );
         }
         return (
-            <button onClick={()=>{
+            <button className="menue-btn" onClick={()=>{
                 fetchSchedule(appContext)
                 navigateToBulletinBoardPage()
-            }}>YUI LOOPを利用する</button>
+            }}><span>YUI LOOPを利用する</span></button>
         );
     };
     return (
