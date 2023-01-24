@@ -244,6 +244,7 @@ html,body{
   background-color: rgb(247, 223, 255);
   border-radius: 1rem;
   padding: 1.5rem;
+  overflow-y: scroll;
 }
 
 .max-front {
@@ -347,7 +348,7 @@ p {
   margin-right: auto;
   width: 70%;
   max-width: 500px;                
-  height: 110%;              
+  height: 90%;              
   border: 1px solid rgb(0, 0, 0);
   overflow-y: scroll;
 }
@@ -403,4 +404,8 @@ p {
   color: #000;
   background: #f1d3fe;
   border-bottom: 2px solid #ea8dfa;
+}
+
+.top-btn {
+  display: inline-flex;
 }
