@@ -74,6 +74,10 @@ function SignUpModal() {
                         <label htmlFor='female'>女性</label>
                         <input type="radio" id='female' name='gender' value='女性' onChange={handleGenderChange}></input>
                     </div>
+                    <div>
+                        <label htmlFor='other'>その他</label>
+                        <input type="radio" id='other' name='gender' value='その他' onChange={handleGenderChange}></input>
+                    </div>
                 </div>
                 <div className='grade'>
                     <label>学年</label>
