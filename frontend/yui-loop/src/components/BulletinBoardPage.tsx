@@ -107,17 +107,17 @@ const BulletinBoardPage:FC = () => {
                     }}}></button>
                   }
                 <Modal
+                  className='CarpoolModal'
+                  overlayClassName="overlay"
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}
                 >
-                  <div className='CarpoolModal'>
-                    <CarpoolModal/>
-                  </div>
+                  <CarpoolModal/>
                   <div className='ConfirmButton'>
-                    <button onClick={()=>{
+                    <button className='cancel-btn' onClick={()=>{
                       closeCarpoolModal();
-                    }}>中止</button>
-                    <button onClick={() => {
+                    }}>募集しない</button>
+                    <button className='decision-btn' onClick={() => {
                       if(appContext.departurePlaceToAdd != appContext.destinationToAdd){
                         AddWaitingPassenger();
                         handlePostSchedule();
@@ -126,7 +126,7 @@ const BulletinBoardPage:FC = () => {
                          appContext.setIsErrorState(true)
                          appContext.setNotMoveErrorMessage("出発地と目的地を異なる場所に変更してください。")
                       }
-                    }}>確定</button>
+                    }}>これでOK!!</button>
                   </div>
                 </Modal>
                 <br/>

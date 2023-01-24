@@ -10,7 +10,7 @@ const SignInIntroduction = () => {
 
     return (
         <>  
-            <button className='menue-btn' type='button' onClick={handleModal}><span>YUI LOOPの説明</span></button>
+            <button className='menue-btn' type='button' onClick={handleModal}><span>YUI LOOPナビ</span></button>
             <Modal
                 isOpen={isModalOpen}
                 ariaHideApp={false}
@@ -19,7 +19,14 @@ const SignInIntroduction = () => {
                 onRequestClose={handleModal}
             >
                             <p>{appContext.isSignedIn ? (
-                <div>
+                <div className='ex-container'>
+                    <p>掲示板の見方</p>
+                    <div className='ex-1'></div>
+                    <p>募集の仕方</p>
+                    <div className='ex-2'></div>
+                    <p>募集カードの見方</p>
+                    <div className='ex-3'></div>
+                    <button type='button' onClick={handleModal}>閉じる</button>
                 </div>
                 ):(
                     <>
