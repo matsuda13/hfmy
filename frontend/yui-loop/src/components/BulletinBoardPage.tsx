@@ -91,21 +91,21 @@ const BulletinBoardPage:FC = () => {
     const handleDeleteExpiredSchedule = () => {
       deleteExpiredSchedule();
     };
+    const navigateToHomePage = () => {
+      navigate('/');
+    };
     return (
         <>  
-
-
             <button className='reload-btn' onClick={handleFetchSchedule}></button>
-            
+            <button className='home-btn' onClick={navigateToHomePage}>Home</button>
               {isCarpoolModalOpen ? <></>:
               <button className='add-btn' onClick={()=> {
                   if(appContext.userName!=""){
-                    openCarpoolModal()
+                    openCarpoolModal();
                   }else{
-                    navigate('/');
+                    navigateToHomePage();
                     }}}></button>
                   }
-
                 <Modal
                   isOpen={isCarpoolModalOpen}
                   ariaHideApp={false}
@@ -130,8 +130,7 @@ const BulletinBoardPage:FC = () => {
                   </div>
                 </Modal>
                 <br/>
-
-                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button className="menue-btn" onClick={()=>{fetchSchedule(appContext);setSw(true)}}><span>YUILOOP掲示板を開く</span></button>)):(<></>)}
+                {appContext.userName!=""?(sw ? (<WaitingPassengerArray waitingPassengers={appContext.waitingPassengers} />):(<button className="menue-btn" onClick={()=>{fetchSchedule(appContext);setSw(true)}}><span>掲示板を開く</span></button>)):(<></>)}
         </>
     )
 }

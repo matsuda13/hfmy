@@ -143,6 +143,7 @@ html,body{
   color: #fff;
   border-radius: 0;
   background: #000;
+  white-space: nowrap;
 }
 
 .menue-btn span {
@@ -185,6 +186,8 @@ html,body{
   height: 60px;
   line-height: 120px;
   border-radius: 50%;
+  border: none;
+  outline: none;
   overflow: hidden;
   box-shadow: 0px 0px 0px 1px #ed87fd;
   background-image: url(./images/add-button.png);
@@ -199,10 +202,29 @@ html,body{
   height: 40px;
   line-height: 120px;
   border-radius: 50%;
+  border: none;
+  outline: none;
   text-align: center;
   overflow: hidden;
   background-image: url(./images/reload-button.png);
   background-size: 100%;
+}
+
+.home-btn {
+  margin: 5px;
+  display: inline-block;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  line-height: 120px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  text-align: center;
+  overflow: hidden;
+  background-image: url(./images/home-button.png);
+  background-size: 100%;
+  background-color: rgba(137, 43, 226, 0);
 }
 
 
@@ -225,7 +247,7 @@ html,body{
   justify-content: center;
 }
 
-.card {
+.my-card {
   width: 60vw;
   max-width: 450px;
   padding: 20px 7px;
@@ -233,7 +255,22 @@ html,body{
   backdrop-filter: blur(20px);
   font-size: 15px;
   color:rgb(0, 0, 0);
-  background-color:rgb(251, 247, 251);
+  background-color:rgb(225, 254, 222);
+  box-shadow: 4px 4px 13px 5px rgba(98, 1, 167, 0.25);
+  margin-right: auto;
+  margin-left: auto;  
+  margin-top: 30px;
+}
+
+.other-card {
+  width: 60vw;
+  max-width: 450px;
+  padding: 20px 7px;
+  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  font-size: 15px;
+  color:rgb(0, 0, 0);
+  background-color:rgb(251, 246, 180);
   box-shadow: 4px 4px 13px 5px rgba(98, 1, 167, 0.25);
   margin-right: auto;
   margin-left: auto;  
