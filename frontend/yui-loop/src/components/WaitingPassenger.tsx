@@ -44,12 +44,16 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
     <>
       <div className={appContext.userName==wp.userName?"my-card":"other-card"}>
         <br/>
-        ドライバー様：{wp.userName}さん　性別：{wp.gender}　学年：{wp.grade}<br/>
-        出発時間：{wp.date}　{wp.time}<br/>
-        出発：{wp.departurePlace}　→　到着：{wp.destination}<br/>
-        定員：{wp.capacity}<br/>
-        {wp.candidates!="" ? (<>乗りたい人：{wp.candidates}</>) : (<>乗りたい人：いない</>)}<br/>
-        <p>備考：{wp.memo}</p><br/>
+        <p className='card-header'>
+        ドライバー様：{wp.userName}さん　{wp.gender}　{wp.grade}<br/>
+        時刻：{wp.date}　{wp.time}　定員：{wp.capacity}<br/>
+        </p>
+        <div className='card-place'>
+        <p className='card-dep'>出発：<span className='green-line'>{wp.departurePlace}</span></p>
+        <p className='card-arrow'>　→　</p>
+        <p className='card-des'>到着：<span className='orange-line'>{wp.destination}</span></p></div>
+        <div className='card-container'><p className='card-memo'>備考：{wp.memo}</p>
+        {wp.candidates!="" ? (<div className='card-req'>乗りたい人：{wp.candidates}</div>) : (<div className='card-req'>乗りたい人：いない</div>)}</div>
         {appContext.userName==wp.userName ? (
           <button onClick={()=>{
           appContext.deleteWaitingPassenger(props.id);

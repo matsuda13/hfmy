@@ -250,8 +250,9 @@ html,body{
 .my-card {
   width: 60vw;
   max-width: 450px;
-  padding: 20px 7px;
-  border-radius: 15px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  border: 10px double #000;
   backdrop-filter: blur(20px);
   font-size: 15px;
   color:rgb(0, 0, 0);
@@ -265,8 +266,9 @@ html,body{
 .other-card {
   width: 60vw;
   max-width: 450px;
-  padding: 20px 7px;
-  border-radius: 15px;
+  padding: 1px 7px;
+  border-radius: 5px;
+  border: 10px double #000;
   backdrop-filter: blur(20px);
   font-size: 15px;
   color:rgb(0, 0, 0);
@@ -279,6 +281,29 @@ html,body{
 
 .card:hover{
   box-shadow: 1px 1px 20px 10px rgba(98, 1, 167, 0.25);
+}
+
+.card-header{
+  text-align: left;
+  margin: 1px 1px;
+}
+
+.card-place{
+  font-size: large;
+  white-space: nowrap;
+  display: inline-flex;
+}
+
+.card-container{
+}
+
+.card-memo{
+  /* border: 1px solid #000; */
+  text-align: left;
+}
+
+.card-req{
+  text-align: left;
 }
 
 p {
