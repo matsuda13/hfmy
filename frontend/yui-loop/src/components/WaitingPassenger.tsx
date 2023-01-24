@@ -32,7 +32,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
     if (n_cap > n_req-1) {
       sendCarpoolRequest(id, userName);
     } else {
-      setCapacityOverErrorMessage("定員を超えています")
+      setCapacityOverErrorMessage("これ以上乗れません!!")
     }
   };
 
@@ -55,11 +55,11 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
         <div className='card-container'><p className='card-memo'>備考：{wp.memo}</p>
         {wp.candidates!="" ? (<div className='card-req'>乗りたい人：{wp.candidates}</div>) : (<div className='card-req'>乗りたい人：いない</div>)}</div>
         {appContext.userName==wp.userName ? (
-          <button onClick={()=>{
+          <button className='req-btn' onClick={()=>{
           appContext.deleteWaitingPassenger(props.id);
           handleDeleteSchedule(wp.id);
           }}>やっぱ乗せない</button>
-        ):(wp.isAlreadyRequested==false ? (<button onClick={()=>{
+        ):(wp.isAlreadyRequested==false ? (<button className='req-btn' onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestButtonClick(wp.id, appContext.userName);
             handleFetchSchedule();
@@ -67,7 +67,7 @@ const WaitingPassenger: FC<WaitingPassengerProps> = (props) => {
             navigate('/');
           }
         }}>乗せてください!!</button>
-        ) : (<button onClick={()=>{
+        ) : (<button className='req-btn' onClick={()=>{
           if(appContext.userName!=""){
             handleCarpoolRequestCancel(wp.id, appContext.userName);
             handleFetchSchedule();

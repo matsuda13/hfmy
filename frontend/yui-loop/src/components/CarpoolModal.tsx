@@ -31,7 +31,7 @@ const CarpoolModal = () => {
                       appContext.setDate(date.toLocaleDateString())
                 }}/>
         </p>
-        <p>募集条件を選択してください</p>
+        <p>募集条件を選択してください。</p>
         <br />
         <p>出発時間</p>
         <select name="time" onChange={selectTime}>

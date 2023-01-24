@@ -101,9 +101,10 @@ html,body{
   left: min(20%,30em);
   right: min(20%,30em);
   bottom: min(20%, 150px);
-  background-color: rgba(245, 223, 250, 0.975);
+  background-color: rgb(255, 255, 255);
   border-radius: 1rem;
   padding: 1.5rem;
+  overflow-y: scroll;
 }
 
 .text-left {
@@ -233,9 +234,16 @@ html,body{
 }
 
 .CarpoolModal {
-  display: flex;
+  text-align: center;
   justify-content: center;
-  
+  position: absolute;
+  top: min(3%, 150px);
+  left: min(20%,30em);
+  right: min(20%,30em);
+  bottom: min(3%, 150px);
+  background-color: rgb(247, 223, 255);
+  border-radius: 1rem;
+  padding: 1.5rem;
 }
 
 .max-front {
@@ -245,6 +253,34 @@ html,body{
 .ConfirmButton {
   display: flex;
   justify-content: center;
+}
+
+.cancel-btn {
+  color: #000;
+  background-color: #bbbbbb;
+  border-bottom: 5px solid #acacac;
+  margin: 10px;
+}
+
+.cancel-btn:hover {
+  margin-top: 3px;
+  color: #000;
+  background: #bbbbbb;
+  border-bottom: 2px solid #acacac;
+}
+
+.decision-btn {
+  color: #000;
+  background-color: #fdff6d;
+  border-bottom: 5px solid #fbff16;
+  margin: 10px;
+}
+
+.decision-btn:hover {
+  margin-top: 3px;
+  color: #000;
+  background: #fdff6d;
+  border-bottom: 2px solid #fbff16;
 }
 
 .my-card {
@@ -294,11 +330,7 @@ html,body{
   display: inline-flex;
 }
 
-.card-container{
-}
-
 .card-memo{
-  /* border: 1px solid #000; */
   text-align: left;
 }
 
@@ -323,4 +355,52 @@ p {
 .sin-up-odal {
   margin-left: auto;
   margin-right: auto;
+}
+
+.ex-container {
+  text-align: center;
+  font-weight: bold;
+}
+
+.ex-1 {
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 215px;
+  height: 300px;
+  background-image: url(./images/1.png);
+  background-size: 100%;
+}
+
+.ex-2 {
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+  height: 270px;
+  background-image: url(./images/2.png);
+  background-size: 100%;
+}
+
+.ex-3 {
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 260px;
+  height: 200px;
+  background-image: url(./images/3.png);
+  background-size: 100%;
+}
+
+.req-btn {
+  color: #000;
+  background-color: #f1d3fe;
+  border-bottom: 5px solid #ea8dfa;
+}
+
+.req-btn:hover {
+  margin-top: 3px;
+  color: #000;
+  background: #f1d3fe;
+  border-bottom: 2px solid #ea8dfa;
 }
