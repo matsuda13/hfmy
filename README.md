@@ -1,8 +1,12 @@
 ひふみよのプロダクト
 
-#### YUI LooP
+# YUI LooP
 
 琉球大学の学内移動の課題を解決するWebアプリ。
+
+## プロダクトURL
+
+- http://yui-loop.st.ie.u-ryukyu.ac.jp/
 
 ## 開発環境
 
